@@ -20,6 +20,12 @@ using K = CGAL::Exact_predicates_inexact_constructions_kernel;
 using DT = CGAL::Delaunay_triangulation_3<K>;
 using Point = K::Point_3;
 
+namespace render_settings
+{
+    inline constexpr int c_windowWidth = 1080;
+    inline constexpr int c_windowHeight = 720;
+}
+
 static std::vector<Point> getPoints()
 {
     std::vector<Point> points;
@@ -86,7 +92,7 @@ static void render(const vtkSmartPointer<vtkUnstructuredGrid>& unstructuredGrid)
     renderer->AddActor(actor);
 
     vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-    renderWindow->SetSize(860, 540); // Set the size of the render window
+    renderWindow->SetSize(render_settings::c_windowWidth, render_settings::c_windowHeight); // Set the size of the render window
     renderWindow->AddRenderer(renderer);
 
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
@@ -110,7 +116,7 @@ static void renderWithEdges(const vtkSmartPointer<vtkUnstructuredGrid>& unstruct
     renderer->AddActor(actor);
 
     vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-    renderWindow->SetSize(860, 540); // Set the size of the render window
+    renderWindow->SetSize(render_settings::c_windowWidth, render_settings::c_windowHeight); // Set the size of the render window
     renderWindow->AddRenderer(renderer);
 
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
