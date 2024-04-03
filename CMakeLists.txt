@@ -16,6 +16,10 @@ find_package(VTK COMPONENTS
   InteractionWidgets
 )
 
+include_directories(
+  vendor
+)
+
 add_executable(${PROJECT_NAME_STR} src/source.cpp)
 
 target_link_libraries(${PROJECT_NAME_STR}
