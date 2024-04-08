@@ -20,7 +20,9 @@ include_directories(
   vendor
 )
 
-add_executable(${PROJECT_NAME_STR} src/source.cpp)
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+add_executable(${PROJECT_NAME_STR} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME_STR}
   PRIVATE
