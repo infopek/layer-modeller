@@ -10,6 +10,7 @@
 #include <vtkDataSetMapper.h>
 #include <vtkActor.h>
 #include <vtkGlyph3D.h>
+#include <vtkLineSource.h>
 #include <vtkProperty.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
@@ -19,7 +20,7 @@
 #include <vtkSphereSource.h>
 #include <vtkExtractEdges.h>
 
-#include <perlin_noise.h>
+#include <perlin-noise/perlin_noise.h>
 
 #include <iostream>
 #include <string>
@@ -27,7 +28,6 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
-#include <vtkSphereSource.h>
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
 using DT2 = CGAL::Delaunay_triangulation_2<K>;
@@ -41,34 +41,36 @@ namespace render
         double r;
         double g;
         double b;
+        double a;
     };
 
-    inline constexpr int windowWidth = 1080;
-    inline constexpr int windowHeight = 720;
+    inline constexpr int windowWidth = 1920;
+    inline constexpr int windowHeight = 1080;
 
-    inline constexpr Color black{ 0.0, 0.0, 0.0 };
-    inline constexpr Color red{ 1.0, 0.2, 0.1 };
+    inline constexpr Color black{ 0.0, 0.0, 0.0, 1.0 };
+    inline constexpr Color red{ 1.0, 0.2, 0.1, 0.4 };
 }
 
 static std::vector<Point3> generatePoints(int width, int height)
 {
     std::mt19937 rng(0);
-    std::uniform_real_distribution<double> distribution(0.0, 7.0);
+    std::uniform_real_distribution<double> distribution(1.0, 10.0);
 
     const siv::PerlinNoise::seed_type seed = 123456u;
     const siv::PerlinNoise perlin{ seed };
 
+    int numPoints = width * height;
     std::vector<Point3> points;
-    points.reserve(width * height);
+    points.reserve(numPoints);
 
-    for (int y = 0; y < height; ++y)
+    for (int y = -height / 2; y <= height / 2; y++)
     {
-        for (int x = 0; x < width; ++x)
+        for (int x = -width / 2; x <= width / 2; x++)
         {
-            double xCoord = distribution(rng);
-            double yCoord = distribution(rng);
-            double elevation = perlin.octave2D_01((x * 0.01), (y * 0.01), 4);
-            points.emplace_back(xCoord, yCoord, elevation * 20.0);
+            double z = perlin.octave2D_01((x), (y), 4) * 5.0;
+            // double z = sin(x) + cos(y);
+        // double z = (x * x - y * y) / 2.0;
+            points.emplace_back(x * 7.0, y * 7.0, z * distribution(rng));
         }
     }
 
@@ -77,7 +79,9 @@ static std::vector<Point3> generatePoints(int width, int height)
 
 static DT2 triangulate(const std::vector<Point3>& points)
 {
+    // Triangulate in 2d first
     std::vector<Point2> points2d;
+    points2d.reserve(points.size());
     for (const auto& p : points)
         points2d.emplace_back(p.x(), p.y());
 
@@ -86,74 +90,27 @@ static DT2 triangulate(const std::vector<Point3>& points)
     return dt;
 }
 
-static double interpolateElevation(const Point2& p, const DT2& triangulation, const std::vector<Point3>& originalPoints)
-{
-    double elevation = 0.0;
-    double totalWeight = 0.0;
-    int numElevations = static_cast<int>(originalPoints.size());
-
-    for (auto it = triangulation.finite_vertices_begin(); it != triangulation.finite_vertices_end(); ++it)
-    {
-        Point2 vertexPoint = it->point();
-        int index = std::distance(triangulation.finite_vertices_begin(), it);
-        if (index < 0 || index >= numElevations) continue;
-
-        double distance = sqrt(pow(vertexPoint.x() - p.x(), 2) + pow(vertexPoint.y() - p.y(), 2));
-
-        // Avoid division by zero and handle very small distances
-        if (distance < 1e-6) {
-            // If distance is very small, assume the points are coincident and assign a weight of 1.0
-            elevation += originalPoints[index].z();
-            totalWeight += 1.0;
-        }
-        else {
-            double weight = 1.0 / distance;
-            elevation += originalPoints[index].z() * weight;
-            totalWeight += weight;
-        }
-    }
-
-    // Normalize elevation by total weight to avoid skewing the result
-    if (totalWeight > 0.0) {
-        elevation /= totalWeight;
-    }
-
-    return elevation;
-}
-
 static vtkSmartPointer<vtkUnstructuredGrid> gridifyTriangulation(const DT2& triangulation, const std::vector<Point3>& originalPoints)
 {
     vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
 
-    std::map<Point2, vtkIdType> pointMap{};
-    vtkIdType vtkId = 0;
+    std::unordered_map<Point2, vtkIdType> pointMap{};
 
-    int numElevations = static_cast<int>(originalPoints.size());
+    for (const auto& p : originalPoints)
+    {
+        vtkIdType vtkId = points->InsertNextPoint(p.x(), p.y(), p.z());
+        pointMap[Point2(p.x(), p.y())] = vtkId;
+    }
+
     for (auto it = triangulation.finite_faces_begin(); it != triangulation.finite_faces_end(); ++it)
     {
         std::vector<vtkIdType> cellIds;
         for (int i = 0; i < 3; ++i)
         {
             Point2 p = it->vertex(i)->point();
-            auto pointIter = pointMap.find(p);
-            if (pointIter == pointMap.end())
-            {
-                int index = std::distance(triangulation.finite_faces_begin(), it);
-                double elevation{};
-                if (index >= 0 && index < numElevations)
-                    elevation = originalPoints[index].z();
-                else
-                    elevation = interpolateElevation(p, triangulation, originalPoints);
-
-                vtkId = points->InsertNextPoint(p.x(), p.y(), elevation);
-                pointMap[p] = vtkId;
-            }
-            else
-            {
-                vtkId = pointIter->second;
-            }
+            vtkIdType vtkId = pointMap[p];
             cellIds.push_back(vtkId);
         }
         cells->InsertNextCell(3, cellIds.data());
@@ -171,8 +128,6 @@ vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPoin
 
 static void renderTriangulationWithEdges(
     vtkSmartPointer<vtkRenderer> renderer,
-    vtkSmartPointer<vtkRenderWindow> renderWindow,
-    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor,
     vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid
 )
 {
@@ -202,8 +157,6 @@ static void renderTriangulationWithEdges(
 
 void renderPoints(
     vtkSmartPointer<vtkRenderer> renderer,
-    vtkSmartPointer<vtkRenderWindow> renderWindow,
-    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor,
     const std::vector<Point3>& points
 )
 {
@@ -224,7 +177,7 @@ void renderPoints(
 
     // Create a sphere source for visualization
     vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
-    sphereSource->SetRadius(0.1); // Adjust the radius of the spheres as needed
+    sphereSource->SetRadius(0.5);
 
     // Create a glyph filter to render spheres at each point
     vtkSmartPointer<vtkGlyph3D> glyphFilter = vtkSmartPointer<vtkGlyph3D>::New();
@@ -243,9 +196,59 @@ void renderPoints(
     renderer->AddActor(actor);
 }
 
+void renderCoordinateSystem(vtkSmartPointer<vtkRenderer> renderer)
+{
+    // Create a line source for x-axis
+    vtkSmartPointer<vtkLineSource> xLineSource = vtkSmartPointer<vtkLineSource>::New();
+    xLineSource->SetPoint1(0, 0, 0);
+    xLineSource->SetPoint2(10, 0, 0);
+
+    // Create a line mapper for x-axis
+    vtkSmartPointer<vtkPolyDataMapper> xMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    xMapper->SetInputConnection(xLineSource->GetOutputPort());
+
+    // Create an actor for x-axis
+    vtkSmartPointer<vtkActor> xActor = vtkSmartPointer<vtkActor>::New();
+    xActor->SetMapper(xMapper);
+    xActor->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color for x-axis
+
+    // Create a line source for y-axis
+    vtkSmartPointer<vtkLineSource> yLineSource = vtkSmartPointer<vtkLineSource>::New();
+    yLineSource->SetPoint1(0, 0, 0);
+    yLineSource->SetPoint2(0, 10, 0);
+
+    // Create a line mapper for y-axis
+    vtkSmartPointer<vtkPolyDataMapper> yMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    yMapper->SetInputConnection(yLineSource->GetOutputPort());
+
+    // Create an actor for y-axis
+    vtkSmartPointer<vtkActor> yActor = vtkSmartPointer<vtkActor>::New();
+    yActor->SetMapper(yMapper);
+    yActor->GetProperty()->SetColor(0.0, 1.0, 0.0); // Green color for y-axis
+
+    // Create a line source for z-axis
+    vtkSmartPointer<vtkLineSource> zLineSource = vtkSmartPointer<vtkLineSource>::New();
+    zLineSource->SetPoint1(0, 0, 0);
+    zLineSource->SetPoint2(0, 0, 10);
+
+    // Create a line mapper for z-axis
+    vtkSmartPointer<vtkPolyDataMapper> zMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    zMapper->SetInputConnection(zLineSource->GetOutputPort());
+
+    // Create an actor for z-axis
+    vtkSmartPointer<vtkActor> zActor = vtkSmartPointer<vtkActor>::New();
+    zActor->SetMapper(zMapper);
+    zActor->GetProperty()->SetColor(0.0, 0.0, 1.0); // Blue color for z-axis
+
+    // Create a renderer
+    renderer->AddActor(xActor);
+    renderer->AddActor(yActor);
+    renderer->AddActor(zActor);
+}
+
 int main(int argc, char* argv[])
 {
-    auto points = generatePoints(6, 6);
+    auto points = generatePoints(160, 160);
 
     DT2 dt = triangulate(points);
 
@@ -259,8 +262,9 @@ int main(int argc, char* argv[])
 
     renderWindowInteractor->SetRenderWindow(renderWindow);
 
-    renderPoints(renderer, renderWindow, renderWindowInteractor, points);
-    renderTriangulationWithEdges(renderer, renderWindow, renderWindowInteractor, unstructuredGrid);
+    renderCoordinateSystem(renderer);
+    renderPoints(renderer, points);
+    renderTriangulationWithEdges(renderer, unstructuredGrid);
 
     renderWindow->Render();
     renderWindowInteractor->Start();
