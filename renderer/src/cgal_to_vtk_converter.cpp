@@ -1,6 +1,6 @@
-#include "./cgal_to_vtk_converter.h"
+#include <cgal_to_vtk_converter.h>
 
-vtkSmartPointer<vtkUnstructuredGrid> CGALToVTKConverter::gridifyTriangulation(const DT2& triangulation, const std::vector<Point>& points3d)
+vtkSmartPointer<vtkUnstructuredGrid> CGALToVTKConverter::gridifyTriangulation(const Triangulation& triangulation)
 {
     vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
@@ -8,13 +8,15 @@ vtkSmartPointer<vtkUnstructuredGrid> CGALToVTKConverter::gridifyTriangulation(co
 
     std::unordered_map<Point2, vtkIdType> pointMap{};
 
+    const auto& points3d = triangulation.getPoints();
     for (const auto& p : points3d)
     {
         vtkIdType vtkId = points->InsertNextPoint(p.x, p.y, p.z);
         pointMap[Point2(p.x, p.y)] = vtkId;
     }
 
-    for (auto it = triangulation.finite_faces_begin(); it != triangulation.finite_faces_end(); ++it)
+    const auto& dt = triangulation.getTriangulation();
+    for (auto it = dt.finite_faces_begin(); it != dt.finite_faces_end(); ++it)
     {
         std::vector<vtkIdType> cellIds;
         for (int i = 0; i < 3; ++i)
