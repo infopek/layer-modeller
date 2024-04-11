@@ -15,8 +15,8 @@ int main() {
     std::string formation = "Rudolfhazi Homok Retegtag";
     EmpiricalVariogram empiricalData;
     std::vector<DataPoint> data;
-    
-    readObservationDataFromJson(&data, "borehole_data.json", formation, &maxX, &maxY);
+
+    readObservationDataFromJson(&data, "../../../res/boreholes/borehole_data.json", formation, &maxX, &maxY);
     createVariogram(&data, &empiricalData);
 
     TheoreticalParam param = fitTheoreticalFunction(&empiricalData);

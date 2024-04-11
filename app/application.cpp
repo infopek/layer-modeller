@@ -1,5 +1,5 @@
 #include <triangulation/delaunay.h>
-#include <delaunay_renderer.h>
+#include <renderer.h>
 #include <kriging_cpu.h>
 
 #include <perlin-noise/perlin_noise.h>
@@ -70,12 +70,23 @@ int main(int argc, char* argv[])
 {
     std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
-    Triangulation triangulation(points);
-    triangulation.triangulate();
+    std::vector<Triangulation> triangulations{};
+    triangulations.reserve(6);
+    for (size_t offset = 0; offset < 6; offset++)
+    {
+        for (auto& point : points)
+        {
+            point.z -= offset * 2.0;
+        }
 
-    DelaunayRenderer renderer(triangulation);
-    // renderer.addPoints();
-    renderer.addTriangulation();
+        Triangulation triangulation(points);
+
+        triangulations.push_back(triangulation);
+    }
+
+    Renderer renderer{};
+    renderer.addLayers(triangulations);
+    renderer.prepareTriangulations();
     renderer.render();
 
     return 0;

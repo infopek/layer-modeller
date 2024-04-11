@@ -11,10 +11,11 @@ public:
     Triangulation(const std::vector<Point>& points);
     ~Triangulation();
 
-    void triangulate();
-
     inline const DT2& getTriangulation() const { return m_dt; }
     inline const std::vector<Point>& getPoints() const { return m_points; }
+
+private:
+    void triangulate();
 
 private:
     std::vector<Point> m_points{};

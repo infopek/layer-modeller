@@ -1,9 +1,8 @@
-#include <delaunay_renderer.h>
+#include <renderer.h>
 
 #include <cgal_to_vtk_converter.h>
 
-DelaunayRenderer::DelaunayRenderer(const Triangulation& triangulation)
-    : m_triangulation{ triangulation }
+Renderer::Renderer()
 {
     m_renderer = vtkSmartPointer<vtkRenderer>::New();
     m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
@@ -12,11 +11,11 @@ DelaunayRenderer::DelaunayRenderer(const Triangulation& triangulation)
     init();
 }
 
-DelaunayRenderer::~DelaunayRenderer()
+Renderer::~Renderer()
 {
 }
 
-void DelaunayRenderer::init()
+void Renderer::init()
 {
     // Renderer
     m_renderer->SetBackground(render::black.r, render::black.g, render::black.b);
@@ -27,15 +26,30 @@ void DelaunayRenderer::init()
 
     // Interactor
     m_renderWindowInteractor->SetRenderWindow(m_renderWindow);
-
-    // Process triangulation
-    m_triangulationGrid = CGALToVTKConverter::gridifyTriangulation(m_triangulation);
 }
 
-void DelaunayRenderer::addTriangulation()
+void Renderer::addLayers(const std::vector<Triangulation>& layers)
 {
+    const size_t numLayers = layers.size();
+    m_triangulations.reserve(numLayers);
+    m_triangulationGrids.reserve(numLayers);
+    for (const auto& layer : layers)
+    {
+        auto grid = CGALToVTKConverter::gridifyTriangulation(layer);
+        m_triangulations.push_back(layer);
+        m_triangulationGrids.push_back(grid);
+    }
+}
+
+void Renderer::prepareTriangulations()
+{
+    vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
+    for (const auto& grid : m_triangulationGrids)
+        appendFilter->AddInputData(grid);
+    appendFilter->Update();
+
     vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    mapper->SetInputData(m_triangulationGrid);
+    mapper->SetInputConnection(appendFilter->GetOutputPort());
 
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
@@ -43,31 +57,34 @@ void DelaunayRenderer::addTriangulation()
     m_renderer->AddActor(actor);
 }
 
-void DelaunayRenderer::addEdges()
+void Renderer::prepareEdges()
 {
-    vtkSmartPointer<vtkExtractEdges> extractEdges = vtkSmartPointer<vtkExtractEdges>::New();
-    extractEdges->SetInputData(m_triangulationGrid);
-    extractEdges->Update();
+    for (const auto grid : m_triangulationGrids)
+    {
+        vtkSmartPointer<vtkExtractEdges> extractEdges = vtkSmartPointer<vtkExtractEdges>::New();
+        extractEdges->SetInputData(grid);
+        extractEdges->Update();
 
-    vtkSmartPointer<vtkPolyData> edges = extractEdges->GetOutput();
-    vtkSmartPointer<vtkDataSetMapper> edgeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    edgeMapper->SetInputData(edges);
+        vtkSmartPointer<vtkPolyData> edges = extractEdges->GetOutput();
+        vtkSmartPointer<vtkDataSetMapper> edgeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        edgeMapper->SetInputData(edges);
 
-    vtkSmartPointer<vtkActor> edgeActor = vtkSmartPointer<vtkActor>::New();
-    edgeActor->SetMapper(edgeMapper);
-    edgeActor->GetProperty()->SetColor(render::red.r, render::red.g, render::red.b);
+        vtkSmartPointer<vtkActor> edgeActor = vtkSmartPointer<vtkActor>::New();
+        edgeActor->SetMapper(edgeMapper);
+        edgeActor->GetProperty()->SetColor(render::red.r, render::red.g, render::red.b);
 
-    m_renderer->AddActor(edgeActor);
+        m_renderer->AddActor(edgeActor);
+    }
 }
 
-void DelaunayRenderer::addPoints()
+void Renderer::preparePoints()
 {
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
 
     vtkSmartPointer<vtkPoints> pts = vtkSmartPointer<vtkPoints>::New();
 
-    const auto& points = m_triangulation.getPoints();
-    for (const auto& point : points)
+    const auto& points1 = m_triangulations[1].getPoints();
+    for (const auto& point : points1)
     {
         pts->InsertNextPoint(point.x, point.y, point.z);
     }
@@ -91,7 +108,7 @@ void DelaunayRenderer::addPoints()
     m_renderer->AddActor(actor);
 }
 
-void DelaunayRenderer::addCoordinateSystem()
+void Renderer::prepareCoordinateSystem()
 {
     vtkSmartPointer<vtkLineSource> xLineSource = vtkSmartPointer<vtkLineSource>::New();
     xLineSource->SetPoint1(0, 0, 0);
@@ -131,7 +148,7 @@ void DelaunayRenderer::addCoordinateSystem()
     m_renderer->AddActor(zActor);
 }
 
-void DelaunayRenderer::render()
+void Renderer::render()
 {
     m_renderWindow->Render();
     m_renderWindowInteractor->Start();

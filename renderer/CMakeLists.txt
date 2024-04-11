@@ -6,7 +6,7 @@ project(Renderer	VERSION 0.0.1
 
 add_library(Renderer 
   	src/cgal_to_vtk_converter.cpp
-  	src/delaunay_renderer.cpp
+  	src/renderer.cpp
   	)
 add_library(Renderer::Renderer ALIAS Renderer)
 

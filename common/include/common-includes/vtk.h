@@ -17,3 +17,6 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkSphereSource.h>
 #include <vtkExtractEdges.h>
+
+#include <vtkMultiBlockDataSet.h>
+#include <vtkAppendFilter.h>

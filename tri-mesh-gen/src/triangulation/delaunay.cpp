@@ -5,6 +5,8 @@ Triangulation::Triangulation(const std::vector<Point>& points)
 {
     if (points.size() < 1)
         std::cerr << "Points array is empty!\n";
+
+    triangulate();
 }
 
 Triangulation::~Triangulation()
