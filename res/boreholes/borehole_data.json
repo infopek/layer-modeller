@@ -1,0 +1,922 @@
+[
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 0,
+        "reteg$mig": 7,
+        "reteg$lito$nev": "Losz",
+        "oszt": 1
+    },
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 7,
+        "reteg$mig": 5E+1,
+        "reteg$lito$nev": "Szaki Agyagmarga Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 5E+1,
+        "reteg$mig": 54,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 54,
+        "reteg$mig": 67,
+        "reteg$lito$nev": "Szaki Agyagmarga Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 67,
+        "reteg$mig": 76,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 202324,
+        "jelszam": "Ffo-2296",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 214,
+        "reteg$mig": 219.2,
+        "reteg$lito$nev": "obaroki Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 0,
+        "reteg$mig": 22,
+        "reteg$lito$nev": "Fluvioeolikus homok, kavics",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 22,
+        "reteg$mig": 25.5,
+        "reteg$lito$nev": "Folyovizi kavics",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 25.5,
+        "reteg$mig": 36,
+        "reteg$lito$nev": "Felsogallai Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 36,
+        "reteg$mig": 49,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 49,
+        "reteg$mig": 59,
+        "reteg$lito$nev": "Rudolfhazi es Szalmavari Tagozat atmenete vagy osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 59,
+        "reteg$mig": 61,
+        "reteg$lito$nev": "Kisgyoni Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 61,
+        "reteg$mig": 65.3,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202328,
+        "jelszam": "Ffo-2300",
+        "eovX": 555627.91,
+        "eovY": 226094.19,
+        "reteg$mtol": 65.3,
+        "reteg$mig": 76.4,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 0,
+        "reteg$mig": 24,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 24,
+        "reteg$mig": 29,
+        "reteg$lito$nev": "Folyovizi kavics, homok",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 29,
+        "reteg$mig": 31,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 31,
+        "reteg$mig": 37,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 37,
+        "reteg$mig": 43,
+        "reteg$lito$nev": "Felsogallai Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 43,
+        "reteg$mig": 49.4,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 49.4,
+        "reteg$mig": 59.8,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 59.8,
+        "reteg$mig": 65.9,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202329,
+        "jelszam": "Ffo-2301",
+        "eovX": 555520.9,
+        "eovY": 226056.03,
+        "reteg$mtol": 65.9,
+        "reteg$mig": 72,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 0,
+        "reteg$mig": 18.5,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 18.5,
+        "reteg$mig": 2E+1,
+        "reteg$lito$nev": "Folyovizi homok, kavics",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 2E+1,
+        "reteg$mig": 27,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 27,
+        "reteg$mig": 33.2,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 33.2,
+        "reteg$mig": 37,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 37,
+        "reteg$mig": 52.2,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 202330,
+        "jelszam": "Ffo-2302",
+        "eovX": 555399.32,
+        "eovY": 226027.21,
+        "reteg$mtol": 52.2,
+        "reteg$mig": 65,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 0,
+        "reteg$mig": 0.2,
+        "reteg$lito$nev": "Talaj",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 0.2,
+        "reteg$mig": 15,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 15,
+        "reteg$mig": 20.5,
+        "reteg$lito$nev": "Folyovizi kavics",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 20.5,
+        "reteg$mig": 27.3,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 27.3,
+        "reteg$mig": 4E+1,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 4E+1,
+        "reteg$mig": 43.5,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 43.5,
+        "reteg$mig": 55.4,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46855,
+        "jelszam": "Ffo-111",
+        "eovX": 555454.36,
+        "eovY": 226014.67,
+        "reteg$mtol": 55.4,
+        "reteg$mig": 65.7,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 0,
+        "reteg$mig": 13,
+        "reteg$lito$nev": "Fluvioeolikus kavicsos homok",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 13,
+        "reteg$mig": 16,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 16,
+        "reteg$mig": 29.1,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 29.1,
+        "reteg$mig": 31.5,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 31.5,
+        "reteg$mig": 33.5,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46856,
+        "jelszam": "Ffo-112",
+        "eovX": 555382.6,
+        "eovY": 226012.73,
+        "reteg$mtol": 33.5,
+        "reteg$mig": 39,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46857,
+        "jelszam": "Ffo-113",
+        "eovX": 555383.7,
+        "eovY": 226084.62,
+        "reteg$mtol": 0,
+        "reteg$mig": 15,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46857,
+        "jelszam": "Ffo-113",
+        "eovX": 555383.7,
+        "eovY": 226084.62,
+        "reteg$mtol": 15,
+        "reteg$mig": 37.6,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46857,
+        "jelszam": "Ffo-113",
+        "eovX": 555383.7,
+        "eovY": 226084.62,
+        "reteg$mtol": 37.6,
+        "reteg$mig": 41,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46857,
+        "jelszam": "Ffo-113",
+        "eovX": 555383.7,
+        "eovY": 226084.62,
+        "reteg$mtol": 41,
+        "reteg$mig": 66,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46857,
+        "jelszam": "Ffo-113",
+        "eovX": 555383.7,
+        "eovY": 226084.62,
+        "reteg$mtol": 66,
+        "reteg$mig": 78.8,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 0,
+        "reteg$mig": 12,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 12,
+        "reteg$mig": 14,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 14,
+        "reteg$mig": 40.4,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 40.4,
+        "reteg$mig": 45,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 45,
+        "reteg$mig": 52.8,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 52.8,
+        "reteg$mig": 58.3,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46858,
+        "jelszam": "Ffo-114",
+        "eovX": 555454.35,
+        "eovY": 226085.36,
+        "reteg$mtol": 58.3,
+        "reteg$mig": 71.6,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 0,
+        "reteg$mig": 14,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 14,
+        "reteg$mig": 22.7,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 22.7,
+        "reteg$mig": 29,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 29,
+        "reteg$mig": 46.9,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 46.9,
+        "reteg$mig": 53,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 53,
+        "reteg$mig": 54.1,
+        "reteg$lito$nev": "Kisgyoni Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 54.1,
+        "reteg$mig": 58.6,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46859,
+        "jelszam": "Ffo-115",
+        "eovX": 555489.49,
+        "eovY": 226051.4,
+        "reteg$mtol": 58.6,
+        "reteg$mig": 66.6,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 0,
+        "reteg$mig": 12,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 12,
+        "reteg$mig": 20.6,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 20.6,
+        "reteg$mig": 23.5,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 23.5,
+        "reteg$mig": 33,
+        "reteg$lito$nev": "Suruhegyi Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 33,
+        "reteg$mig": 43.7,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 43.7,
+        "reteg$mig": 46.3,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46860,
+        "jelszam": "Ffo-116",
+        "eovX": 555488.39,
+        "eovY": 225980.47,
+        "reteg$mtol": 46.3,
+        "reteg$mig": 54.1,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 0,
+        "reteg$mig": 1E+1,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 1E+1,
+        "reteg$mig": 23,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 23,
+        "reteg$mig": 5E+1,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 5E+1,
+        "reteg$mig": 57,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 57,
+        "reteg$mig": 57.2,
+        "reteg$lito$nev": "Kisgyoni Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 57.2,
+        "reteg$mig": 64.2,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46861,
+        "jelszam": "Ffo-117",
+        "eovX": 555523.59,
+        "eovY": 226015.97,
+        "reteg$mtol": 64.2,
+        "reteg$mig": 72.3,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 0,
+        "reteg$mig": 0.2,
+        "reteg$lito$nev": "Talaj",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 0.2,
+        "reteg$mig": 18,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 18,
+        "reteg$mig": 25.4,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 25.4,
+        "reteg$mig": 51,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 51,
+        "reteg$mig": 55,
+        "reteg$lito$nev": "Kisgyoni Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 55,
+        "reteg$mig": 69.1,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46862,
+        "jelszam": "Ffo-118",
+        "eovX": 555560.98,
+        "eovY": 225980.93,
+        "reteg$mtol": 69.1,
+        "reteg$mig": 77.2,
+        "reteg$lito$nev": "Fodolomit Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 0,
+        "reteg$mig": 19.6,
+        "reteg$lito$nev": "Futohomok",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 19.6,
+        "reteg$mig": 23.2,
+        "reteg$lito$nev": "Kisberi Kavics Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 23.2,
+        "reteg$mig": 29.8,
+        "reteg$lito$nev": "Csatkai Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 29.8,
+        "reteg$mig": 57.2,
+        "reteg$lito$nev": "Szoci Meszko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 57.2,
+        "reteg$mig": 63.2,
+        "reteg$lito$nev": "Rudolfhazi Homok Retegtag",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 63.2,
+        "reteg$mig": 67.2,
+        "reteg$lito$nev": "Kisgyoni Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 46863,
+        "jelszam": "Ffo-119",
+        "eovX": 555560.48,
+        "eovY": 226050.97,
+        "reteg$mtol": 67.2,
+        "reteg$mig": 81.5,
+        "reteg$lito$nev": "Ganti Bauxit Formacio",
+        "oszt": 1
+    }
+]

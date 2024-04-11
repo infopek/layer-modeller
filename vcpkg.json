@@ -1,6 +1,10 @@
 {
   "dependencies": [
     "cgal",
-    "vtk"
+    "eigen3",
+    "gsl",
+    "nlohmann-json",
+    "vtk",
+    "pkgconf"
   ]
 }

@@ -1,0 +1,893 @@
+[
+    {
+        "id": 117682,
+        "jelszam": "4008",
+        "eovX": 579286.43,
+        "eovY": 83271.63,
+        "reteg$mig": 4E+1,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117682,
+        "jelszam": "4008",
+        "eovX": 579286.43,
+        "eovY": 83271.63,
+        "reteg$mig": 158,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117682,
+        "jelszam": "4008",
+        "eovX": 579286.43,
+        "eovY": 83271.63,
+        "reteg$mig": 206.5,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117683,
+        "jelszam": "4009",
+        "eovX": 578869.79,
+        "eovY": 83559.77,
+        "reteg$mig": 122,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117683,
+        "jelszam": "4009",
+        "eovX": 578869.79,
+        "eovY": 83559.77,
+        "reteg$mig": 185.5,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117687,
+        "jelszam": "4014",
+        "eovX": 579091.49,
+        "eovY": 83224.04,
+        "reteg$mig": 21.5,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117687,
+        "jelszam": "4014",
+        "eovX": 579091.49,
+        "eovY": 83224.04,
+        "reteg$mig": 64.1,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117687,
+        "jelszam": "4014",
+        "eovX": 579091.49,
+        "eovY": 83224.04,
+        "reteg$mig": 136.8,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117688,
+        "jelszam": "4015",
+        "eovX": 578921.75,
+        "eovY": 83205.06,
+        "reteg$mig": 3,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117688,
+        "jelszam": "4015",
+        "eovX": 578921.75,
+        "eovY": 83205.06,
+        "reteg$mig": 18,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117688,
+        "jelszam": "4015",
+        "eovX": 578921.75,
+        "eovY": 83205.06,
+        "reteg$mig": 83,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117697,
+        "jelszam": "4026",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 2,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117697,
+        "jelszam": "4026",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 36,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117697,
+        "jelszam": "4026",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 244,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117697,
+        "jelszam": "4026",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 295,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117699,
+        "jelszam": "4028",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 121.2,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117699,
+        "jelszam": "4028",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 237.3,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117699,
+        "jelszam": "4028",
+        "eovX": 578702.28,
+        "eovY": 83953.16,
+        "reteg$mig": 291.5,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 201503,
+        "jelszam": "4035",
+        "eovX": 578521.1,
+        "eovY": 83902.21,
+        "reteg$mig": 5,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 201503,
+        "jelszam": "4035",
+        "eovX": 578521.1,
+        "eovY": 83902.21,
+        "reteg$mig": 124.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 201503,
+        "jelszam": "4035",
+        "eovX": 578521.1,
+        "eovY": 83902.21,
+        "reteg$mig": 182.4,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117704,
+        "jelszam": "4036",
+        "eovX": 578569.78,
+        "eovY": 83710.1,
+        "reteg$mig": 93,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117704,
+        "jelszam": "4036",
+        "eovX": 578569.78,
+        "eovY": 83710.1,
+        "reteg$mig": 152.5,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117705,
+        "jelszam": "4038",
+        "eovX": 578733.08,
+        "eovY": 83808.14,
+        "reteg$mig": 150.3,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117705,
+        "jelszam": "4038",
+        "eovX": 578733.08,
+        "eovY": 83808.14,
+        "reteg$mig": 208,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117706,
+        "jelszam": "4039",
+        "eovX": 578964.32,
+        "eovY": 83860.61,
+        "reteg$mig": 66.5,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117706,
+        "jelszam": "4039",
+        "eovX": 578964.32,
+        "eovY": 83860.61,
+        "reteg$mig": 200.1,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117706,
+        "jelszam": "4039",
+        "eovX": 578964.32,
+        "eovY": 83860.61,
+        "reteg$mig": 261,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117708,
+        "jelszam": "4041",
+        "eovX": 578612.73,
+        "eovY": 83507.58,
+        "reteg$mig": 84,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117708,
+        "jelszam": "4041",
+        "eovX": 578612.73,
+        "eovY": 83507.58,
+        "reteg$mig": 156.2,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117709,
+        "jelszam": "4042",
+        "eovX": 578993.7,
+        "eovY": 83625.75,
+        "reteg$mig": 6,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117709,
+        "jelszam": "4042",
+        "eovX": 578993.7,
+        "eovY": 83625.75,
+        "reteg$mig": 27,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117709,
+        "jelszam": "4042",
+        "eovX": 578993.7,
+        "eovY": 83625.75,
+        "reteg$mig": 187,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117709,
+        "jelszam": "4042",
+        "eovX": 578993.7,
+        "eovY": 83625.75,
+        "reteg$mig": 204,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117711,
+        "jelszam": "4044",
+        "eovX": 578640.67,
+        "eovY": 83316.64,
+        "reteg$mig": 1.5,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117711,
+        "jelszam": "4044",
+        "eovX": 578640.67,
+        "eovY": 83316.64,
+        "reteg$mig": 43,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117711,
+        "jelszam": "4044",
+        "eovX": 578640.67,
+        "eovY": 83316.64,
+        "reteg$mig": 85.6,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117712,
+        "jelszam": "4045",
+        "eovX": 578857.99,
+        "eovY": 83364.95,
+        "reteg$mig": 4.3,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117712,
+        "jelszam": "4045",
+        "eovX": 578857.99,
+        "eovY": 83364.95,
+        "reteg$mig": 41.1,
+        "reteg$lito$nev": "Totvari Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117712,
+        "jelszam": "4045",
+        "eovX": 578857.99,
+        "eovY": 83364.95,
+        "reteg$mig": 74.5,
+        "reteg$lito$nev": "Cserkuti Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117712,
+        "jelszam": "4045",
+        "eovX": 578857.99,
+        "eovY": 83364.95,
+        "reteg$mig": 115.1,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117713,
+        "jelszam": "4046",
+        "eovX": 578948.14,
+        "eovY": 83386.43,
+        "reteg$mig": 111.5,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117713,
+        "jelszam": "4046",
+        "eovX": 578948.14,
+        "eovY": 83386.43,
+        "reteg$mig": 148,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117714,
+        "jelszam": "4047",
+        "eovX": 579234.11,
+        "eovY": 83465.8,
+        "reteg$mig": 9.8,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117714,
+        "jelszam": "4047",
+        "eovX": 579234.11,
+        "eovY": 83465.8,
+        "reteg$mig": 51,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117714,
+        "jelszam": "4047",
+        "eovX": 579234.11,
+        "eovY": 83465.8,
+        "reteg$mig": 248.4,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117714,
+        "jelszam": "4047",
+        "eovX": 579234.11,
+        "eovY": 83465.8,
+        "reteg$mig": 2.6E+2,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117718,
+        "jelszam": "4056",
+        "eovX": 578502.39,
+        "eovY": 83519.35,
+        "reteg$mig": 6,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117718,
+        "jelszam": "4056",
+        "eovX": 578502.39,
+        "eovY": 83519.35,
+        "reteg$mig": 62,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117718,
+        "jelszam": "4056",
+        "eovX": 578502.39,
+        "eovY": 83519.35,
+        "reteg$mig": 106.6,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117719,
+        "jelszam": "4057",
+        "eovX": 578539.56,
+        "eovY": 83390.13,
+        "reteg$mig": 7,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117719,
+        "jelszam": "4057",
+        "eovX": 578539.56,
+        "eovY": 83390.13,
+        "reteg$mig": 34,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117719,
+        "jelszam": "4057",
+        "eovX": 578539.56,
+        "eovY": 83390.13,
+        "reteg$mig": 9E+1,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117720,
+        "jelszam": "4058",
+        "eovX": 578531.78,
+        "eovY": 83802.27,
+        "reteg$mig": 91.2,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117720,
+        "jelszam": "4058",
+        "eovX": 578531.78,
+        "eovY": 83802.27,
+        "reteg$mig": 135,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117721,
+        "jelszam": "4059",
+        "eovX": 578591.36,
+        "eovY": 83605.45,
+        "reteg$mig": 4,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117721,
+        "jelszam": "4059",
+        "eovX": 578591.36,
+        "eovY": 83605.45,
+        "reteg$mig": 93.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117721,
+        "jelszam": "4059",
+        "eovX": 578591.36,
+        "eovY": 83605.45,
+        "reteg$mig": 146.8,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117722,
+        "jelszam": "4060",
+        "eovX": 578628.26,
+        "eovY": 83421.96,
+        "reteg$mig": 10,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117722,
+        "jelszam": "4060",
+        "eovX": 578628.26,
+        "eovY": 83421.96,
+        "reteg$mig": 42.4,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117722,
+        "jelszam": "4060",
+        "eovX": 578628.26,
+        "eovY": 83421.96,
+        "reteg$mig": 71.9,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117723,
+        "jelszam": "4061",
+        "eovX": 578570.78,
+        "eovY": 83939.05,
+        "reteg$mig": 4,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117723,
+        "jelszam": "4061",
+        "eovX": 578570.78,
+        "eovY": 83939.05,
+        "reteg$mig": 47,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117723,
+        "jelszam": "4061",
+        "eovX": 578570.78,
+        "eovY": 83939.05,
+        "reteg$mig": 190.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117723,
+        "jelszam": "4061",
+        "eovX": 578570.78,
+        "eovY": 83939.05,
+        "reteg$mig": 223.9,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117725,
+        "jelszam": "4063",
+        "eovX": 578645.07,
+        "eovY": 83728.92,
+        "reteg$mig": 131.5,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117725,
+        "jelszam": "4063",
+        "eovX": 578645.07,
+        "eovY": 83728.92,
+        "reteg$mig": 191.6,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117726,
+        "jelszam": "4064",
+        "eovX": 578676.42,
+        "eovY": 83631.5,
+        "reteg$mig": 5,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117726,
+        "jelszam": "4064",
+        "eovX": 578676.42,
+        "eovY": 83631.5,
+        "reteg$mig": 92.5,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117726,
+        "jelszam": "4064",
+        "eovX": 578676.42,
+        "eovY": 83631.5,
+        "reteg$mig": 127.6,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117727,
+        "jelszam": "4065",
+        "eovX": 578709.57,
+        "eovY": 83541.21,
+        "reteg$mig": 97.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117727,
+        "jelszam": "4065",
+        "eovX": 578709.57,
+        "eovY": 83541.21,
+        "reteg$mig": 132.2,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117728,
+        "jelszam": "4066",
+        "eovX": 578736.38,
+        "eovY": 83435.2,
+        "reteg$mig": 49.6,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117728,
+        "jelszam": "4066",
+        "eovX": 578736.38,
+        "eovY": 83435.2,
+        "reteg$mig": 77.8,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117729,
+        "jelszam": "4067",
+        "eovX": 578742.98,
+        "eovY": 83343.66,
+        "reteg$mig": 1.5,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117729,
+        "jelszam": "4067",
+        "eovX": 578742.98,
+        "eovY": 83343.66,
+        "reteg$mig": 42,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117729,
+        "jelszam": "4067",
+        "eovX": 578742.98,
+        "eovY": 83343.66,
+        "reteg$mig": 87.4,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117730,
+        "jelszam": "4068",
+        "eovX": 578700.87,
+        "eovY": 83875.61,
+        "reteg$mig": 4,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117730,
+        "jelszam": "4068",
+        "eovX": 578700.87,
+        "eovY": 83875.61,
+        "reteg$mig": 37.5,
+        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "oszt": 1
+    },
+    {
+        "id": 117730,
+        "jelszam": "4068",
+        "eovX": 578700.87,
+        "eovY": 83875.61,
+        "reteg$mig": 189.3,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117730,
+        "jelszam": "4068",
+        "eovX": 578700.87,
+        "eovY": 83875.61,
+        "reteg$mig": 2.2E+2,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117731,
+        "jelszam": "4069",
+        "eovX": 578772.11,
+        "eovY": 83680.36,
+        "reteg$mig": 112.7,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117731,
+        "jelszam": "4069",
+        "eovX": 578772.11,
+        "eovY": 83680.36,
+        "reteg$mig": 154.1,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117732,
+        "jelszam": "4070",
+        "eovX": 578837.28,
+        "eovY": 83451.78,
+        "reteg$mig": 94,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117732,
+        "jelszam": "4070",
+        "eovX": 578837.28,
+        "eovY": 83451.78,
+        "reteg$mig": 134,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117733,
+        "jelszam": "4071",
+        "eovX": 578887.52,
+        "eovY": 83265.98,
+        "reteg$mig": 4.3,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117733,
+        "jelszam": "4071",
+        "eovX": 578887.52,
+        "eovY": 83265.98,
+        "reteg$mig": 33.4,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117733,
+        "jelszam": "4071",
+        "eovX": 578887.52,
+        "eovY": 83265.98,
+        "reteg$mig": 73.6,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117734,
+        "jelszam": "4072",
+        "eovX": 578829.67,
+        "eovY": 83807.64,
+        "reteg$mig": 2,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117734,
+        "jelszam": "4072",
+        "eovX": 578829.67,
+        "eovY": 83807.64,
+        "reteg$mig": 199.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117734,
+        "jelszam": "4072",
+        "eovX": 578829.67,
+        "eovY": 83807.64,
+        "reteg$mig": 233,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117735,
+        "jelszam": "4073",
+        "eovX": 578861.91,
+        "eovY": 83696.35,
+        "reteg$mig": 170.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117735,
+        "jelszam": "4073",
+        "eovX": 578861.91,
+        "eovY": 83696.35,
+        "reteg$mig": 183.9,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117736,
+        "jelszam": "4074",
+        "eovX": 578892.41,
+        "eovY": 83609.3,
+        "reteg$mig": 1,
+        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "oszt": 1
+    },
+    {
+        "id": 117736,
+        "jelszam": "4074",
+        "eovX": 578892.41,
+        "eovY": 83609.3,
+        "reteg$mig": 144.8,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117736,
+        "jelszam": "4074",
+        "eovX": 578892.41,
+        "eovY": 83609.3,
+        "reteg$mig": 186.8,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117737,
+        "jelszam": "4075",
+        "eovX": 578925.7,
+        "eovY": 83480.12,
+        "reteg$mig": 161.2,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    },
+    {
+        "id": 117737,
+        "jelszam": "4075",
+        "eovX": 578925.7,
+        "eovY": 83480.12,
+        "reteg$mig": 198.1,
+        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "oszt": 1
+    },
+    {
+        "id": 117739,
+        "jelszam": "4077",
+        "eovX": 578979.97,
+        "eovY": 83284.08,
+        "reteg$mig": 50.7,
+        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "oszt": 1
+    }
+]
