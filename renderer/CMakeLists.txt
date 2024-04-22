@@ -19,10 +19,11 @@ find_package(Common REQUIRED)
 
 target_link_libraries(
     Renderer
-    PUBLIC Common::Common
-    PUBLIC TriMeshGenerator::TriMeshGenerator
-
-    PRIVATE ${VTK_LIBRARIES})
+        PUBLIC
+            Common::Common
+            TriMeshGenerator::TriMeshGenerator
+        PRIVATE 
+            ${VTK_LIBRARIES})
 
 vtk_module_autoinit(
   	TARGETS Renderer

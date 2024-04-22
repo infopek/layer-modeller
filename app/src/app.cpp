@@ -1,8 +1,7 @@
 #include <triangulation/delaunay.h>
 #include <renderer.h>
 #include <kriging_cpu.h>
-
-#include <perlin-noise/perlin_noise.h>
+#include <blur/blur.h>
 
 #include <iostream>
 #include <string>
@@ -50,7 +49,7 @@ static std::vector<Point> generatePoints(const std::string& filename)
     }
 
     std::string line{};
-    const int skip = 4;
+    const int skip = 1;
     int i = 0;
     while (std::getline(file, line))
     {
@@ -74,33 +73,36 @@ static std::vector<Point> generatePoints(const std::string& filename)
 
 int main(int argc, char* argv[])
 {
+    Blur blur{};
+    blur.boxFilter("../../../res/tiff/sample1_dem.tif", "../../../res/blurred/sample1_dem_blurred.tif", 6);
+
     // Get points (from interpolator?)
-    std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
+    // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
-    std::vector<Triangulation> triangulations{};
-    triangulations.reserve(6);
-    for (size_t offset = 0; offset < 6; offset++)
-    {
-        // To be removed
-        for (auto& point : points)
-        {
-            point.z -= offset * 2.0;
-        }
+    // std::vector<Triangulation> triangulations{};
+    // triangulations.reserve(6);
+    // for (size_t offset = 0; offset < 6; offset++)
+    // {
+    //     // To be removed
+    //     for (auto& point : points)
+    //     {
+    //         point.z -= offset * 2.0;
+    //     }
 
-        // Create 3D mesh
-        Triangulation triangulation(points);
-        triangulations.push_back(triangulation);
-    }
+    //     // Create 3D mesh
+    //     Triangulation triangulation(points);
+    //     triangulations.push_back(triangulation);
+    // }
 
-    // Render
-    Renderer renderer{};
-    renderer.addLayers(triangulations);
+    // // Render
+    // Renderer renderer{};
+    // renderer.addLayers(triangulations);
 
-    // Describe what you want to be rendered
-    renderer.prepareTriangulations();
-    renderer.prepareConnectionMeshes();
+    // // Describe what you want to be rendered
+    // renderer.prepareTriangulations();
+    // // renderer.prepareConnectionMeshes();
 
-    renderer.render();
+    // renderer.render();
 
     return 0;
 }

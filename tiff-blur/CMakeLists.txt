@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16..3.24)
 
-project(Kriging VERSION 0.0.1
-                DESCRIPTION "Krigin interpolation for pseudo-layer generator"
-                LANGUAGES CUDA CXX)
+project(TiffBlur    VERSION 0.0.1
+                    DESCRIPTION "TIFF blur"
+                    LANGUAGES CUDA CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
@@ -10,19 +10,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 # Enable CUDA language
 enable_language(CUDA)
 
-add_library(Kriging
-    src/kernel.cu
-    src/kriging_cpu.cpp
-    src/kriging_gpu.cu
-    src/kriging_utilities.cu
-    src/variogram.cu
-    src/initialization.cpp
-    src/plotting.cpp)
-add_library(Kriging::Kriging ALIAS Kriging)
+add_library(TiffBlur
+    src/blur.cu
+    src/blur.cpp)
+add_library(TiffBlur::TiffBlur ALIAS TiffBlur)
 
-set_target_properties(Kriging PROPERTIES CUDA_ARCHITECTURES all-major)
+set_target_properties(TiffBlur PROPERTIES CUDA_ARCHITECTURES all-major)
 
-target_include_directories(Kriging
+target_include_directories(TiffBlur
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
@@ -30,7 +25,7 @@ target_include_directories(Kriging
         ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
 # Link libraries
-target_link_libraries(Kriging 
+target_link_libraries(TiffBlur 
     PRIVATE 
         ${CUDA_LIBRARIES}
         ${CUDA_CUFFT_LIBRARIES}
@@ -42,4 +37,9 @@ target_link_libraries(Kriging
         ${CUDA_nppc_LIBRARY}
         ${CUDA_nppi_LIBRARY} 
         ${CUDA_npps_LIBRARY}
-        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY} GSL::gsl GSL::gslcblas nlohmann_json::nlohmann_json)
+        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY}
+        opencv_ml 
+        opencv_dnn 
+        opencv_core
+        opencv_imgcodecs 
+        opencv_flann)

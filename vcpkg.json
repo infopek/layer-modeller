@@ -4,7 +4,8 @@
     "eigen3",
     "gsl",
     "nlohmann-json",
+    "pkgconf",
     "vtk",
-    "pkgconf"
+    "opencv"
   ]
 }
