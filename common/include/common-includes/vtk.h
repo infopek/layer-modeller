@@ -20,3 +20,5 @@
 
 #include <vtkMultiBlockDataSet.h>
 #include <vtkAppendFilter.h>
+
+#include <vtkTriangle.h>

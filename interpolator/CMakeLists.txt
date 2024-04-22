@@ -2,24 +2,10 @@ cmake_minimum_required(VERSION 3.16..3.24)
 
 project(Kriging VERSION 0.0.1
                 DESCRIPTION "Krigin interpolation for pseudo-layer generator"
-                LANGUAGES CUDA CXX
-    )
+                LANGUAGES CUDA CXX)
 
 # Enable CUDA language
 enable_language(CUDA)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED YES)
-
-# set(SOURCES
-#     KrigingDBSQ42/kernel.cu
-#     KrigingDBSQ42/kriging_cpu.cpp
-#     KrigingDBSQ42/kriging_gpu.cu
-#     KrigingDBSQ42/kriging_utilities.cu
-#     KrigingDBSQ42/variogram.cu
-#     KrigingDBSQ42/initialization.cpp
-#     KrigingDBSQ42/plotting.cpp
-#     )
 
 add_library(Kriging
     src/kernel.cu
@@ -28,12 +14,8 @@ add_library(Kriging
     src/kriging_utilities.cu
     src/variogram.cu
     src/initialization.cpp
-    src/plotting.cpp
-    )
+    src/plotting.cpp)
 add_library(Kriging::Kriging ALIAS Kriging)
-
-
-# add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
 set_target_properties(Kriging PROPERTIES CUDA_ARCHITECTURES all-major)
 
@@ -42,8 +24,7 @@ target_include_directories(Kriging
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
-        ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
-    )
+        ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
 # Link libraries
 target_link_libraries(Kriging 
@@ -58,5 +39,4 @@ target_link_libraries(Kriging
         ${CUDA_nppc_LIBRARY}
         ${CUDA_nppi_LIBRARY} 
         ${CUDA_npps_LIBRARY}
-        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY} GSL::gsl GSL::gslcblas nlohmann_json::nlohmann_json
-    )
+        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY} GSL::gsl GSL::gslcblas nlohmann_json::nlohmann_json)

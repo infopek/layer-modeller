@@ -18,7 +18,7 @@ Renderer::~Renderer()
 void Renderer::init()
 {
     // Renderer
-    m_renderer->SetBackground(render::black.r, render::black.g, render::black.b);
+    m_renderer->SetBackground(render::black.rgb);
 
     // Render window
     m_renderWindow->SetSize(render::windowWidth, render::windowHeight);
@@ -26,6 +26,61 @@ void Renderer::init()
 
     // Interactor
     m_renderWindowInteractor->SetRenderWindow(m_renderWindow);
+}
+
+void Renderer::prepareConnectionMeshes()
+{
+    for (size_t i = 0; i < m_triangulations.size() - 1; ++i)
+    {
+        vtkSmartPointer<vtkPolyData> connectionMesh = generateConnectionMesh(m_triangulations[i], m_triangulations[i + 1]);
+
+        // Add connection mesh to renderer
+        vtkSmartPointer<vtkPolyDataMapper> connectionMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+        connectionMapper->SetInputData(connectionMesh);
+
+        vtkSmartPointer<vtkActor> connectionActor = vtkSmartPointer<vtkActor>::New();
+        connectionActor->SetMapper(connectionMapper);
+        connectionActor->GetProperty()->SetColor(render::brown.rgb);
+
+        m_renderer->AddActor(connectionActor);
+    }
+}
+
+vtkSmartPointer<vtkPolyData> Renderer::generateConnectionMesh(const Triangulation& layer1, const Triangulation& layer2)
+{
+    const auto& points1 = layer1.getPoints();
+    const auto& points2 = layer2.getPoints();
+
+    vtkSmartPointer<vtkPoints> connectionPoints = vtkSmartPointer<vtkPoints>::New();
+    for (const auto& point : points1)
+        connectionPoints->InsertNextPoint(point.x, point.y, point.z);
+
+    for (const auto& point : points2)
+        connectionPoints->InsertNextPoint(point.x, point.y, point.z);
+
+    vtkSmartPointer<vtkCellArray> connectionCells = vtkSmartPointer<vtkCellArray>::New();
+
+    for (vtkIdType i = 0; i < points1.size() - 1; ++i)
+    {
+        vtkSmartPointer<vtkTriangle> triangle1 = vtkSmartPointer<vtkTriangle>::New();
+        triangle1->GetPointIds()->SetId(0, i);
+        triangle1->GetPointIds()->SetId(1, i + 1);
+        triangle1->GetPointIds()->SetId(2, i + points1.size());
+
+        vtkSmartPointer<vtkTriangle> triangle2 = vtkSmartPointer<vtkTriangle>::New();
+        triangle2->GetPointIds()->SetId(0, i + 1);
+        triangle2->GetPointIds()->SetId(1, i + points1.size() + 1);
+        triangle2->GetPointIds()->SetId(2, i + points1.size());
+
+        connectionCells->InsertNextCell(triangle1);
+        connectionCells->InsertNextCell(triangle2);
+    }
+
+    vtkSmartPointer<vtkPolyData> connectionPolyData = vtkSmartPointer<vtkPolyData>::New();
+    connectionPolyData->SetPoints(connectionPoints);
+    connectionPolyData->SetPolys(connectionCells);
+
+    return connectionPolyData;
 }
 
 void Renderer::addLayers(const std::vector<Triangulation>& layers)
@@ -71,7 +126,7 @@ void Renderer::prepareEdges()
 
         vtkSmartPointer<vtkActor> edgeActor = vtkSmartPointer<vtkActor>::New();
         edgeActor->SetMapper(edgeMapper);
-        edgeActor->GetProperty()->SetColor(render::red.r, render::red.g, render::red.b);
+        edgeActor->GetProperty()->SetColor(render::red.rgb);
 
         m_renderer->AddActor(edgeActor);
     }
@@ -103,7 +158,7 @@ void Renderer::preparePoints()
 
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
-    actor->GetProperty()->SetColor(render::green.r, render::green.g, render::green.b);
+    actor->GetProperty()->SetColor(render::green.rgb);
 
     m_renderer->AddActor(actor);
 }
@@ -119,7 +174,7 @@ void Renderer::prepareCoordinateSystem()
 
     vtkSmartPointer<vtkActor> xActor = vtkSmartPointer<vtkActor>::New();
     xActor->SetMapper(xMapper);
-    xActor->GetProperty()->SetColor(render::red.r, render::red.g, render::red.b);
+    xActor->GetProperty()->SetColor(render::red.rgb);
 
     vtkSmartPointer<vtkLineSource> yLineSource = vtkSmartPointer<vtkLineSource>::New();
     yLineSource->SetPoint1(0, 0, 0);
@@ -130,7 +185,7 @@ void Renderer::prepareCoordinateSystem()
 
     vtkSmartPointer<vtkActor> yActor = vtkSmartPointer<vtkActor>::New();
     yActor->SetMapper(yMapper);
-    yActor->GetProperty()->SetColor(render::green.r, render::green.g, render::green.b);
+    yActor->GetProperty()->SetColor(render::green.rgb);
 
     vtkSmartPointer<vtkLineSource> zLineSource = vtkSmartPointer<vtkLineSource>::New();
     zLineSource->SetPoint1(0, 0, 0);
@@ -141,7 +196,7 @@ void Renderer::prepareCoordinateSystem()
 
     vtkSmartPointer<vtkActor> zActor = vtkSmartPointer<vtkActor>::New();
     zActor->SetMapper(zMapper);
-    zActor->GetProperty()->SetColor(render::blue.r, render::blue.g, render::blue.b);
+    zActor->GetProperty()->SetColor(render::blue.rgb);
 
     m_renderer->AddActor(xActor);
     m_renderer->AddActor(yActor);

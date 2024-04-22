@@ -19,6 +19,7 @@ public:
     void addLayers(const std::vector<Triangulation>& layers);
 
     void prepareTriangulations();
+    void prepareConnectionMeshes();
     void prepareEdges();
     void preparePoints();
     void prepareCoordinateSystem();
@@ -27,6 +28,8 @@ public:
 
 private:
     void init();
+
+    vtkSmartPointer<vtkPolyData> generateConnectionMesh(const Triangulation& layer1, const Triangulation& layer2);
 
 private:
     vtkSmartPointer<vtkRenderer> m_renderer;

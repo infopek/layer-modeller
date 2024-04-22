@@ -41,7 +41,7 @@
 
 static std::vector<Point> generatePoints(const std::string& filename)
 {
-    std::vector<Point> points;
+    std::vector<Point> points{};
     std::ifstream file(filename);
     if (!file.is_open())
     {
@@ -49,7 +49,9 @@ static std::vector<Point> generatePoints(const std::string& filename)
         return points;
     }
 
-    std::string line;
+    std::string line{};
+    const int skip = 4;
+    int i = 0;
     while (std::getline(file, line))
     {
         std::istringstream iss(line);
@@ -59,7 +61,11 @@ static std::vector<Point> generatePoints(const std::string& filename)
             std::cerr << "Error parsing line: " << line << std::endl;
             continue;
         }
-        points.push_back(p);
+
+        if (i % skip == 0)
+            points.push_back(p);
+
+        ++i;
     }
     file.close();
 
@@ -68,25 +74,32 @@ static std::vector<Point> generatePoints(const std::string& filename)
 
 int main(int argc, char* argv[])
 {
+    // Get points (from interpolator?)
     std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
     std::vector<Triangulation> triangulations{};
     triangulations.reserve(6);
     for (size_t offset = 0; offset < 6; offset++)
     {
+        // To be removed
         for (auto& point : points)
         {
             point.z -= offset * 2.0;
         }
 
+        // Create 3D mesh
         Triangulation triangulation(points);
-
         triangulations.push_back(triangulation);
     }
 
+    // Render
     Renderer renderer{};
     renderer.addLayers(triangulations);
+
+    // Describe what you want to be rendered
     renderer.prepareTriangulations();
+    renderer.prepareConnectionMeshes();
+
     renderer.render();
 
     return 0;

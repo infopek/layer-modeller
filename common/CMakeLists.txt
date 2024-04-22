@@ -6,8 +6,7 @@ project(Common  VERSION 0.0.1
 
 add_library(Common 
   	src/common-includes/cgal.cpp
-  	src/common-includes/vtk.cpp
-  	)
+  	src/common-includes/vtk.cpp)
 add_library(Common::Common ALIAS Common)
 
 target_include_directories(
@@ -19,12 +18,10 @@ target_include_directories(
 
 target_link_libraries(
     Common
-
-    PRIVATE CGAL::CGAL
-    PRIVATE ${VTK_LIBRARIES}
-	)
+    	PRIVATE 
+			CGAL::CGAL
+    		${VTK_LIBRARIES})
 
 vtk_module_autoinit(
   	TARGETS Common
-  	MODULES ${VTK_LIBRARIES}
-	)
+  	MODULES ${VTK_LIBRARIES})
