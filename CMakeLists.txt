@@ -21,7 +21,7 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject Common Kriging TiffBlur TriMeshGenerator Renderer App Test)
+set(as_subproject Common Kriging Blur GeoTiff TriMeshGenerator Renderer App Test)
 
 # Packages
 find_package(OpenCV CONFIG REQUIRED)
@@ -55,10 +55,13 @@ include_directories(
 
 # Subprojects
 add_subdirectory(common)
+
+add_subdirectory(blur)
+add_subdirectory(geo-tiff)
+
 add_subdirectory(tri-mesh-gen)
 add_subdirectory(renderer)
 add_subdirectory(interpolator)
-add_subdirectory(tiff-blur)
 
 add_subdirectory(app)
 

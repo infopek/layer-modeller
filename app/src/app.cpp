@@ -3,6 +3,8 @@
 #include <kriging_cpu.h>
 #include <blur/blur.h>
 
+#include <opencv2/opencv.hpp>
+
 #include <iostream>
 #include <string>
 #include <random>
@@ -71,10 +73,26 @@ static std::vector<Point> generatePoints(const std::string& filename)
     return points;
 }
 
+static void tiffToImage(const std::string& filepath)
+{
+    cv::Mat tiffImage = cv::imread(filepath, cv::IMREAD_UNCHANGED);
+
+    std::string outputFile = "../../../res/intermediate/tiff_png.png";
+    cv::imwrite(outputFile, tiffImage);
+}
+
+static void processTiff(const std::string& tiffImagePath)
+{
+    cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
+    Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
+    Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
+    cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
+}
+
 int main(int argc, char* argv[])
 {
-    Blur blur{};
-    blur.boxFilter("../../../res/tiff/sample1_dem.tif", "../../../res/blurred/sample1_dem_blurred.tif", 6);
+    tiffToImage("../../../res/tiff/earthdata_1.tif");
+    processTiff("../../../res/intermediate/tiff_png.png");
 
     // Get points (from interpolator?)
     // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");

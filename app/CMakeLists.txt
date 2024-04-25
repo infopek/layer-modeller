@@ -13,7 +13,8 @@ add_executable(App src/app.cpp)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
-find_package(TiffBlur REQUIRED)
+find_package(Blur REQUIRED)
+find_package(GeoTiff REQUIRED)
 find_package(TriMeshGenerator REQUIRED)
 find_package(Renderer REQUIRED)
 
@@ -22,7 +23,8 @@ target_link_libraries(
     PUBLIC
       Common::Common
       Kriging::Kriging
-      TiffBlur::TiffBlur
+      Blur::Blur
+      GeoTiff::GeoTiff
       TriMeshGenerator::TriMeshGenerator
       Renderer::Renderer
     PRIVATE
@@ -31,6 +33,7 @@ target_link_libraries(
       opencv_dnn 
       opencv_core 
       opencv_flann
+      ${OpenCV_LIBS}
       ${VTK_LIBRARIES})
 
 vtk_module_autoinit(
