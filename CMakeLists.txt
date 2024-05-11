@@ -21,19 +21,24 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject Common Kriging Blur GeoTiff TriMeshGenerator Renderer App Test)
+set(as_subproject Common Kriging GeoTiff TriMeshGenerator Renderer App Test)
 
 # Packages
 find_package(OpenCV CONFIG REQUIRED)
-
 find_package(CGAL CONFIG REQUIRED)
 find_package(VTK COMPONENTS 
   CommonCore
+  CommonDataModel
+  FiltersCore
+  FiltersGeneral
   FiltersSources
+  FiltersGeometry
+  FiltersModeling
+  InteractionStyle
+  InteractionWidgets
   RenderingCore
   RenderingOpenGL2
-  InteractionStyle
-  InteractionWidgets)
+  IOXML)
 
 find_package(GSL REQUIRED)
 find_package(PkgConfig)
@@ -49,14 +54,9 @@ macro(find_package)
   endif()
 endmacro()
 
-include_directories(
-	PUBLIC
-  		vendor)
-
 # Subprojects
 add_subdirectory(common)
 
-add_subdirectory(blur)
 add_subdirectory(geo-tiff)
 
 add_subdirectory(tri-mesh-gen)

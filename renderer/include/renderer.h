@@ -29,8 +29,6 @@ public:
 private:
     void init();
 
-    vtkSmartPointer<vtkPolyData> generateConnectionMesh(const Triangulation& layer1, const Triangulation& layer2);
-
 private:
     vtkSmartPointer<vtkRenderer> m_renderer;
     vtkSmartPointer<vtkRenderWindow> m_renderWindow;

@@ -13,7 +13,6 @@ add_executable(App src/app.cpp)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
-find_package(Blur REQUIRED)
 find_package(GeoTiff REQUIRED)
 find_package(TriMeshGenerator REQUIRED)
 find_package(Renderer REQUIRED)
@@ -23,7 +22,6 @@ target_link_libraries(
     PUBLIC
       Common::Common
       Kriging::Kriging
-      Blur::Blur
       GeoTiff::GeoTiff
       TriMeshGenerator::TriMeshGenerator
       Renderer::Renderer
@@ -37,5 +35,5 @@ target_link_libraries(
       ${VTK_LIBRARIES})
 
 vtk_module_autoinit(
-  TARGETS Renderer
+  TARGETS App
   MODULES ${VTK_LIBRARIES})

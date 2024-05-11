@@ -1,7 +1,7 @@
 #include <triangulation/delaunay.h>
 #include <renderer.h>
-#include <kriging_cpu.h>
-#include <blur/blur.h>
+// #include <kriging_cpu.h>
+// #include <blur/blur.h>
 
 #include <opencv2/opencv.hpp>
 
@@ -51,7 +51,7 @@ static std::vector<Point> generatePoints(const std::string& filename)
     }
 
     std::string line{};
-    const int skip = 1;
+    const int skip = 20;
     int i = 0;
     while (std::getline(file, line))
     {
@@ -73,54 +73,55 @@ static std::vector<Point> generatePoints(const std::string& filename)
     return points;
 }
 
-static void tiffToImage(const std::string& filepath)
-{
-    cv::Mat tiffImage = cv::imread(filepath, cv::IMREAD_UNCHANGED);
+// static void tiffToImage(const std::string& filepath)
+// {
+//     cv::Mat tiffImage = cv::imread(filepath, cv::IMREAD_UNCHANGED);
 
-    std::string outputFile = "../../../res/intermediate/tiff_png.png";
-    cv::imwrite(outputFile, tiffImage);
-}
+//     std::string outputFile = "../../../res/intermediate/tiff_png.png";
+//     cv::imwrite(outputFile, tiffImage);
+// }
 
-static void processTiff(const std::string& tiffImagePath)
-{
-    cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
-    Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
-    Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
-    cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
-}
+// static void processTiff(const std::string& tiffImagePath)
+// {
+//     cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
+//     Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
+//     Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
+//     cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
+// }
 
 int main(int argc, char* argv[])
 {
-    tiffToImage("../../../res/tiff/earthdata_1.tif");
-    processTiff("../../../res/intermediate/tiff_png.png");
+    // tiffToImage("../../../res/tiff/earthdata_1.tif");
+    // processTiff("../../../res/intermediate/tiff_png.png");
 
-    // Get points (from interpolator?)
-    // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
+    // Get points(from interpolator ? )
+    std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
-    // std::vector<Triangulation> triangulations{};
-    // triangulations.reserve(6);
-    // for (size_t offset = 0; offset < 6; offset++)
-    // {
-    //     // To be removed
-    //     for (auto& point : points)
-    //     {
-    //         point.z -= offset * 2.0;
-    //     }
+    std::vector<Triangulation> triangulations{};
+    triangulations.reserve(6);
+    for (size_t offset = 0; offset < 6; offset++)
+    {
+        // To be removed
+        for (auto& point : points)
+        {
+            point.z -= offset * 5.0;
+        }
 
-    //     // Create 3D mesh
-    //     Triangulation triangulation(points);
-    //     triangulations.push_back(triangulation);
-    // }
+        // Create 3D mesh
+        Triangulation triangulation(points);
+        triangulations.push_back(triangulation);
+    }
 
-    // // Render
-    // Renderer renderer{};
-    // renderer.addLayers(triangulations);
+    // Render
+    Renderer renderer{};
+    renderer.addLayers(triangulations);
 
-    // // Describe what you want to be rendered
-    // renderer.prepareTriangulations();
-    // // renderer.prepareConnectionMeshes();
+    // Describe what you want to be rendered
+    renderer.prepareEdges();
+    renderer.prepareTriangulations();
+    renderer.prepareConnectionMeshes();
 
-    // renderer.render();
+    renderer.render();
 
     return 0;
 }

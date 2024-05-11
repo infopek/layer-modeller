@@ -101,6 +101,7 @@
         "*.tcc": "cpp",
         "numbers": "cpp",
         "regex": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "coroutine": "cpp"
     }
 }

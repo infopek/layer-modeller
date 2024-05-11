@@ -30,57 +30,48 @@ void Renderer::init()
 
 void Renderer::prepareConnectionMeshes()
 {
-    for (size_t i = 0; i < m_triangulations.size() - 1; ++i)
+    for (size_t i = 0; i < m_triangulationGrids.size() - 1; i++)
     {
-        vtkSmartPointer<vtkPolyData> connectionMesh = generateConnectionMesh(m_triangulations[i], m_triangulations[i + 1]);
+        vtkSmartPointer<vtkUnstructuredGrid> gridTop = m_triangulationGrids[i];
+        vtkSmartPointer<vtkUnstructuredGrid> gridBottom = m_triangulationGrids[i + 1];
 
-        // Add connection mesh to renderer
-        vtkSmartPointer<vtkPolyDataMapper> connectionMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-        connectionMapper->SetInputData(connectionMesh);
+        // Get points from the grids
+        vtkSmartPointer<vtkPoints> pointsTop = gridTop->GetPoints();
+        vtkSmartPointer<vtkPoints> pointsBottom = gridBottom->GetPoints();
 
-        vtkSmartPointer<vtkActor> connectionActor = vtkSmartPointer<vtkActor>::New();
-        connectionActor->SetMapper(connectionMapper);
-        connectionActor->GetProperty()->SetColor(render::brown.rgb);
+        vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
+        appendFilter->AddInputData(gridTop);
+        appendFilter->AddInputData(gridBottom);
+        appendFilter->Update();
 
-        m_renderer->AddActor(connectionActor);
+        vtkSmartPointer<vtkUnstructuredGrid> combinedGrid = appendFilter->GetOutput();
+
+        vtkSmartPointer<vtkDataSetSurfaceFilter> surfaceFilterLines = vtkSmartPointer<vtkDataSetSurfaceFilter>::New();
+        surfaceFilterLines->SetInputData(combinedGrid);
+        surfaceFilterLines->Update();
+
+        vtkSmartPointer<vtkPolyData> polyDataLines = surfaceFilterLines->GetOutput();
+
+        double zDifference = pointsBottom->GetBounds()[4] - pointsTop->GetBounds()[5];
+        vtkSmartPointer<vtkLinearExtrusionFilter> extrusionFilter = vtkSmartPointer<vtkLinearExtrusionFilter>::New();
+        extrusionFilter->SetInputData(polyDataLines);
+        extrusionFilter->SetExtrusionTypeToNormalExtrusion();
+        extrusionFilter->SetVector(0, 0, 1);
+        extrusionFilter->SetScaleFactor(zDifference - 4.0);
+        extrusionFilter->Update();
+
+        vtkSmartPointer<vtkPolyData> connectedPolyData = extrusionFilter->GetOutput();
+
+        // Visualization
+        vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+        mapper->SetInputData(connectedPolyData);
+
+        vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetColor(1.0, 1.0, 0.0); // Yellow color
+
+        m_renderer->AddActor(actor);
     }
-}
-
-vtkSmartPointer<vtkPolyData> Renderer::generateConnectionMesh(const Triangulation& layer1, const Triangulation& layer2)
-{
-    const auto& points1 = layer1.getPoints();
-    const auto& points2 = layer2.getPoints();
-
-    vtkSmartPointer<vtkPoints> connectionPoints = vtkSmartPointer<vtkPoints>::New();
-    for (const auto& point : points1)
-        connectionPoints->InsertNextPoint(point.x, point.y, point.z);
-
-    for (const auto& point : points2)
-        connectionPoints->InsertNextPoint(point.x, point.y, point.z);
-
-    vtkSmartPointer<vtkCellArray> connectionCells = vtkSmartPointer<vtkCellArray>::New();
-
-    for (vtkIdType i = 0; i < points1.size() - 1; ++i)
-    {
-        vtkSmartPointer<vtkTriangle> triangle1 = vtkSmartPointer<vtkTriangle>::New();
-        triangle1->GetPointIds()->SetId(0, i);
-        triangle1->GetPointIds()->SetId(1, i + 1);
-        triangle1->GetPointIds()->SetId(2, i + points1.size());
-
-        vtkSmartPointer<vtkTriangle> triangle2 = vtkSmartPointer<vtkTriangle>::New();
-        triangle2->GetPointIds()->SetId(0, i + 1);
-        triangle2->GetPointIds()->SetId(1, i + points1.size() + 1);
-        triangle2->GetPointIds()->SetId(2, i + points1.size());
-
-        connectionCells->InsertNextCell(triangle1);
-        connectionCells->InsertNextCell(triangle2);
-    }
-
-    vtkSmartPointer<vtkPolyData> connectionPolyData = vtkSmartPointer<vtkPolyData>::New();
-    connectionPolyData->SetPoints(connectionPoints);
-    connectionPolyData->SetPolys(connectionCells);
-
-    return connectionPolyData;
 }
 
 void Renderer::addLayers(const std::vector<Triangulation>& layers)
@@ -126,7 +117,7 @@ void Renderer::prepareEdges()
 
         vtkSmartPointer<vtkActor> edgeActor = vtkSmartPointer<vtkActor>::New();
         edgeActor->SetMapper(edgeMapper);
-        edgeActor->GetProperty()->SetColor(render::red.rgb);
+        edgeActor->GetProperty()->SetColor(render::black.rgb);
 
         m_renderer->AddActor(edgeActor);
     }

@@ -23,5 +23,5 @@ target_link_libraries(
     		${VTK_LIBRARIES})
 
 vtk_module_autoinit(
-  	TARGETS Common
-  	MODULES ${VTK_LIBRARIES})
+	TARGETS Common
+	MODULES ${VTK_LIBRARIES})
