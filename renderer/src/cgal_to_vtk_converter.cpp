@@ -1,35 +1,32 @@
 #include <cgal_to_vtk_converter.h>
 
-vtkSmartPointer<vtkUnstructuredGrid> CGALToVTKConverter::gridifyTriangulation(const Triangulation& triangulation)
+vtkSmartPointer<vtkPolyData> CGALToVTKConverter::convertMeshToVTK(const Polyhedron& mesh)
 {
-    vtkSmartPointer<vtkUnstructuredGrid> unstructuredGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
+    vtkSmartPointer<vtkCellArray> polygons = vtkSmartPointer<vtkCellArray>::New();
 
-    std::unordered_map<Point2, vtkIdType> pointMap{};
-
-    const auto& points3d = triangulation.getPoints();
-    for (const auto& p : points3d)
+    for (auto v = mesh.vertices_begin(); v != mesh.vertices_end(); ++v)
     {
-        vtkIdType vtkId = points->InsertNextPoint(p.x, p.y, p.z);
-        pointMap[Point2(p.x, p.y)] = vtkId;
+        auto point = v->point();
+        points->InsertNextPoint(point.x(), point.y(), point.z());
     }
 
-    const auto& dt = triangulation.getTriangulation();
-    for (auto it = dt.finite_faces_begin(); it != dt.finite_faces_end(); ++it)
+    for (auto f = mesh.facets_begin(); f != mesh.facets_end(); ++f)
     {
-        std::vector<vtkIdType> cellIds;
-        for (int i = 0; i < 3; ++i)
+        auto halfedge = f->halfedge();
+        vtkIdType triangle[3];
+        int i = 0;
+        do
         {
-            Point2 p = it->vertex(i)->point();
-            vtkIdType vtkId = pointMap[p];
-            cellIds.push_back(vtkId);
-        }
-        cells->InsertNextCell(3, cellIds.data());
+            triangle[i++] = std::distance(mesh.vertices_begin(), halfedge->vertex());
+            halfedge = halfedge->next();
+        } while (halfedge != f->halfedge());
+        polygons->InsertNextCell(3, triangle);
     }
 
-    unstructuredGrid->SetPoints(points);
-    unstructuredGrid->SetCells(VTK_TRIANGLE, cells);
+    vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
+    polydata->SetPoints(points);
+    polydata->SetPolys(polygons);
 
-    return unstructuredGrid;
+    return polydata;
 }

@@ -1,4 +1,5 @@
-#include <triangulation/delaunay.h>
+#include <layer_builder.h>
+#include <modeller/modeller_set.h>
 #include <renderer.h>
 // #include <kriging_cpu.h>
 // #include <blur/blur.h>
@@ -97,29 +98,35 @@ int main(int argc, char* argv[])
     // Get points(from interpolator ? )
     std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
-    std::vector<Triangulation> triangulations{};
-    triangulations.reserve(6);
-    for (size_t offset = 0; offset < 6; offset++)
-    {
-        // To be removed
-        for (auto& point : points)
-        {
-            point.z -= offset * 5.0;
-        }
+    // std::vector<Triangulation> triangulations{};
+    // triangulations.reserve(6);
+    // for (size_t offset = 0; offset < 6; offset++)
+    // {
+    //     // To be removed
+    //     for (auto& point : points)
+    //     {
+    //         point.z -= offset * 5.0;
+    //     }
 
-        // Create 3D mesh
-        Triangulation triangulation(points);
-        triangulations.push_back(triangulation);
-    }
+    //     // Create 3D mesh
+    //     Triangulation triangulation(points);
+    //     triangulations.push_back(triangulation);
+    // }
 
-    // Render
+    LayerBuilder layerBuilder(points);
+    layerBuilder.buildLayers();
+
+    ModellerSet modeller(layerBuilder.getLayers());
+    modeller.createMeshes();
+
     Renderer renderer{};
-    renderer.addLayers(triangulations);
+    renderer.addMeshes(modeller.getMeshes());
 
     // Describe what you want to be rendered
     renderer.prepareEdges();
-    renderer.prepareTriangulations();
-    renderer.prepareConnectionMeshes();
+    renderer.prepareSurfaces();
+    renderer.prepareTest();
+    // renderer.prepareLayerBodies();
 
     renderer.render();
 

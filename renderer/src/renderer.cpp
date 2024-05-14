@@ -28,70 +28,40 @@ void Renderer::init()
     m_renderWindowInteractor->SetRenderWindow(m_renderWindow);
 }
 
-void Renderer::prepareConnectionMeshes()
+void Renderer::addMeshes(const std::vector<Mesh>& meshes)
 {
-    for (size_t i = 0; i < m_triangulationGrids.size() - 1; i++)
+    const size_t numMeshes = meshes.size();
+    m_meshes = meshes;
+
+    m_surfaceMeshPolyData.resize(numMeshes);
+    m_layerBodyPolyData.resize(numMeshes);
+    m_testPolyData.resize(numMeshes);
+
+    for (size_t i = 0; i < numMeshes; i++)
     {
-        vtkSmartPointer<vtkUnstructuredGrid> gridTop = m_triangulationGrids[i];
-        vtkSmartPointer<vtkUnstructuredGrid> gridBottom = m_triangulationGrids[i + 1];
+        const auto& mesh = m_meshes[i];
 
-        // Get points from the grids
-        vtkSmartPointer<vtkPoints> pointsTop = gridTop->GetPoints();
-        vtkSmartPointer<vtkPoints> pointsBottom = gridBottom->GetPoints();
+        auto surfacePolyData = CGALToVTKConverter::convertMeshToVTK(mesh.surfaceMesh);
+        m_surfaceMeshPolyData[i] = surfacePolyData;
 
-        vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
-        appendFilter->AddInputData(gridTop);
-        appendFilter->AddInputData(gridBottom);
-        appendFilter->Update();
+        auto testPolyData = CGALToVTKConverter::convertMeshToVTK(mesh.test);
+        m_testPolyData[i] = testPolyData;
 
-        vtkSmartPointer<vtkUnstructuredGrid> combinedGrid = appendFilter->GetOutput();
-
-        vtkSmartPointer<vtkDataSetSurfaceFilter> surfaceFilterLines = vtkSmartPointer<vtkDataSetSurfaceFilter>::New();
-        surfaceFilterLines->SetInputData(combinedGrid);
-        surfaceFilterLines->Update();
-
-        vtkSmartPointer<vtkPolyData> polyDataLines = surfaceFilterLines->GetOutput();
-
-        double zDifference = pointsBottom->GetBounds()[4] - pointsTop->GetBounds()[5];
-        vtkSmartPointer<vtkLinearExtrusionFilter> extrusionFilter = vtkSmartPointer<vtkLinearExtrusionFilter>::New();
-        extrusionFilter->SetInputData(polyDataLines);
-        extrusionFilter->SetExtrusionTypeToNormalExtrusion();
-        extrusionFilter->SetVector(0, 0, 1);
-        extrusionFilter->SetScaleFactor(zDifference - 4.0);
-        extrusionFilter->Update();
-
-        vtkSmartPointer<vtkPolyData> connectedPolyData = extrusionFilter->GetOutput();
-
-        // Visualization
-        vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper->SetInputData(connectedPolyData);
-
-        vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetColor(1.0, 1.0, 0.0); // Yellow color
-
-        m_renderer->AddActor(actor);
+        m_layerBodyPolyData[i].reserve(mesh.layerBody.size());
+        for (size_t j = 0; j < mesh.layerBody.size(); j++)
+        {
+            auto layerBodyPolyData = CGALToVTKConverter::convertMeshToVTK(mesh.layerBody[j]);
+            m_layerBodyPolyData[i].push_back(layerBodyPolyData);
+        }
     }
+
 }
 
-void Renderer::addLayers(const std::vector<Triangulation>& layers)
-{
-    const size_t numLayers = layers.size();
-    m_triangulations.reserve(numLayers);
-    m_triangulationGrids.reserve(numLayers);
-    for (const auto& layer : layers)
-    {
-        auto grid = CGALToVTKConverter::gridifyTriangulation(layer);
-        m_triangulations.push_back(layer);
-        m_triangulationGrids.push_back(grid);
-    }
-}
-
-void Renderer::prepareTriangulations()
+void Renderer::prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData)
 {
     vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
-    for (const auto& grid : m_triangulationGrids)
-        appendFilter->AddInputData(grid);
+    for (const auto& data : polyData)
+        appendFilter->AddInputData(data);
     appendFilter->Update();
 
     vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
@@ -103,12 +73,45 @@ void Renderer::prepareTriangulations()
     m_renderer->AddActor(actor);
 }
 
+void Renderer::prepareSurfaces()
+{
+    prepare(m_surfaceMeshPolyData);
+}
+
+void Renderer::prepareTest()
+{
+    prepare(m_testPolyData);
+}
+
+
+void Renderer::prepareLayerBodies()
+{
+    vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
+    for (const auto& bodyPart : m_layerBodyPolyData)
+    {
+        for (const auto& polyData : bodyPart)
+        {
+            appendFilter->AddInputData(polyData);
+        }
+    }
+    appendFilter->Update();
+
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInputConnection(appendFilter->GetOutputPort());
+
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+
+    m_renderer->AddActor(actor);
+}
+
+
 void Renderer::prepareEdges()
 {
-    for (const auto grid : m_triangulationGrids)
+    for (const auto polyData : m_surfaceMeshPolyData)
     {
         vtkSmartPointer<vtkExtractEdges> extractEdges = vtkSmartPointer<vtkExtractEdges>::New();
-        extractEdges->SetInputData(grid);
+        extractEdges->SetInputData(polyData);
         extractEdges->Update();
 
         vtkSmartPointer<vtkPolyData> edges = extractEdges->GetOutput();
@@ -129,7 +132,7 @@ void Renderer::preparePoints()
 
     vtkSmartPointer<vtkPoints> pts = vtkSmartPointer<vtkPoints>::New();
 
-    const auto& points1 = m_triangulations[1].getPoints();
+    const auto& points1 = m_meshes[0].layer.points;
     for (const auto& point : points1)
     {
         pts->InsertNextPoint(point.x, point.y, point.z);

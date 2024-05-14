@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 enable_language(CUDA)
 
 add_library(GeoTiff
-    src/blur.cu
-    src/blur.cpp)
+    src/blur/blur.cu
+    src/blur/blur.cpp)
 add_library(GeoTiff::GeoTiff ALIAS GeoTiff)
 
 set_target_properties(GeoTiff PROPERTIES CUDA_ARCHITECTURES all-major)

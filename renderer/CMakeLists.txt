@@ -16,12 +16,13 @@ target_include_directories(
             $<INSTALL_INTERFACE:include>)
 
 find_package(Common REQUIRED)
+find_package(MeshGenerator REQUIRED)
 
 target_link_libraries(
     Renderer
         PUBLIC
             Common::Common
-            TriMeshGenerator::TriMeshGenerator
+            MeshGenerator::MeshGenerator
         PRIVATE 
             ${VTK_LIBRARIES})
 

@@ -5,8 +5,7 @@ project(Common  VERSION 0.0.1
                 LANGUAGES CXX)  
 
 add_library(Common 
-  	src/common-includes/cgal.cpp
-  	src/common-includes/vtk.cpp)
+  	src/src.cpp)
 add_library(Common::Common ALIAS Common)
 
 target_include_directories(

@@ -14,7 +14,8 @@ add_executable(App src/app.cpp)
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
 find_package(GeoTiff REQUIRED)
-find_package(TriMeshGenerator REQUIRED)
+find_package(LayerBuilder REQUIRED)
+find_package(MeshGenerator REQUIRED)
 find_package(Renderer REQUIRED)
 
 target_link_libraries(
@@ -23,7 +24,8 @@ target_link_libraries(
       Common::Common
       Kriging::Kriging
       GeoTiff::GeoTiff
-      TriMeshGenerator::TriMeshGenerator
+      LayerBuilder::LayerBuilder
+      MeshGenerator::MeshGenerator
       Renderer::Renderer
     PRIVATE
       CGAL::CGAL

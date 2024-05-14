@@ -21,7 +21,7 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject Common Kriging GeoTiff TriMeshGenerator Renderer App Test)
+set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer App Test)
 
 # Packages
 find_package(OpenCV CONFIG REQUIRED)
@@ -58,10 +58,10 @@ endmacro()
 add_subdirectory(common)
 
 add_subdirectory(geo-tiff)
-
-add_subdirectory(tri-mesh-gen)
-add_subdirectory(renderer)
 add_subdirectory(interpolator)
+add_subdirectory(layer-builder)
+add_subdirectory(mesh-generator)
+add_subdirectory(renderer)
 
 add_subdirectory(app)
 

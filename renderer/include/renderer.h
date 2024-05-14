@@ -1,9 +1,9 @@
 #pragma once
 
 #include <models/point.h>
-#include <common-includes/vtk.h>
+#include <models/mesh.h>
 
-#include <triangulation/delaunay.h>
+#include <common-includes/vtk.h>
 
 #include <render_settings.h>
 
@@ -15,11 +15,11 @@ public:
     Renderer();
     ~Renderer();
 
-    // TODO: make Layer class that contains triangulation with textures, etc.
-    void addLayers(const std::vector<Triangulation>& layers);
+    void addMeshes(const std::vector<Mesh>& meshes);
 
-    void prepareTriangulations();
-    void prepareConnectionMeshes();
+    void prepareSurfaces();
+    void prepareLayerBodies();
+    void prepareTest();
     void prepareEdges();
     void preparePoints();
     void prepareCoordinateSystem();
@@ -29,11 +29,15 @@ public:
 private:
     void init();
 
+    void prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData);
+
 private:
     vtkSmartPointer<vtkRenderer> m_renderer;
     vtkSmartPointer<vtkRenderWindow> m_renderWindow;
     vtkSmartPointer<vtkRenderWindowInteractor> m_renderWindowInteractor;
 
-    std::vector<Triangulation> m_triangulations{};
-    std::vector<vtkSmartPointer<vtkUnstructuredGrid>> m_triangulationGrids{};
+    std::vector<Mesh> m_meshes{};
+    std::vector<vtkSmartPointer<vtkPolyData>> m_surfaceMeshPolyData{};
+    std::vector<vtkSmartPointer<vtkPolyData>> m_testPolyData{};
+    std::vector<std::vector<vtkSmartPointer<vtkPolyData>>> m_layerBodyPolyData{};
 };
