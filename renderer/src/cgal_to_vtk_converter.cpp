@@ -1,32 +1,37 @@
 #include <cgal_to_vtk_converter.h>
 
-vtkSmartPointer<vtkPolyData> CGALToVTKConverter::convertMeshToVTK(const Polyhedron& mesh)
+vtkSmartPointer<vtkPolyData> CGALToVTKConverter::convertMeshToVTK(const SurfaceMesh& mesh)
 {
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-    vtkSmartPointer<vtkCellArray> polygons = vtkSmartPointer<vtkCellArray>::New();
+    vtkSmartPointer<vtkCellArray> triangles = vtkSmartPointer<vtkCellArray>::New();
 
-    for (auto v = mesh.vertices_begin(); v != mesh.vertices_end(); ++v)
-    {
-        auto point = v->point();
-        points->InsertNextPoint(point.x(), point.y(), point.z());
+    // Add vertices to points
+    for (auto v : mesh.vertices()) {
+        Point3 p = mesh.point(v);
+        points->InsertNextPoint(p.x(), p.y(), p.z());
     }
 
-    for (auto f = mesh.facets_begin(); f != mesh.facets_end(); ++f)
+    // Add faces to triangles
+    for (auto f : mesh.faces())
     {
-        auto halfedge = f->halfedge();
-        vtkIdType triangle[3];
-        int i = 0;
-        do
+        std::vector<SurfaceMesh::Vertex_index> face_vertices;
+        for (auto v : mesh.vertices_around_face(mesh.halfedge(f)))
+            face_vertices.push_back(v);
+
+        // Ensure the face is a triangle
+        if (face_vertices.size() == 3)
         {
-            triangle[i++] = std::distance(mesh.vertices_begin(), halfedge->vertex());
-            halfedge = halfedge->next();
-        } while (halfedge != f->halfedge());
-        polygons->InsertNextCell(3, triangle);
+            vtkIdType triangle[3];
+            for (int i = 0; i < 3; ++i)
+                triangle[i] = face_vertices[i];
+
+            triangles->InsertNextCell(3, triangle);
+        }
     }
 
     vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
     polydata->SetPoints(points);
-    polydata->SetPolys(polygons);
+    polydata->SetPolys(triangles);
 
     return polydata;
 }

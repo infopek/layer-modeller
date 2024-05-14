@@ -7,8 +7,8 @@
 struct Mesh
 {
     CDT2 dt{};
-    Polyhedron surfaceMesh{};
-    Polyhedron test{};
-    std::vector<Polyhedron> layerBody{};
+    SurfaceMesh surfaceMesh{};
+    SurfaceMesh test{};
+    std::vector<SurfaceMesh> layerBody{};
     Layer layer{};
 };

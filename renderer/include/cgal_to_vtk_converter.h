@@ -9,5 +9,5 @@
 class CGALToVTKConverter
 {
 public:
-    static vtkSmartPointer<vtkPolyData> convertMeshToVTK(const Polyhedron& mesh);
+    static vtkSmartPointer<vtkPolyData> convertMeshToVTK(const SurfaceMesh& mesh);
 };
