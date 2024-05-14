@@ -34,6 +34,7 @@ void ModellerSet::createMeshes()
         auto& dt = m_meshes[i].dt;
         auto& surfaceMesh = m_meshes[i].surfaceMesh;
         auto& layerBody = m_meshes[i].layerBody;
+        auto& test = m_meshes[i].test;
 
         // Transform 3D points to 2D by ignoring z coordinate
         std::vector<Point2> points2d;
@@ -48,7 +49,6 @@ void ModellerSet::createMeshes()
         // Create 2D triangulation
         dt.insert(points2d.begin(), points2d.end());
 
-        // Create surface meshes by adjusting the z-coordinates of triangle vertices
         layerBody.reserve(dt.number_of_faces());
         for (FaceIterator f = dt.finite_faces_begin(); f != dt.finite_faces_end(); ++f)
         {
@@ -64,60 +64,34 @@ void ModellerSet::createMeshes()
             Point3 p1(v1->point().x(), v1->point().y(), z1);
             Point3 p2(v2->point().x(), v2->point().y(), z2);
 
-            surfaceMesh.make_triangle(p0, p1, p2);
+            auto vi0 = surfaceMesh.add_vertex(p0);
+            auto vi1 = surfaceMesh.add_vertex(p1);
+            auto vi2 = surfaceMesh.add_vertex(p2);
 
-            // Compute convex hull of current triangle
-            double extrusionHeight = 50.0;
-            Polyhedron convexHull = extrudeTriangle(p0, p1, p2, extrusionHeight);
-
-            layerBody.push_back(convexHull);
+            surfaceMesh.add_face(vi0, vi1, vi2);
         }
+
+        std::vector<Point3> points{};
+        points.reserve(surfaceMesh.num_vertices());
+        for (auto vi : surfaceMesh.vertices())
+            points.push_back(surfaceMesh.point(vi));
+
+        Vector3 extrudeVector(0.0, 0.0, -50.0);
+        CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, test, extrudeVector);
     }
-}
-
-Polyhedron ModellerSet::extrudeTriangle(const Point3& p0, const Point3& p1, const Point3& p2, double extrusionHeight)
-{
-    std::vector<Point3> topPoints{
-        p0,
-        p1,
-        p2
-    };
-
-    std::vector<Point3> bottomPoints{
-        Point3(p0.x(), p0.y(), p0.z() - extrusionHeight),
-        Point3(p1.x(), p1.y(), p1.z() - extrusionHeight),
-        Point3(p2.x(), p2.y(), p2.z() - extrusionHeight)
-    };
-
-    std::vector<Point3> points{};
-    points.insert(points.end(), bottomPoints.begin(), bottomPoints.end());
-    points.insert(points.end(), topPoints.begin(), topPoints.end());
-
-    Polyhedron convexHull{};
-    CGAL::convex_hull_3(points.begin(), points.end(), convexHull);
-    return convexHull;
-}
-
-Polyhedron getExtrudedPolygon(const Polyhedron& inputPolyhedron, double distance)
-{
-    Polyhedron result{};
-
-
-
-    return result;
 }
 
 Polyhedron getPolyhedronBetweenLayers(const Polyhedron& topSurface, const Polyhedron& bottomSurface)
 {
 
-    double topExtrusionDist = 150.0;
-    double bottomExtrusionDist = 50.0;
+    // double topExtrusionDist = 150.0;
+    // double bottomExtrusionDist = 50.0;
 
-    auto topSolid = getExtrudedPolygon(topSurface, topExtrusionDist);
-    auto bottomSolid = getExtrudedPolygon(bottomSurface, bottomExtrusionDist);
+    // auto topSolid = getExtrudedPolygon(topSurface, topExtrusionDist);
+    // auto bottomSolid = getExtrudedPolygon(bottomSurface, bottomExtrusionDist);
 
     Polyhedron result{};
-    CGAL::Polygon_mesh_processing::corefine_and_compute_union(topSolid, bottomSolid, result);
+    // CGAL::Polygon_mesh_processing::corefine_and_compute_union(topSolid, bottomSolid, result);
 
     return result;
 }

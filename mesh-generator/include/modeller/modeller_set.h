@@ -18,7 +18,6 @@ public:
     inline const std::vector<Mesh>& getMeshes() const { return m_meshes; }
 
 private:
-    Polyhedron extrudeTriangle(const Point3& p0, const Point3& p1, const Point3& p2, double extrusionHeight);
 
 private:
     std::vector<Mesh> m_meshes{};
