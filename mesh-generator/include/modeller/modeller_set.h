@@ -1,7 +1,7 @@
 #pragma once
 
-#include <models/layer.h>
 #include <models/mesh.h>
+#include <layer_builder.h>
 
 #include <common-includes/cgal.h>
 
@@ -10,7 +10,7 @@
 class ModellerSet
 {
 public:
-    ModellerSet(const std::vector<Layer>& layers);
+    ModellerSet(const LayerBuilder& layerBuilder);
     ~ModellerSet();
 
     void createMeshes();
@@ -18,7 +18,9 @@ public:
     inline const std::vector<Mesh>& getMeshes() const { return m_meshes; }
 
 private:
+    void init();
 
 private:
+    LayerBuilder m_layerBuilder;
     std::vector<Mesh> m_meshes{};
 };

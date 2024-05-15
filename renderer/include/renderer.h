@@ -18,8 +18,7 @@ public:
     void addMeshes(const std::vector<Mesh>& meshes);
 
     void prepareSurfaces();
-    void prepareLayerBodies();
-    void prepareTest();
+    void prepareLayerBody();
     void prepareEdges();
     void preparePoints();
     void prepareCoordinateSystem();
@@ -38,6 +37,5 @@ private:
 
     std::vector<Mesh> m_meshes{};
     std::vector<vtkSmartPointer<vtkPolyData>> m_surfaceMeshPolyData{};
-    std::vector<vtkSmartPointer<vtkPolyData>> m_testPolyData{};
-    std::vector<std::vector<vtkSmartPointer<vtkPolyData>>> m_layerBodyPolyData{};
+    std::vector<vtkSmartPointer<vtkPolyData>> m_layerBodyPolyData{};
 };

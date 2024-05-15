@@ -35,24 +35,16 @@ void Renderer::addMeshes(const std::vector<Mesh>& meshes)
 
     m_surfaceMeshPolyData.resize(numMeshes);
     m_layerBodyPolyData.resize(numMeshes);
-    m_testPolyData.resize(numMeshes);
 
     for (size_t i = 0; i < numMeshes; i++)
     {
         const auto& mesh = m_meshes[i];
 
         auto surfacePolyData = CGALToVTKConverter::convertMeshToVTK(mesh.surfaceMesh);
+        auto layerBodyPolyData = CGALToVTKConverter::convertMeshToVTK(mesh.layerBody);
+
         m_surfaceMeshPolyData[i] = surfacePolyData;
-
-        auto testPolyData = CGALToVTKConverter::convertMeshToVTK(mesh.test);
-        m_testPolyData[i] = testPolyData;
-
-        m_layerBodyPolyData[i].reserve(mesh.layerBody.size());
-        for (size_t j = 0; j < mesh.layerBody.size(); j++)
-        {
-            auto layerBodyPolyData = CGALToVTKConverter::convertMeshToVTK(mesh.layerBody[j]);
-            m_layerBodyPolyData[i].push_back(layerBodyPolyData);
-        }
+        m_layerBodyPolyData[i] = layerBodyPolyData;
     }
 
 }
@@ -78,33 +70,10 @@ void Renderer::prepareSurfaces()
     prepare(m_surfaceMeshPolyData);
 }
 
-void Renderer::prepareTest()
+void Renderer::prepareLayerBody()
 {
-    prepare(m_testPolyData);
+    prepare(m_layerBodyPolyData);
 }
-
-
-void Renderer::prepareLayerBodies()
-{
-    vtkSmartPointer<vtkAppendFilter> appendFilter = vtkSmartPointer<vtkAppendFilter>::New();
-    for (const auto& bodyPart : m_layerBodyPolyData)
-    {
-        for (const auto& polyData : bodyPart)
-        {
-            appendFilter->AddInputData(polyData);
-        }
-    }
-    appendFilter->Update();
-
-    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    mapper->SetInputConnection(appendFilter->GetOutputPort());
-
-    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
-
-    m_renderer->AddActor(actor);
-}
-
 
 void Renderer::prepareEdges()
 {
@@ -129,16 +98,11 @@ void Renderer::prepareEdges()
 void Renderer::preparePoints()
 {
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-    vtkSmartPointer<vtkPoints> pts = vtkSmartPointer<vtkPoints>::New();
-
-    const auto& points1 = m_meshes[0].layer.points;
-    for (const auto& point : points1)
-    {
-        pts->InsertNextPoint(point.x, point.y, point.z);
-    }
-
-    polyData->SetPoints(pts);
+    for (const auto& point : m_meshes[0].layer.points)
+        points->InsertNextPoint(point.x, point.y, point.z);
+    polyData->SetPoints(points);
 
     vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
     sphereSource->SetRadius(0.5);

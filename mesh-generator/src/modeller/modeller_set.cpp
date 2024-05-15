@@ -14,15 +14,24 @@ struct PairHash
     }
 };
 
-ModellerSet::ModellerSet(const std::vector<Layer>& layers)
+ModellerSet::ModellerSet(const LayerBuilder& layerBuilder)
+    : m_layerBuilder{ layerBuilder }
 {
-    m_meshes.resize(layers.size());
-    for (size_t i = 0; i < layers.size(); i++)
-        m_meshes[i].layer = layers[i];
+    init();
 }
 
 ModellerSet::~ModellerSet()
 {
+}
+
+void ModellerSet::init()
+{
+    m_layerBuilder.buildLayers();
+    const auto& layers = m_layerBuilder.getLayers();
+
+    m_meshes.resize(layers.size());
+    for (size_t i = 0; i < layers.size(); i++)
+        m_meshes[i].layer = layers[i];
 }
 
 void ModellerSet::createMeshes()
@@ -34,7 +43,6 @@ void ModellerSet::createMeshes()
         auto& dt = m_meshes[i].dt;
         auto& surfaceMesh = m_meshes[i].surfaceMesh;
         auto& layerBody = m_meshes[i].layerBody;
-        auto& test = m_meshes[i].test;
 
         // Transform 3D points to 2D by ignoring z coordinate
         std::vector<Point2> points2d;
@@ -48,8 +56,6 @@ void ModellerSet::createMeshes()
 
         // Create 2D triangulation
         dt.insert(points2d.begin(), points2d.end());
-
-        layerBody.reserve(dt.number_of_faces());
         for (FaceIterator f = dt.finite_faces_begin(); f != dt.finite_faces_end(); ++f)
         {
             VertexHandle v0 = f->vertex(0);
@@ -71,13 +77,14 @@ void ModellerSet::createMeshes()
             surfaceMesh.add_face(vi0, vi1, vi2);
         }
 
+        // Extrude surface
         std::vector<Point3> points{};
         points.reserve(surfaceMesh.num_vertices());
         for (auto vi : surfaceMesh.vertices())
             points.push_back(surfaceMesh.point(vi));
 
         Vector3 extrudeVector(0.0, 0.0, -50.0);
-        CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, test, extrudeVector);
+        CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
     }
 }
 

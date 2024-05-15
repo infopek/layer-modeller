@@ -15,10 +15,12 @@ target_include_directories(
             $<INSTALL_INTERFACE:include>)
 
 find_package(Common REQUIRED)
+find_package(LayerBuilder REQUIRED)
 
 target_link_libraries(
     MeshGenerator
     PUBLIC
         Common::Common
+        LayerBuilder::LayerBuilder
     PRIVATE 
         CGAL::CGAL)

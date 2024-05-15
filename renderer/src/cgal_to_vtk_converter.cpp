@@ -6,7 +6,8 @@ vtkSmartPointer<vtkPolyData> CGALToVTKConverter::convertMeshToVTK(const SurfaceM
     vtkSmartPointer<vtkCellArray> triangles = vtkSmartPointer<vtkCellArray>::New();
 
     // Add vertices to points
-    for (auto v : mesh.vertices()) {
+    for (auto v : mesh.vertices())
+    {
         Point3 p = mesh.point(v);
         points->InsertNextPoint(p.x(), p.y(), p.z());
     }

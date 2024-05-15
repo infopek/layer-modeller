@@ -114,20 +114,19 @@ int main(int argc, char* argv[])
     // }
 
     LayerBuilder layerBuilder(points);
-    layerBuilder.buildLayers();
 
-    ModellerSet modeller(layerBuilder.getLayers());
+    ModellerSet modeller(layerBuilder);
     modeller.createMeshes();
 
     Renderer renderer{};
     renderer.addMeshes(modeller.getMeshes());
 
     // Describe what you want to be rendered
-    // renderer.prepareEdges();
+    renderer.prepareEdges();
     renderer.prepareSurfaces();
-    renderer.prepareTest();
-    // renderer.prepareLayerBodies();
+    renderer.prepareLayerBody();
 
+    // Render
     renderer.render();
 
     return 0;
