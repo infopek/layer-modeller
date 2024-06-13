@@ -30,9 +30,9 @@ void Renderer::init()
 
 void Renderer::addMeshes(const std::vector<Mesh>& meshes)
 {
-    const size_t numMeshes = meshes.size();
     m_meshes = meshes;
 
+    const size_t numMeshes = meshes.size();
     m_surfaceMeshPolyData.resize(numMeshes);
     m_layerBodyPolyData.resize(numMeshes);
 

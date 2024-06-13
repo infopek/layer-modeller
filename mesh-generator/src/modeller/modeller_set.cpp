@@ -34,6 +34,61 @@ void ModellerSet::init()
         m_meshes[i].layer = layers[i];
 }
 
+void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Point3>& points, std::vector<std::vector<size_t>>& polygons)
+{
+    std::map<SurfaceMesh::Vertex_index, std::size_t> vertexIndexMap{};
+    std::size_t index = 0;
+    for (auto v : mesh.vertices())
+    {
+        points.push_back(mesh.point(v));
+        vertexIndexMap[v] = index++;
+    }
+    for (auto f : mesh.faces())
+    {
+        std::vector<std::size_t> polygon;
+        for (auto v : CGAL::vertices_around_face(mesh.halfedge(f), mesh))
+            polygon.push_back(vertexIndexMap[v]);
+        polygons.push_back(polygon);
+    }
+}
+
+void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const std::vector<std::vector<size_t>>& polygons, SurfaceMesh& mesh)
+{
+    std::vector<SurfaceMesh::Vertex_index> vertices{};
+    for (const auto& point : points)
+        vertices.push_back(mesh.add_vertex(point));
+
+    for (const auto& polygon : polygons)
+    {
+        std::vector<SurfaceMesh::Vertex_index> face;
+        for (const auto& idx : polygon)
+            face.push_back(vertices[idx]);
+        mesh.add_face(face);
+    }
+}
+
+void ModellerSet::processMesh(SurfaceMesh& mesh)
+{
+    std::vector<Point3> points{};
+    std::vector<std::vector<std::size_t>> polygons{};
+    convertToPolygonSoup(mesh, points, polygons);
+
+    PMP::repair_polygon_soup(points, polygons);
+
+    SurfaceMesh repairedMesh{};
+    convertToSurfaceMesh(points, polygons, repairedMesh);
+
+    PMP::stitch_borders(repairedMesh);
+    PMP::triangulate_faces(repairedMesh);
+    if (!PMP::is_outward_oriented(repairedMesh))
+        PMP::reverse_face_orientations(repairedMesh);
+    PMP::remove_degenerate_faces(repairedMesh);
+
+    assert(CGAL::is_valid_polygon_mesh(repairedMesh));
+
+    mesh = std::move(repairedMesh);
+}
+
 void ModellerSet::createMeshes()
 {
     for (size_t i = 0; i < m_meshes.size(); ++i)
@@ -78,28 +133,27 @@ void ModellerSet::createMeshes()
         }
 
         // Extrude surface
-        std::vector<Point3> points{};
-        points.reserve(surfaceMesh.num_vertices());
-        for (auto vi : surfaceMesh.vertices())
-            points.push_back(surfaceMesh.point(vi));
-
-        Vector3 extrudeVector(0.0, 0.0, -50.0);
+        Vector3 extrudeVector(0.0, 0.0, -150.0);
         CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
+
+        // Repair mesh
+        processMesh(layerBody);
+        m_extrudedMeshes.push_back(layerBody);
+
+        // Perform set operations on meshes
+        if (i > 0)
+        {
+            SurfaceMesh result{};
+            bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i - 1], result);
+            layerBody = result;
+            if (validDifference)
+            {
+                std::cout << "The difference is valid";
+            }
+            else
+            {
+                std::cout << "The difference is not valid";
+            }
+        }
     }
 }
-
-Polyhedron getPolyhedronBetweenLayers(const Polyhedron& topSurface, const Polyhedron& bottomSurface)
-{
-
-    // double topExtrusionDist = 150.0;
-    // double bottomExtrusionDist = 50.0;
-
-    // auto topSolid = getExtrudedPolygon(topSurface, topExtrusionDist);
-    // auto bottomSolid = getExtrudedPolygon(bottomSurface, bottomExtrusionDist);
-
-    Polyhedron result{};
-    // CGAL::Polygon_mesh_processing::corefine_and_compute_union(topSolid, bottomSolid, result);
-
-    return result;
-}
-

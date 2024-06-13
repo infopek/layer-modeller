@@ -12,10 +12,16 @@ LayerBuilder::LayerBuilder(const std::string& regionName)
 }
 
 LayerBuilder::LayerBuilder(const std::vector<Point>& points)
-    : m_numLayers{ 1 }
+    : m_numLayers{ 2 }
 {
     m_layers.resize(m_numLayers);
     m_layers[0].points = points;
+    m_layers[1].points.resize(points.size());
+    for (size_t i = 0; i < points.size(); i++)
+    {
+        m_layers[1].points[i] = Point{ points[i].x + 30.0, points[i].y, points[i].z + 40.0 };
+    }
+
 }
 
 LayerBuilder::~LayerBuilder()

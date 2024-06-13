@@ -20,7 +20,13 @@ public:
 private:
     void init();
 
+    static void processMesh(SurfaceMesh& mesh);
+
+    static void convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Point3>& points, std::vector<std::vector<std::size_t>>& polygons);
+    static void convertToSurfaceMesh(const std::vector<Point3>& points, const std::vector<std::vector<std::size_t>>& polygons, SurfaceMesh& mesh);
+
 private:
     LayerBuilder m_layerBuilder;
     std::vector<Mesh> m_meshes{};
+    std::vector<SurfaceMesh> m_extrudedMeshes{};
 };
