@@ -38,4 +38,5 @@ private:
     std::vector<Mesh> m_meshes{};
     std::vector<vtkSmartPointer<vtkPolyData>> m_surfaceMeshPolyData{};
     std::vector<vtkSmartPointer<vtkPolyData>> m_layerBodyPolyData{};
+    std::vector<render::Color> m_colors{};
 };
