@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
     renderer.prepareEdges();
     renderer.prepareSurfaces();
     // renderer.prepareTest();
-    renderer.prepareLayerBodies();
+    //renderer.prepareLayerBodies();
 
     renderer.render();
 

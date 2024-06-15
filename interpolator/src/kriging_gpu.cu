@@ -11,7 +11,10 @@ __global__ void calculateCovarianceMatrix(const DataPoint* observedData,int n,  
         
     } 
 }
+__device__ void runFunctionOnData(size_t n, double* K, const DataPoint* observedData, TheoreticalParam param, double targetX, double targetY) {
+    size_t j = threadIdx.x;
 
+}
 __device__ void calculateVariance(const DataPoint* observedData, size_t row, size_t col, double* calculations, int dataSize, TheoreticalParam param) {
     for (size_t i = 0; i < dataSize; ++i) {
         double h = std::sqrt(std::pow(observedData[i].x -(int)row, 2) + std::pow(observedData[i].y - (int)col, 2));
@@ -25,22 +28,12 @@ __device__ void solveForVari(double* covMxDecomposed, double* calculations, int 
             s += covMxDecomposed[i * dataSize+ j] * calculations[j];
         calculations[i] = (calculations[i] - s) / covMxDecomposed[i*dataSize+i];
     }
-    //for (int i = dataSize - 1; i >= 0; i--) {
-    //    double s = 0;
-    //    for (int j = i + 1; j < dataSize; j++) {
-    //        s += covMxDecomposed[i * dataSize + j] * calculations[j];
-    //    }
-    //    calculations[i] = (calculations[i] - s) / covMxDecomposed[i * dataSize + i];
-    //}
 }
 __device__ void estimation(double* d_krigingOutput,const DataPoint* observedData, size_t row, size_t col, double* calculations, int dataSize,size_t pitch) {
     for (size_t i = 0; i < dataSize; ++i)
         ((double*)((char*)d_krigingOutput + row * pitch))[col]  += calculations[i] * observedData[i].value;
 }
-__device__ void runFunctionOnData(size_t n, double* K, const DataPoint* observedData, TheoreticalParam param, double targetX, double targetY) {
-    size_t j = threadIdx.x;
 
-}
 __global__ void estimateValue(double* d_krigingOutput, const size_t size,size_t outputPitch, const DataPoint* observedData, double* covMatrixLLT, const size_t dataSize, TheoreticalParam param, cudaPitchedPtr d_calculationsMx) {
     unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int row = idx / size;
@@ -53,7 +46,6 @@ __global__ void estimateValue(double* d_krigingOutput, const size_t size,size_t 
 
     if (row < size && col < size) {
         calculateVariance(observedData,row,col,calculations,dataSize,param);
-
         solveForVari(covMatrixLLT,calculations,dataSize);
         estimation(d_krigingOutput,observedData,row,col,calculations,dataSize,outputPitch);
     }

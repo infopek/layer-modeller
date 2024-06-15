@@ -17,7 +17,8 @@ add_library(Kriging
     src/kriging_utilities.cu
     src/variogram.cu
     src/initialization.cpp
-    src/plotting.cpp)
+    src/plotting.cpp
+)
 add_library(Kriging::Kriging ALIAS Kriging)
 
 set_target_properties(Kriging PROPERTIES CUDA_ARCHITECTURES all-major)

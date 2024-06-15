@@ -25,7 +25,7 @@ LayerBuilder::~LayerBuilder()
 
 void LayerBuilder::buildLayers()
 {
-    // std::vector<std::vector<Point>> allPoints = kriging.interpolate(m_regionName);  // 
+    std::vector<std::vector<Point>> allPoints = kriging.interpolate(m_regionName); 
     // normalizer.normalize(allPoints);    // normalize
     // layerize(allPoints);
 }

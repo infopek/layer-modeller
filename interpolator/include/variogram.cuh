@@ -15,7 +15,9 @@
 #ifndef __CUDACC__ 
 #define __CUDACC__
 #endif
-__global__ void calculateValues(int n, float* D, float* S, const DataPoint* points);
+//__global__ void calculateValues(int n, float* D, float* S, const DataPoint* points);
+
+static void calculateValuesCPU(int n,  double* D, double* S, std::vector<DataPoint>  points);
 
 void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogramData);
 

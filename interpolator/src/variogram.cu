@@ -1,19 +1,30 @@
 #include "variogram.cuh"
 #include <algorithm>
+#include <iostream>
 
-
-__global__ void calculateValues(int n,uint32_t *k, double* D, double* S, const DataPoint* points) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    int i = idx / n;
-    int j = idx % n;
-    if (i<n&& j<n&& i<j ) {
-        uint32_t index =atomicAdd(k,1);
-        double dx = (double)(points[i].x - points[j].x);
-        double dy = (double)(points[i].y - points[j].y);
-        D[index] = std::sqrt(dx * dx + dy * dy);
-        S[index] = 0.5 * std::pow(points[i].value - points[j].value, 2);
+void calculateValuesCPU(int n, double* D, double* S, std::vector<DataPoint> points) {
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {  // compare every point with every other point
+            double dx = (double)(points[i].x - points[j].x);
+            double dy = (double)(points[i].y - points[j].y);
+            D[i * n + j] = std::sqrt(dx * dx + dy * dy);  // distance calculation
+            S[i * n + j] = 0.5 * std::pow(points[i].value - points[j].value, 2);  // squared difference
+        }
     }
 }
+//__global__ void calculateValues(int n, uint32_t* k, double* D, double* S, const DataPoint* points) {
+//    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+//    int i = idx / n;
+//    int j = idx % n;
+//    if (i < n && j < n && i < j) {
+//        uint32_t index = atomicAdd(k, 1);
+//        double dx = (double)(points[i].x - points[j].x);
+//        double dy = (double)(points[i].y - points[j].y);
+//        D[index] = std::sqrt(dx * dx + dy * dy);
+//        S[index] = 0.5 * std::pow(points[i].value - points[j].value, 2);
+//    }
+//}
+
 void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogramData) { 
     int n = points->size();
     int N = n * (n + 1) / 2;
@@ -21,35 +32,35 @@ void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogr
     for (int i = 0; i < N; i++) {
         I[i] = i;
     }
-    double* d_D, * d_S;
-    DataPoint *d_points;
-    cudaMalloc((void**)&d_D, sizeof(double) * n * n);
-    cudaMalloc((void**)&d_S, sizeof(double) * n * n);
-    cudaMalloc((void**)&d_points, sizeof(DataPoint) * n);
-        
-    cudaMemcpy(d_points, &(*points)[0], sizeof(DataPoint) * n, cudaMemcpyHostToDevice);
-    uint32_t* d_k;
-    uint32_t k=0;
-    cudaMalloc((void**)&d_k, sizeof(uint32_t));
-    cudaMemcpy(d_k,&k,sizeof(uint32_t),cudaMemcpyHostToDevice);
-    calculateValues << < (int)(pow(n,2)+511)/512,512>> > (n,d_k, d_D, d_S,d_points );
-    cudaError_t cudaError = cudaGetLastError();
-    if (cudaError != cudaSuccess) {
-        fprintf(stderr, "Kernel launch failed: %s\n", cudaGetErrorString(cudaError));
-        exit(EXIT_FAILURE);
-    }
+    //double* d_D, * d_S;
+    //DataPoint *d_points;
+    //cudaMalloc((void**)&d_D, sizeof(double) * n * n);
+    //cudaMalloc((void**)&d_S, sizeof(double) * n * n);
+    //cudaMalloc((void**)&d_points, sizeof(DataPoint) * n);
+    //    
+    //cudaMemcpy(d_points, &(*points)[0], sizeof(DataPoint) * n, cudaMemcpyHostToDevice);
+    //uint32_t* d_k;
+    //uint32_t k=0;
+    //cudaMalloc((void**)&d_k, sizeof(uint32_t));
+    //cudaMemcpy(d_k,&k,sizeof(uint32_t),cudaMemcpyHostToDevice);
+    //calculateValues << < (int)(pow(n,2)+511)/512,512>> > (n,d_k, d_D, d_S,d_points );
+    //cudaError_t cudaError = cudaGetLastError();
+    //if (cudaError != cudaSuccess) {
+    //    fprintf(stderr, "Kernel launch failed: %s\n", cudaGetErrorString(cudaError));
+    //    exit(EXIT_FAILURE);
+    //}
 
-    double* D = new double[n * n];
+    double* D = new double[n*n];
     double* S = new double[n * n];
+    //cudaDeviceSynchronize();
+    //cudaFree(d_k);
+    //cudaMemcpy(D, d_D, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
+    //cudaMemcpy(S, d_S, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
 
-    cudaDeviceSynchronize();
-    cudaFree(d_k);
-    cudaMemcpy(D, d_D, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
-    cudaMemcpy(S, d_S, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
-
-    cudaFree(d_D);
-    cudaFree(d_S);
-    cudaFree(d_points);
+    //cudaFree(d_D);
+    //cudaFree(d_S);
+    //cudaFree(d_points);
+    calculateValuesCPU(n, D, S, *points);
 
     std::sort(I.begin(), I.end(),
         [&](const int& k, const int& l) {
@@ -68,6 +79,7 @@ void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogr
     valvec[N - 1] *= 0.5;
     variogramData->values = valvec;
     variogramData->distances = distvec;
+
 }
 void callback(const size_t iter, void* params, const gsl_multifit_nlinear_workspace* w)
 {
@@ -100,7 +112,7 @@ int gaussianModel(const gsl_vector* x, void* data, gsl_vector* f)
 
     for (i = 0; i < n; i++)
     {
-        double Yi = gaussianFunction(nugget, sill, range, h[i]);
+        double Yi = nugget + sill * (1.0 - exp(-((h[i] * h[i]) / (range * range))));
         gsl_vector_set(f, i, Yi - y[i]);
     }
 
