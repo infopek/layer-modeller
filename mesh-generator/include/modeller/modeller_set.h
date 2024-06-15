@@ -1,7 +1,7 @@
 #pragma once
 
-#include <models/layer.h>
 #include <models/mesh.h>
+#include <layer_builder.h>
 
 #include <common-includes/cgal.h>
 
@@ -10,7 +10,7 @@
 class ModellerSet
 {
 public:
-    ModellerSet(const std::vector<Layer>& layers);
+    ModellerSet(const LayerBuilder& layerBuilder);
     ~ModellerSet();
 
     void createMeshes();
@@ -18,8 +18,15 @@ public:
     inline const std::vector<Mesh>& getMeshes() const { return m_meshes; }
 
 private:
-    Polyhedron extrudeTriangle(const Point3& p0, const Point3& p1, const Point3& p2, double extrusionHeight);
+    void init();
+
+    static void processMesh(SurfaceMesh& mesh);
+
+    static void convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Point3>& points, std::vector<std::vector<std::size_t>>& polygons);
+    static void convertToSurfaceMesh(const std::vector<Point3>& points, const std::vector<std::vector<std::size_t>>& polygons, SurfaceMesh& mesh);
 
 private:
+    LayerBuilder m_layerBuilder;
     std::vector<Mesh> m_meshes{};
+    std::vector<SurfaceMesh> m_extrudedMeshes{};
 };
