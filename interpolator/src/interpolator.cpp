@@ -1,20 +1,29 @@
-﻿
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include "plotting.h"
-#include "variogram.cuh"
-#include "initialization.h"
-#include "kriging_cpu.h"
+﻿#include "interpolator.h"
+std::vector<Point> toPointVector(const Eigen::MatrixXd& matrix)
+{
+    std::vector<Point> points;
+    points.reserve(matrix.rows() * matrix.cols());
 
-int main() {
+    for (int i = 0; i < matrix.rows(); ++i)
+    {
+        for (int j = 0; j < matrix.cols(); ++j)
+        {
+            Point point;
+            point.x = (double)i;
+            point.y = (double)j;
+            point.z = matrix(i,j);
+            points.push_back(point);
+        }
+    }
+
+    return points;
+}
+std::vector<std::vector<Point>> interpolate() {
     std::locale::global(std::locale("en_US.UTF-8"));
     int maxX = 0, maxY = 0;
     std::map<std::string, LithologyData> lithologyMap;
-   //readTiff();
-    readObservationDataFromJson(lithologyMap, "borehole_kovago.json", &maxX, &maxY);
+    std::vector<std::vector<Point>> layers;
+    readObservationDataFromJson(lithologyMap, "../../../res/boreholes/borehole_data.json", &maxX, &maxY);
     for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it) {
         auto& lithoType = it->first;
         auto& data = it->second;
@@ -32,7 +41,8 @@ int main() {
         gnuPlotMatrix("certainty", data.certaintyMatrix, data.stratumName, &data.points, maxX, maxY);
         gnuPlotVariogram(data.stratumName, &empiricalData, data.theoreticalParam);
         writeMatrixCoordinates(data.interpolatedData, data.stratumName);
+        layers.push_back(toPointVector(data.interpolatedData));
     }
 
-    return 0;
+    return layers;
 }

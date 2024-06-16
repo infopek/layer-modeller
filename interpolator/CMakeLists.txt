@@ -11,15 +11,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 enable_language(CUDA)
 
 add_library(Kriging
-    src/kernel.cu
+    src/interpolator.cpp
     src/kriging_cpu.cpp
-    src/kriging_gpu.cu
-    src/kriging_utilities.cu
-    src/variogram.cu
+    src/variogram.cpp
     src/initialization.cpp
     src/plotting.cpp
 )
 add_library(Kriging::Kriging ALIAS Kriging)
+
+find_package(Common REQUIRED)
 
 set_target_properties(Kriging PROPERTIES CUDA_ARCHITECTURES all-major)
 
@@ -32,6 +32,8 @@ target_include_directories(Kriging
 
 # Link libraries
 target_link_libraries(Kriging 
+    PUBLIC 
+        Common::Common
     PRIVATE 
         ${CUDA_LIBRARIES}
         ${CUDA_CUFFT_LIBRARIES}
@@ -44,3 +46,4 @@ target_link_libraries(Kriging
         ${CUDA_nppi_LIBRARY} 
         ${CUDA_npps_LIBRARY}
         ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY} GSL::gsl GSL::gslcblas nlohmann_json::nlohmann_json)
+

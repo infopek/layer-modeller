@@ -4,8 +4,11 @@
         "jelszam": "4008",
         "eovX": 579286.43,
         "eovY": 83271.63,
+        "eovZ": 404.26,
+        "reteg$mtol": 0,
         "reteg$mig": 4E+1,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -13,8 +16,11 @@
         "jelszam": "4008",
         "eovX": 579286.43,
         "eovY": 83271.63,
+        "eovZ": 404.26,
+        "reteg$mtol": 4E+1,
         "reteg$mig": 158,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -22,8 +28,11 @@
         "jelszam": "4008",
         "eovX": 579286.43,
         "eovY": 83271.63,
+        "eovZ": 404.26,
+        "reteg$mtol": 158,
         "reteg$mig": 206.5,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -31,8 +40,11 @@
         "jelszam": "4009",
         "eovX": 578869.79,
         "eovY": 83559.77,
+        "eovZ": 369.51,
+        "reteg$mtol": 0,
         "reteg$mig": 122,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -40,8 +52,11 @@
         "jelszam": "4009",
         "eovX": 578869.79,
         "eovY": 83559.77,
+        "eovZ": 369.51,
+        "reteg$mtol": 122,
         "reteg$mig": 185.5,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -49,8 +64,11 @@
         "jelszam": "4014",
         "eovX": 579091.49,
         "eovY": 83224.04,
+        "eovZ": 348.81,
+        "reteg$mtol": 0,
         "reteg$mig": 21.5,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -58,8 +76,11 @@
         "jelszam": "4014",
         "eovX": 579091.49,
         "eovY": 83224.04,
+        "eovZ": 348.81,
+        "reteg$mtol": 21.5,
         "reteg$mig": 64.1,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -67,8 +88,11 @@
         "jelszam": "4014",
         "eovX": 579091.49,
         "eovY": 83224.04,
+        "eovZ": 348.81,
+        "reteg$mtol": 64.1,
         "reteg$mig": 136.8,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -76,8 +100,11 @@
         "jelszam": "4015",
         "eovX": 578921.75,
         "eovY": 83205.06,
+        "eovZ": 325.05,
+        "reteg$mtol": 0,
         "reteg$mig": 3,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -85,8 +112,11 @@
         "jelszam": "4015",
         "eovX": 578921.75,
         "eovY": 83205.06,
+        "eovZ": 325.05,
+        "reteg$mtol": 3,
         "reteg$mig": 18,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -94,8 +124,11 @@
         "jelszam": "4015",
         "eovX": 578921.75,
         "eovY": 83205.06,
+        "eovZ": 325.05,
+        "reteg$mtol": 18,
         "reteg$mig": 83,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -103,8 +136,11 @@
         "jelszam": "4026",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 426.92,
+        "reteg$mtol": 0,
         "reteg$mig": 2,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -112,8 +148,11 @@
         "jelszam": "4026",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 426.92,
+        "reteg$mtol": 2,
         "reteg$mig": 36,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -121,8 +160,11 @@
         "jelszam": "4026",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 426.92,
+        "reteg$mtol": 36,
         "reteg$mig": 244,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -130,8 +172,11 @@
         "jelszam": "4026",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 426.92,
+        "reteg$mtol": 244,
         "reteg$mig": 295,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -139,8 +184,11 @@
         "jelszam": "4028",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 456.84,
+        "reteg$mtol": 0,
         "reteg$mig": 121.2,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -148,8 +196,11 @@
         "jelszam": "4028",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 456.84,
+        "reteg$mtol": 121.2,
         "reteg$mig": 237.3,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -157,8 +208,11 @@
         "jelszam": "4028",
         "eovX": 578702.28,
         "eovY": 83953.16,
+        "eovZ": 456.84,
+        "reteg$mtol": 237.3,
         "reteg$mig": 291.5,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -166,8 +220,11 @@
         "jelszam": "4035",
         "eovX": 578521.1,
         "eovY": 83902.21,
+        "eovZ": 410.06,
+        "reteg$mtol": 0,
         "reteg$mig": 5,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -175,8 +232,11 @@
         "jelszam": "4035",
         "eovX": 578521.1,
         "eovY": 83902.21,
+        "eovZ": 410.06,
+        "reteg$mtol": 5,
         "reteg$mig": 124.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -184,8 +244,11 @@
         "jelszam": "4035",
         "eovX": 578521.1,
         "eovY": 83902.21,
+        "eovZ": 410.06,
+        "reteg$mtol": 124.8,
         "reteg$mig": 182.4,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -193,8 +256,11 @@
         "jelszam": "4036",
         "eovX": 578569.78,
         "eovY": 83710.1,
+        "eovZ": 370.5,
+        "reteg$mtol": 0,
         "reteg$mig": 93,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -202,8 +268,11 @@
         "jelszam": "4036",
         "eovX": 578569.78,
         "eovY": 83710.1,
+        "eovZ": 370.5,
+        "reteg$mtol": 93,
         "reteg$mig": 152.5,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -211,8 +280,11 @@
         "jelszam": "4038",
         "eovX": 578733.08,
         "eovY": 83808.14,
+        "eovZ": 411.05,
+        "reteg$mtol": 0,
         "reteg$mig": 150.3,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -220,8 +292,11 @@
         "jelszam": "4038",
         "eovX": 578733.08,
         "eovY": 83808.14,
+        "eovZ": 411.05,
+        "reteg$mtol": 150.3,
         "reteg$mig": 208,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -229,8 +304,11 @@
         "jelszam": "4039",
         "eovX": 578964.32,
         "eovY": 83860.61,
+        "eovZ": 462.64,
+        "reteg$mtol": 0,
         "reteg$mig": 66.5,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -238,8 +316,11 @@
         "jelszam": "4039",
         "eovX": 578964.32,
         "eovY": 83860.61,
-        "reteg$mig": 200.1,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "eovZ": 462.64,
+        "reteg$mtol": 66.5,
+        "reteg$mig": 241.1,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -247,8 +328,11 @@
         "jelszam": "4039",
         "eovX": 578964.32,
         "eovY": 83860.61,
+        "eovZ": 462.64,
+        "reteg$mtol": 241.1,
         "reteg$mig": 261,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -256,8 +340,11 @@
         "jelszam": "4041",
         "eovX": 578612.73,
         "eovY": 83507.58,
+        "eovZ": 344.45,
+        "reteg$mtol": 0,
         "reteg$mig": 84,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -265,8 +352,11 @@
         "jelszam": "4041",
         "eovX": 578612.73,
         "eovY": 83507.58,
+        "eovZ": 344.45,
+        "reteg$mtol": 84,
         "reteg$mig": 156.2,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -274,8 +364,11 @@
         "jelszam": "4042",
         "eovX": 578993.7,
         "eovY": 83625.75,
+        "eovZ": 428.24,
+        "reteg$mtol": 0,
         "reteg$mig": 6,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -283,8 +376,11 @@
         "jelszam": "4042",
         "eovX": 578993.7,
         "eovY": 83625.75,
+        "eovZ": 428.24,
+        "reteg$mtol": 6,
         "reteg$mig": 27,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -292,8 +388,11 @@
         "jelszam": "4042",
         "eovX": 578993.7,
         "eovY": 83625.75,
+        "eovZ": 428.24,
+        "reteg$mtol": 27,
         "reteg$mig": 187,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -301,8 +400,11 @@
         "jelszam": "4042",
         "eovX": 578993.7,
         "eovY": 83625.75,
+        "eovZ": 428.24,
+        "reteg$mtol": 187,
         "reteg$mig": 204,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -310,8 +412,11 @@
         "jelszam": "4044",
         "eovX": 578640.67,
         "eovY": 83316.64,
+        "eovZ": 322.54,
+        "reteg$mtol": 0,
         "reteg$mig": 1.5,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -319,8 +424,11 @@
         "jelszam": "4044",
         "eovX": 578640.67,
         "eovY": 83316.64,
+        "eovZ": 322.54,
+        "reteg$mtol": 1.5,
         "reteg$mig": 43,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -328,8 +436,11 @@
         "jelszam": "4044",
         "eovX": 578640.67,
         "eovY": 83316.64,
+        "eovZ": 322.54,
+        "reteg$mtol": 43,
         "reteg$mig": 85.6,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -337,8 +448,11 @@
         "jelszam": "4045",
         "eovX": 578857.99,
         "eovY": 83364.95,
+        "eovZ": 345.06,
+        "reteg$mtol": 0,
         "reteg$mig": 4.3,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -346,8 +460,11 @@
         "jelszam": "4045",
         "eovX": 578857.99,
         "eovY": 83364.95,
+        "eovZ": 345.06,
+        "reteg$mtol": 4.3,
         "reteg$mig": 41.1,
-        "reteg$lito$nev": "Totvari Homokko Tagozat",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -355,17 +472,11 @@
         "jelszam": "4045",
         "eovX": 578857.99,
         "eovY": 83364.95,
-        "reteg$mig": 74.5,
-        "reteg$lito$nev": "Cserkuti Homokko Tagozat",
-        "oszt": 1
-    },
-    {
-        "id": 117712,
-        "jelszam": "4045",
-        "eovX": 578857.99,
-        "eovY": 83364.95,
+        "eovZ": 345.06,
+        "reteg$mtol": 74.5,
         "reteg$mig": 115.1,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -373,8 +484,11 @@
         "jelszam": "4046",
         "eovX": 578948.14,
         "eovY": 83386.43,
+        "eovZ": 367.7,
+        "reteg$mtol": 0,
         "reteg$mig": 111.5,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -382,8 +496,11 @@
         "jelszam": "4046",
         "eovX": 578948.14,
         "eovY": 83386.43,
+        "eovZ": 367.7,
+        "reteg$mtol": 111.5,
         "reteg$mig": 148,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -391,8 +508,11 @@
         "jelszam": "4047",
         "eovX": 579234.11,
         "eovY": 83465.8,
+        "eovZ": 471.13,
+        "reteg$mtol": 0,
         "reteg$mig": 9.8,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -400,8 +520,11 @@
         "jelszam": "4047",
         "eovX": 579234.11,
         "eovY": 83465.8,
+        "eovZ": 471.13,
+        "reteg$mtol": 9.8,
         "reteg$mig": 51,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -409,8 +532,11 @@
         "jelszam": "4047",
         "eovX": 579234.11,
         "eovY": 83465.8,
+        "eovZ": 471.13,
+        "reteg$mtol": 51,
         "reteg$mig": 248.4,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -418,8 +544,11 @@
         "jelszam": "4047",
         "eovX": 579234.11,
         "eovY": 83465.8,
+        "eovZ": 471.13,
+        "reteg$mtol": 248.4,
         "reteg$mig": 2.6E+2,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -427,8 +556,11 @@
         "jelszam": "4056",
         "eovX": 578502.39,
         "eovY": 83519.35,
+        "eovZ": 340.56,
+        "reteg$mtol": 0,
         "reteg$mig": 6,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -436,8 +568,11 @@
         "jelszam": "4056",
         "eovX": 578502.39,
         "eovY": 83519.35,
+        "eovZ": 340.56,
+        "reteg$mtol": 6,
         "reteg$mig": 62,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -445,8 +580,11 @@
         "jelszam": "4056",
         "eovX": 578502.39,
         "eovY": 83519.35,
+        "eovZ": 340.56,
+        "reteg$mtol": 62,
         "reteg$mig": 106.6,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -454,8 +592,11 @@
         "jelszam": "4057",
         "eovX": 578539.56,
         "eovY": 83390.13,
+        "eovZ": 327.34,
+        "reteg$mtol": 0,
         "reteg$mig": 7,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -463,8 +604,11 @@
         "jelszam": "4057",
         "eovX": 578539.56,
         "eovY": 83390.13,
+        "eovZ": 327.34,
+        "reteg$mtol": 7,
         "reteg$mig": 34,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -472,8 +616,11 @@
         "jelszam": "4057",
         "eovX": 578539.56,
         "eovY": 83390.13,
+        "eovZ": 327.34,
+        "reteg$mtol": 34,
         "reteg$mig": 9E+1,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -481,8 +628,11 @@
         "jelszam": "4058",
         "eovX": 578531.78,
         "eovY": 83802.27,
+        "eovZ": 386.01,
+        "reteg$mtol": 0,
         "reteg$mig": 91.2,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -490,8 +640,11 @@
         "jelszam": "4058",
         "eovX": 578531.78,
         "eovY": 83802.27,
+        "eovZ": 386.01,
+        "reteg$mtol": 91.2,
         "reteg$mig": 135,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -499,8 +652,11 @@
         "jelszam": "4059",
         "eovX": 578591.36,
         "eovY": 83605.45,
+        "eovZ": 356.68,
+        "reteg$mtol": 0,
         "reteg$mig": 4,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -508,8 +664,11 @@
         "jelszam": "4059",
         "eovX": 578591.36,
         "eovY": 83605.45,
+        "eovZ": 356.68,
+        "reteg$mtol": 4,
         "reteg$mig": 93.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -517,8 +676,11 @@
         "jelszam": "4059",
         "eovX": 578591.36,
         "eovY": 83605.45,
+        "eovZ": 356.68,
+        "reteg$mtol": 93.8,
         "reteg$mig": 146.8,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -526,8 +688,11 @@
         "jelszam": "4060",
         "eovX": 578628.26,
         "eovY": 83421.96,
-        "reteg$mig": 10,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "eovZ": 335.78,
+        "reteg$mtol": 0,
+        "reteg$mig": 1E+1,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -535,8 +700,11 @@
         "jelszam": "4060",
         "eovX": 578628.26,
         "eovY": 83421.96,
+        "eovZ": 335.78,
+        "reteg$mtol": 1E+1,
         "reteg$mig": 42.4,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -544,8 +712,11 @@
         "jelszam": "4060",
         "eovX": 578628.26,
         "eovY": 83421.96,
+        "eovZ": 335.78,
+        "reteg$mtol": 42.4,
         "reteg$mig": 71.9,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -553,8 +724,11 @@
         "jelszam": "4061",
         "eovX": 578570.78,
         "eovY": 83939.05,
+        "eovZ": 427.2,
+        "reteg$mtol": 0,
         "reteg$mig": 4,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -562,8 +736,11 @@
         "jelszam": "4061",
         "eovX": 578570.78,
         "eovY": 83939.05,
+        "eovZ": 427.2,
+        "reteg$mtol": 4,
         "reteg$mig": 47,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -571,8 +748,11 @@
         "jelszam": "4061",
         "eovX": 578570.78,
         "eovY": 83939.05,
+        "eovZ": 427.2,
+        "reteg$mtol": 47,
         "reteg$mig": 190.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -580,8 +760,11 @@
         "jelszam": "4061",
         "eovX": 578570.78,
         "eovY": 83939.05,
+        "eovZ": 427.2,
+        "reteg$mtol": 190.8,
         "reteg$mig": 223.9,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -589,8 +772,11 @@
         "jelszam": "4063",
         "eovX": 578645.07,
         "eovY": 83728.92,
+        "eovZ": 379.5,
+        "reteg$mtol": 0,
         "reteg$mig": 131.5,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -598,8 +784,11 @@
         "jelszam": "4063",
         "eovX": 578645.07,
         "eovY": 83728.92,
+        "eovZ": 379.5,
+        "reteg$mtol": 131.5,
         "reteg$mig": 191.6,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -607,8 +796,11 @@
         "jelszam": "4064",
         "eovX": 578676.42,
         "eovY": 83631.5,
+        "eovZ": 365.97,
+        "reteg$mtol": 0,
         "reteg$mig": 5,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -616,8 +808,11 @@
         "jelszam": "4064",
         "eovX": 578676.42,
         "eovY": 83631.5,
+        "eovZ": 365.97,
+        "reteg$mtol": 5,
         "reteg$mig": 92.5,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -625,8 +820,11 @@
         "jelszam": "4064",
         "eovX": 578676.42,
         "eovY": 83631.5,
+        "eovZ": 365.97,
+        "reteg$mtol": 92.5,
         "reteg$mig": 127.6,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -634,8 +832,11 @@
         "jelszam": "4065",
         "eovX": 578709.57,
         "eovY": 83541.21,
+        "eovZ": 344.95,
+        "reteg$mtol": 0,
         "reteg$mig": 97.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -643,8 +844,11 @@
         "jelszam": "4065",
         "eovX": 578709.57,
         "eovY": 83541.21,
+        "eovZ": 344.95,
+        "reteg$mtol": 97.8,
         "reteg$mig": 132.2,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -652,8 +856,11 @@
         "jelszam": "4066",
         "eovX": 578736.38,
         "eovY": 83435.2,
+        "eovZ": 331.74,
+        "reteg$mtol": 0,
         "reteg$mig": 49.6,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -661,8 +868,11 @@
         "jelszam": "4066",
         "eovX": 578736.38,
         "eovY": 83435.2,
+        "eovZ": 331.74,
+        "reteg$mtol": 49.6,
         "reteg$mig": 77.8,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -670,8 +880,11 @@
         "jelszam": "4067",
         "eovX": 578742.98,
         "eovY": 83343.66,
+        "eovZ": 319.24,
+        "reteg$mtol": 0,
         "reteg$mig": 1.5,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -679,8 +892,11 @@
         "jelszam": "4067",
         "eovX": 578742.98,
         "eovY": 83343.66,
+        "eovZ": 319.24,
+        "reteg$mtol": 1.5,
         "reteg$mig": 42,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -688,8 +904,11 @@
         "jelszam": "4067",
         "eovX": 578742.98,
         "eovY": 83343.66,
+        "eovZ": 319.24,
+        "reteg$mtol": 42,
         "reteg$mig": 87.4,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -697,8 +916,11 @@
         "jelszam": "4068",
         "eovX": 578700.87,
         "eovY": 83875.61,
+        "eovZ": 428.38,
+        "reteg$mtol": 0,
         "reteg$mig": 4,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -706,8 +928,11 @@
         "jelszam": "4068",
         "eovX": 578700.87,
         "eovY": 83875.61,
+        "eovZ": 428.38,
+        "reteg$mtol": 4,
         "reteg$mig": 37.5,
-        "reteg$lito$nev": "Jakabhegyi Homokko Formacio",
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
         "oszt": 1
     },
     {
@@ -715,8 +940,11 @@
         "jelszam": "4068",
         "eovX": 578700.87,
         "eovY": 83875.61,
+        "eovZ": 428.38,
+        "reteg$mtol": 37.5,
         "reteg$mig": 189.3,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -724,8 +952,11 @@
         "jelszam": "4068",
         "eovX": 578700.87,
         "eovY": 83875.61,
+        "eovZ": 428.38,
+        "reteg$mtol": 189.3,
         "reteg$mig": 2.2E+2,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -733,8 +964,11 @@
         "jelszam": "4069",
         "eovX": 578772.11,
         "eovY": 83680.36,
+        "eovZ": 372.1,
+        "reteg$mtol": 0,
         "reteg$mig": 112.7,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -742,8 +976,11 @@
         "jelszam": "4069",
         "eovX": 578772.11,
         "eovY": 83680.36,
+        "eovZ": 372.1,
+        "reteg$mtol": 112.7,
         "reteg$mig": 154.1,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -751,8 +988,11 @@
         "jelszam": "4070",
         "eovX": 578837.28,
         "eovY": 83451.78,
+        "eovZ": 358.28,
+        "reteg$mtol": 0,
         "reteg$mig": 94,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -760,8 +1000,11 @@
         "jelszam": "4070",
         "eovX": 578837.28,
         "eovY": 83451.78,
+        "eovZ": 358.28,
+        "reteg$mtol": 94,
         "reteg$mig": 134,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -769,8 +1012,11 @@
         "jelszam": "4071",
         "eovX": 578887.52,
         "eovY": 83265.98,
+        "eovZ": 329.21,
+        "reteg$mtol": 0,
         "reteg$mig": 4.3,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -778,8 +1024,11 @@
         "jelszam": "4071",
         "eovX": 578887.52,
         "eovY": 83265.98,
+        "eovZ": 329.21,
+        "reteg$mtol": 4.3,
         "reteg$mig": 33.4,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -787,8 +1036,11 @@
         "jelszam": "4071",
         "eovX": 578887.52,
         "eovY": 83265.98,
+        "eovZ": 329.21,
+        "reteg$mtol": 33.4,
         "reteg$mig": 73.6,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -796,8 +1048,11 @@
         "jelszam": "4072",
         "eovX": 578829.67,
         "eovY": 83807.64,
+        "eovZ": 428.19,
+        "reteg$mtol": 0,
         "reteg$mig": 2,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -805,8 +1060,11 @@
         "jelszam": "4072",
         "eovX": 578829.67,
         "eovY": 83807.64,
+        "eovZ": 428.19,
+        "reteg$mtol": 2,
         "reteg$mig": 199.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -814,8 +1072,11 @@
         "jelszam": "4072",
         "eovX": 578829.67,
         "eovY": 83807.64,
+        "eovZ": 428.19,
+        "reteg$mtol": 199.8,
         "reteg$mig": 233,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -823,8 +1084,11 @@
         "jelszam": "4073",
         "eovX": 578861.91,
         "eovY": 83696.35,
+        "eovZ": 387.16,
+        "reteg$mtol": 0,
         "reteg$mig": 170.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -832,8 +1096,11 @@
         "jelszam": "4073",
         "eovX": 578861.91,
         "eovY": 83696.35,
+        "eovZ": 387.16,
+        "reteg$mtol": 17.8,
         "reteg$mig": 183.9,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -841,8 +1108,11 @@
         "jelszam": "4074",
         "eovX": 578892.41,
         "eovY": 83609.3,
+        "eovZ": 397.02,
+        "reteg$mtol": 0,
         "reteg$mig": 1,
-        "reteg$lito$nev": "Holocen uledekek altalaban",
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
         "oszt": 1
     },
     {
@@ -850,8 +1120,11 @@
         "jelszam": "4074",
         "eovX": 578892.41,
         "eovY": 83609.3,
+        "eovZ": 397.02,
+        "reteg$mtol": 1,
         "reteg$mig": 144.8,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -859,8 +1132,11 @@
         "jelszam": "4074",
         "eovX": 578892.41,
         "eovY": 83609.3,
+        "eovZ": 397.02,
+        "reteg$mtol": 144.8,
         "reteg$mig": 186.8,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -868,8 +1144,11 @@
         "jelszam": "4075",
         "eovX": 578925.7,
         "eovY": 83480.12,
+        "eovZ": 402.34,
+        "reteg$mtol": 0,
         "reteg$mig": 161.2,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
         "oszt": 1
     },
     {
@@ -877,8 +1156,11 @@
         "jelszam": "4075",
         "eovX": 578925.7,
         "eovY": 83480.12,
+        "eovZ": 402.34,
+        "reteg$mtol": 161.2,
         "reteg$mig": 198.1,
-        "reteg$lito$nev": "Kovagotottosi Homokko Tagozat",
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     },
     {
@@ -886,8 +1168,467 @@
         "jelszam": "4077",
         "eovX": 578979.97,
         "eovY": 83284.08,
+        "eovZ": 347.2,
+        "reteg$mtol": 0,
         "reteg$mig": 50.7,
-        "reteg$lito$nev": "Cserkuti es Totvari Tagozat osszevontan",
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117739,
+        "jelszam": "4077",
+        "eovX": 578979.97,
+        "eovY": 83284.08,
+        "eovZ": 347.2,
+        "reteg$mtol": 50.7,
+        "reteg$mig": 80.5,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117767,
+        "jelszam": "4106",
+        "eovX": 579195.84,
+        "eovY": 83881.32,
+        "eovZ": 556.44,
+        "reteg$mtol": 0,
+        "reteg$mig": 186,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117767,
+        "jelszam": "4106",
+        "eovX": 579195.84,
+        "eovY": 83881.32,
+        "eovZ": 556.44,
+        "reteg$mtol": 186,
+        "reteg$mig": 367,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117767,
+        "jelszam": "4106",
+        "eovX": 579195.84,
+        "eovY": 83881.32,
+        "eovZ": 556.44,
+        "reteg$mtol": 367,
+        "reteg$mig": 407.3,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117774,
+        "jelszam": "4113",
+        "eovX": 578558.05,
+        "eovY": 83309.51,
+        "eovZ": 320.09,
+        "reteg$mtol": 0,
+        "reteg$mig": 2,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117774,
+        "jelszam": "4113",
+        "eovX": 578558.05,
+        "eovY": 83309.51,
+        "eovZ": 320.09,
+        "reteg$mtol": 2,
+        "reteg$mig": 31,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117774,
+        "jelszam": "4113",
+        "eovX": 578558.05,
+        "eovY": 83309.51,
+        "eovZ": 320.09,
+        "reteg$mtol": 31,
+        "reteg$mig": 81.1,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117775,
+        "jelszam": "4114",
+        "eovX": 578562.26,
+        "eovY": 83237.05,
+        "eovZ": 311.82,
+        "reteg$mtol": 0,
+        "reteg$mig": 2,
+        "reteg$lito$nev": "Talaj",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117775,
+        "jelszam": "4114",
+        "eovX": 578562.26,
+        "eovY": 83237.05,
+        "eovZ": 311.82,
+        "reteg$mtol": 2,
+        "reteg$mig": 6,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117775,
+        "jelszam": "4114",
+        "eovX": 578562.26,
+        "eovY": 83237.05,
+        "eovZ": 311.82,
+        "reteg$mtol": 6,
+        "reteg$mig": 57.7,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117776,
+        "jelszam": "4115",
+        "eovX": 578657.18,
+        "eovY": 83261.13,
+        "eovZ": 317.13,
+        "reteg$mtol": 0,
+        "reteg$mig": 5,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117776,
+        "jelszam": "4115",
+        "eovX": 578657.18,
+        "eovY": 83261.13,
+        "eovZ": 317.13,
+        "reteg$mtol": 5,
+        "reteg$mig": 51.4,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117778,
+        "jelszam": "4117",
+        "eovX": 578773.74,
+        "eovY": 83235.44,
+        "eovZ": 309.18,
+        "reteg$mtol": 0,
+        "reteg$mig": 35.8,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117794,
+        "jelszam": "4140",
+        "eovX": 578983.15,
+        "eovY": 83719.7,
+        "eovZ": 428.08,
+        "reteg$mtol": 0,
+        "reteg$mig": 5,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117794,
+        "jelszam": "4140",
+        "eovX": 578983.15,
+        "eovY": 83719.7,
+        "eovZ": 428.08,
+        "reteg$mtol": 5,
+        "reteg$mig": 28.5,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117794,
+        "jelszam": "4140",
+        "eovX": 578983.15,
+        "eovY": 83719.7,
+        "eovZ": 428.08,
+        "reteg$mtol": 28.5,
+        "reteg$mig": 2.1E+2,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117794,
+        "jelszam": "4140",
+        "eovX": 578983.15,
+        "eovY": 83719.7,
+        "eovZ": 428.08,
+        "reteg$mtol": 2.1E+2,
+        "reteg$mig": 232.5,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117795,
+        "jelszam": "4141",
+        "eovX": 579023.85,
+        "eovY": 83503.05,
+        "eovZ": 426.48,
+        "reteg$mtol": 0,
+        "reteg$mig": 19,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117795,
+        "jelszam": "4141",
+        "eovX": 579023.85,
+        "eovY": 83503.05,
+        "eovZ": 426.48,
+        "reteg$mtol": 19,
+        "reteg$mig": 182.5,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117795,
+        "jelszam": "4141",
+        "eovX": 579023.85,
+        "eovY": 83503.05,
+        "eovZ": 426.48,
+        "reteg$mtol": 182.5,
+        "reteg$mig": 215,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117796,
+        "jelszam": "4142",
+        "eovX": 579070.47,
+        "eovY": 83303.73,
+        "eovZ": 365.55,
+        "reteg$mtol": 0,
+        "reteg$mig": 8,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117796,
+        "jelszam": "4142",
+        "eovX": 579070.47,
+        "eovY": 83303.73,
+        "eovZ": 365.55,
+        "reteg$mtol": 8,
+        "reteg$mig": 106.5,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117796,
+        "jelszam": "4142",
+        "eovX": 579070.47,
+        "eovY": 83303.73,
+        "eovZ": 365.55,
+        "reteg$mtol": 106.5,
+        "reteg$mig": 129.5,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117802,
+        "jelszam": "4152",
+        "eovX": 579143.9,
+        "eovY": 83429.3,
+        "eovZ": 428.92,
+        "reteg$mtol": 0,
+        "reteg$mig": 194,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117802,
+        "jelszam": "4152",
+        "eovX": 579143.9,
+        "eovY": 83429.3,
+        "eovZ": 428.92,
+        "reteg$mtol": 194,
+        "reteg$mig": 227.9,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117829,
+        "jelszam": "4179",
+        "eovX": 579192.94,
+        "eovY": 83661.87,
+        "eovZ": 512.47,
+        "reteg$mtol": 0,
+        "reteg$mig": 2.5,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117829,
+        "jelszam": "4179",
+        "eovX": 579192.94,
+        "eovY": 83661.87,
+        "eovZ": 512.47,
+        "reteg$mtol": 2.5,
+        "reteg$mig": 131,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117829,
+        "jelszam": "4179",
+        "eovX": 579192.94,
+        "eovY": 83661.87,
+        "eovZ": 512.47,
+        "reteg$mtol": 131,
+        "reteg$mig": 316.5,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117829,
+        "jelszam": "4179",
+        "eovX": 579192.94,
+        "eovY": 83661.87,
+        "eovZ": 512.47,
+        "reteg$mtol": 316.5,
+        "reteg$mig": 353,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117840,
+        "jelszam": "4191",
+        "eovX": 579112.38,
+        "eovY": 83662.56,
+        "eovZ": 471.37,
+        "reteg$mtol": 0,
+        "reteg$mig": 3,
+        "reteg$lito$nev": "Holocén üledékek általában",
+        "reteg$lito$geo": "Qh",
+        "oszt": 1
+    },
+    {
+        "id": 117840,
+        "jelszam": "4191",
+        "eovX": 579112.38,
+        "eovY": 83662.56,
+        "eovZ": 471.37,
+        "reteg$mtol": 3,
+        "reteg$mig": 85,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117840,
+        "jelszam": "4191",
+        "eovX": 579112.38,
+        "eovY": 83662.56,
+        "eovZ": 471.37,
+        "reteg$mtol": 85,
+        "reteg$mig": 266,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117840,
+        "jelszam": "4191",
+        "eovX": 579112.38,
+        "eovY": 83662.56,
+        "eovZ": 471.37,
+        "reteg$mtol": 266,
+        "reteg$mig": 283.4,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117872,
+        "jelszam": "4225",
+        "eovX": 579032.66,
+        "eovY": 83425.85,
+        "eovZ": 400.31,
+        "reteg$mtol": 0,
+        "reteg$mig": 158,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117872,
+        "jelszam": "4225",
+        "eovX": 579032.66,
+        "eovY": 83425.85,
+        "eovZ": 400.31,
+        "reteg$mtol": 158,
+        "reteg$mig": 186.3,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
+        "oszt": 1
+    },
+    {
+        "id": 117873,
+        "jelszam": "4226",
+        "eovX": 578889.92,
+        "eovY": 83893.47,
+        "eovZ": 463.29,
+        "reteg$mtol": 0,
+        "reteg$mig": 74,
+        "reteg$lito$nev": "Jakabhegyi Homokkő Formáció",
+        "reteg$lito$geo": "jT1",
+        "oszt": 1
+    },
+    {
+        "id": 117873,
+        "jelszam": "4226",
+        "eovX": 578889.92,
+        "eovY": 83893.47,
+        "eovZ": 463.29,
+        "reteg$mtol": 74,
+        "reteg$mig": 251.8,
+        "reteg$lito$nev": "Cserkúti és Tótvári Tagozat összevontan",
+        "reteg$lito$geo": "k_c-tP3-T1",
+        "oszt": 1
+    },
+    {
+        "id": 117873,
+        "jelszam": "4226",
+        "eovX": 578889.92,
+        "eovY": 83893.47,
+        "eovZ": 463.29,
+        "reteg$mtol": 251.8,
+        "reteg$mig": 273.8,
+        "reteg$lito$nev": "Kővágótöttösi Homokkő Tagozat",
+        "reteg$lito$geo": "k_kP3",
         "oszt": 1
     }
 ]

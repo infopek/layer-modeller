@@ -1,0 +1,9 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include "plotting.h"
+#include "variogram.h"
+#include "initialization.h"
+#include "kriging_cpu.h"
+#include "models/point.h"
+std::vector<std::vector<Point>> interpolate();

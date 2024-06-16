@@ -108,6 +108,7 @@
         "__split_buffer": "cpp",
         "__tree": "cpp",
         "string_view": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "codecvt": "cpp"
     }
 }

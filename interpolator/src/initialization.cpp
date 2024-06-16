@@ -129,43 +129,43 @@ void readObservationDataFromJson(std::map<std::string, LithologyData>& lithology
         // Further processing like interpolation and certainty computation would go here
     }
 }
-void readTiff() {
-    GDALDataset* poDataset;
+// void readTiff() {
+//     GDALDataset* poDataset;
 
-    GDALAllRegister(); // Register all GDAL drivers
+//     GDALAllRegister(); // Register all GDAL drivers
 
-    // Open the dataset
-    poDataset = (GDALDataset*)GDALOpen("Pecs_DTM_1m_EOV.tif", GA_ReadOnly);
-    if (poDataset == NULL) {
-        std::cerr << "GDAL Open failed" << std::endl;
-    }
+//     // Open the dataset
+//     poDataset = (GDALDataset*)GDALOpen("Pecs_DTM_1m_EOV.tif", GA_ReadOnly);
+//     if (poDataset == NULL) {
+//         std::cerr << "GDAL Open failed" << std::endl;
+//     }
 
-    // Get raster dimensions
-    int nXSize = poDataset->GetRasterXSize();
-    int nYSize = poDataset->GetRasterYSize();
+//     // Get raster dimensions
+//     int nXSize = poDataset->GetRasterXSize();
+//     int nYSize = poDataset->GetRasterYSize();
 
-    std::cout << "Dimensions: " << nXSize << " x " << nYSize << std::endl;
+//     std::cout << "Dimensions: " << nXSize << " x " << nYSize << std::endl;
 
-    // Get geotransformation
-    double adfGeoTransform[6];
-    if (poDataset->GetGeoTransform(adfGeoTransform) == CE_None) {
-        std::cout << "Origin = (" << adfGeoTransform[0] << ", " << adfGeoTransform[3] << ")" << std::endl;
-        std::cout << "End = (" << adfGeoTransform[2] << ", " << adfGeoTransform[4] << ")" << std::endl;
-        std::cout << "Pixel Size = (" << adfGeoTransform[1] << ", " << adfGeoTransform[5] << ")" << std::endl;
-    }
-    for (auto geo : adfGeoTransform) {
-        std::cout << geo << std::endl;
-    }
-    // Getting the metadata
-    char** papszMetadata;
-    papszMetadata = poDataset->GetMetadata(NULL);
-    if (papszMetadata != NULL) {
-        for (int i = 0; papszMetadata[i] != NULL; ++i) {
-            std::cout << papszMetadata[i] << std::endl;
-        }
-    }
+//     // Get geotransformation
+//     double adfGeoTransform[6];
+//     if (poDataset->GetGeoTransform(adfGeoTransform) == CE_None) {
+//         std::cout << "Origin = (" << adfGeoTransform[0] << ", " << adfGeoTransform[3] << ")" << std::endl;
+//         std::cout << "End = (" << adfGeoTransform[2] << ", " << adfGeoTransform[4] << ")" << std::endl;
+//         std::cout << "Pixel Size = (" << adfGeoTransform[1] << ", " << adfGeoTransform[5] << ")" << std::endl;
+//     }
+//     for (auto geo : adfGeoTransform) {
+//         std::cout << geo << std::endl;
+//     }
+//     // Getting the metadata
+//     char** papszMetadata;
+//     papszMetadata = poDataset->GetMetadata(NULL);
+//     if (papszMetadata != NULL) {
+//         for (int i = 0; papszMetadata[i] != NULL; ++i) {
+//             std::cout << papszMetadata[i] << std::endl;
+//         }
+//     }
 
-    // Close the dataset
-    GDALClose(poDataset);
+//     // Close the dataset
+//     GDALClose(poDataset);
 
-}
+// }

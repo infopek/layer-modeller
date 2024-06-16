@@ -7,13 +7,12 @@
 #include <string>
 #include <iostream>
 #include <tuple>
-#include <gdal_priv.h>
 
 using json = nlohmann::json;
 
 void readObservationDataFromJson(std::map<std::string, LithologyData>& lithologyMap, std::string path, int* maxX, int* maxY);
 std::string replaceAccents(const std::string& input);
-void readTiff();
+// void readTiff();
 //void readObservationDataFromJson(std::map<std::string, LithologyData>& lithologyMap,std::string path, int* maxX, int* maxY, double* scaleFactor);
 //std::string replaceAccents(const std::string& input);
 //void readTiff(int& minX, int& minY, int& maxX, int& maxY);

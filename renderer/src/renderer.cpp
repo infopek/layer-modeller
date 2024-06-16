@@ -35,6 +35,12 @@ void Renderer::addMeshes(const std::vector<Mesh>& meshes)
         {"comp2", render::blue},
         {"comp3", render::brown},
         {"comp4", render::green},
+        {"comp5", render::purple}, 
+        {"comp6", render::orange},
+        {"comp7", render::yellow}, 
+        {"comp8", render::cyan},    
+        {"comp9", render::magenta}, 
+        {"comp10", render::lime},   
     };
 
     m_meshes = meshes;
