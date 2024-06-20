@@ -30,6 +30,7 @@ void ModellerSet::init()
     const auto& layers = m_layerBuilder.getLayers();
 
     m_meshes.resize(layers.size());
+    m_extrudedMeshes.resize(layers.size());
     for (size_t i = 0; i < layers.size(); i++)
         m_meshes[i].layer = layers[i];
 }
@@ -94,6 +95,7 @@ void ModellerSet::createMeshes()
     for (size_t i = 0; i < m_meshes.size(); ++i)
     {
         // References
+        std::cout << "hi\n";
         const auto& points3d = m_meshes[i].layer.points;
         auto& dt = m_meshes[i].dt;
         auto& surfaceMesh = m_meshes[i].surfaceMesh;
@@ -131,6 +133,7 @@ void ModellerSet::createMeshes()
 
             surfaceMesh.add_face(vi0, vi1, vi2);
         }
+        std::cout << "ha\n";
 
         // Extrude surface
         Vector3 extrudeVector(0.0, 0.0, -150.0);
@@ -138,21 +141,21 @@ void ModellerSet::createMeshes()
 
         // Repair mesh
         processMesh(layerBody);
-        m_extrudedMeshes.push_back(layerBody);
+        m_extrudedMeshes[i] = layerBody;
 
         // Perform set operations on meshes
         if (i > 0)
         {
             SurfaceMesh result{};
             bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i - 1], result);
-            layerBody = result;
+            layerBody = std::move(result);
             if (validDifference)
             {
-                std::cout << "The difference is valid";
+                std::cout << "The difference is valid\n";
             }
             else
             {
-                std::cout << "The difference is not valid";
+                std::cout << "The difference is not valid\n";
             }
         }
     }
