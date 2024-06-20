@@ -1,14 +1,15 @@
 #include "variogram.h"
 #include <algorithm>
 #include <iostream>
+#include <models/point.h>
 
-void calculateValuesCPU(int n, double* D, double* S, std::vector<DataPoint> points) {
+void calculateValuesCPU(int n, double* D, double* S, std::vector<Point> points) {
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = 0; j < n; ++j) {  // compare every point with every other point
             double dx = (double)(points[i].x - points[j].x);
             double dy = (double)(points[i].y - points[j].y);
             D[i * n + j] = std::sqrt(dx * dx + dy * dy);  // distance calculation
-            S[i * n + j] = 0.5 * std::pow(points[i].value - points[j].value, 2);  // squared difference
+            S[i * n + j] = 0.5 * std::pow(points[i].z - points[j].z, 2);  // squared difference
         }
     }
 }
@@ -21,11 +22,11 @@ void calculateValuesCPU(int n, double* D, double* S, std::vector<DataPoint> poin
 //        double dx = (double)(points[i].x - points[j].x);
 //        double dy = (double)(points[i].y - points[j].y);
 //        D[index] = std::sqrt(dx * dx + dy * dy);
-//        S[index] = 0.5 * std::pow(points[i].value - points[j].value, 2);
+//        S[index] = 0.5 * std::pow(points[i].z - points[j].z, 2);
 //    }
 //}
 
-void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogramData) { 
+void createVariogram(std::vector<Point>* points, EmpiricalVariogram* variogramData) { 
     int n = points->size();
     int N = n * (n + 1) / 2;
     std::vector<int> I(N);

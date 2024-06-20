@@ -1,12 +1,15 @@
 
+#pragma once
 #include <eigen3/Eigen/Dense>
+#include <models/point.h>
+#include <models/lithologyData.h>
 #include "models.h"
 
-Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<DataPoint>* observedData, TheoreticalParam param);
+Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<Point>* observedData, TheoreticalParam param);
 
-KrigingOutput kriging(const std::vector<DataPoint>* observedData, TheoreticalParam param, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY);
+KrigingOutput kriging(const std::vector<Point>* observedData, TheoreticalParam param, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY);
 
-void createInterpolation(const std::vector<DataPoint>* observedData, TheoreticalParam param, Eigen::MatrixXd* krigingOutput, Eigen::MatrixXd* krigingCertainty, int maxX, int maxY);
+void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, BoundingRectangle* boundingRect);
 
 double computeConditionNumber(const Eigen::MatrixXd& R) ;
 

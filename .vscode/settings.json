@@ -109,6 +109,9 @@
         "__tree": "cpp",
         "string_view": "cpp",
         "__locale": "cpp",
-        "codecvt": "cpp"
+        "codecvt": "cpp",
+        "*.txx": "cpp",
+        "dense": "cpp",
+        "__bit_reference": "cpp"
     }
 }

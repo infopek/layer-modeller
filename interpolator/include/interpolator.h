@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -6,4 +7,6 @@
 #include "initialization.h"
 #include "kriging_cpu.h"
 #include "models/point.h"
-std::vector<std::vector<Point>> interpolate();
+#include <models/lithologyData.h>
+#include "models.h"
+std::map<std::string, LithologyData> interpolate();

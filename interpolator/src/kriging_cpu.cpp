@@ -1,8 +1,7 @@
 #include "kriging_cpu.h"
-#include "kriging_utilities.cuh"
 #include <iostream>
 
-Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<DataPoint>* observedData, TheoreticalParam param) {
+Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<Point>* observedData, TheoreticalParam param) {
     int n = observedData->size();
     Eigen::MatrixXd covMatrix(n, n);
     auto nugget = param.nugget;
@@ -18,7 +17,7 @@ Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<DataPoint>* observed
     }
     return covMatrix;
 }
-KrigingOutput kriging(const std::vector<DataPoint>* observedData, TheoreticalParam param, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY) {
+KrigingOutput kriging(const std::vector<Point>* observedData, TheoreticalParam param, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY) {
     int n = observedData->size();
     Eigen::VectorXd k(n);
     auto nugget = param.nugget;
@@ -31,15 +30,15 @@ KrigingOutput kriging(const std::vector<DataPoint>* observedData, TheoreticalPar
     Eigen::VectorXd weights = luCovMatrix.solve(k);
     double estimatedValue = 0.0;
     for (int i = 0; i < n; ++i) {
-        estimatedValue += weights(i) * observedData->at(i).value;
+        estimatedValue += weights(i) * observedData->at(i).z;
     }
     KrigingOutput output;
     output.value = estimatedValue;
-    output.certainty = sqrt((weights.transpose() * k)[0]);
+    //output.certainty = sqrt((weights.transpose() * k)[0]);
     return output;
 }
-void createInterpolation(const std::vector<DataPoint>* observedData, TheoreticalParam param, Eigen::MatrixXd* krigingOutput, Eigen::MatrixXd* krigingCertainty, int maxX, int maxY) {
-    Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(observedData, param);
+void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, BoundingRectangle* boundingRect) {
+    Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(observedData, lithoData->theoreticalParam);
     int n = observedData->size();
 
     double condR = computeConditionNumber(covMatrix);
@@ -47,13 +46,18 @@ void createInterpolation(const std::vector<DataPoint>* observedData, Theoretical
 
     double kmax = pow(condR, 2) * 100;
     std::cout << "Kmax: " << kmax << std::endl;
-    Eigen::MatrixXd regularizedCovMatrix = ridgeRegression(covMatrix, kmax );
+    Eigen::MatrixXd regularizedCovMatrix =  ridgeRegression(covMatrix, kmax );
     Eigen::FullPivLU<Eigen::MatrixXd> luCovMatrix = regularizedCovMatrix.fullPivLu();
-    for (double i = 0, nRows = krigingOutput->rows(), nCols = krigingOutput->cols(); i < nRows; ++i) {
+    double xScale=(boundingRect->maxX-boundingRect->minX)/100;
+    double yScale=(boundingRect->maxY-boundingRect->minY)/100;
+    for (double i = 0, nRows = 100, nCols = 100; i < nRows; ++i) {
         for (double j = 0; j < nCols; ++j) {
-            KrigingOutput output= kriging(observedData, param, luCovMatrix, (i / nRows) * maxX, (j / nCols) * maxY);
-            (*krigingOutput)((int)j, (int)i) = output.value;
-            (*krigingCertainty)((int)j, (int)i) = output.certainty;
+            double realY=boundingRect->minY+i*yScale;
+            double realX=boundingRect->minX+j*xScale;
+            KrigingOutput output= kriging(observedData, lithoData->theoreticalParam, luCovMatrix, realX,realY);
+            Point pointValue(realX,realY,output.value);
+            Point pointCertainty(realX,realY,output.certainty);
+            lithoData->interpolatedData.push_back(pointValue);
         }
     }
 }

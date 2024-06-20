@@ -31,16 +31,16 @@ void Renderer::init()
 void Renderer::addMeshes(const std::vector<Mesh>& meshes)
 {
     std::unordered_map<std::string, render::Color> colorMap{
-        {"comp1", render::red},
-        {"comp2", render::blue},
-        {"comp3", render::brown},
-        {"comp4", render::green},
-        {"comp5", render::purple}, 
-        {"comp6", render::orange},
-        {"comp7", render::yellow}, 
-        {"comp8", render::cyan},    
-        {"comp9", render::magenta}, 
-        {"comp10", render::lime},   
+        {"comp0", render::red},
+        {"comp1", render::blue},
+        {"comp2", render::brown},
+        {"comp3", render::green},
+        {"comp4", render::purple}, 
+        {"comp5", render::orange},
+        {"comp6", render::yellow}, 
+        {"comp7", render::cyan},    
+        {"comp8", render::magenta}, 
+        {"comp9", render::lime},   
     };
 
     m_meshes = meshes;

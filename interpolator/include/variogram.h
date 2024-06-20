@@ -1,3 +1,4 @@
+#pragma once
 #include <functional>
 #include <gsl/gsl_fit.h>
 #include <gsl/gsl_multifit_nlinear.h>
@@ -8,15 +9,13 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_blas.h>
 #include "kriging_utilities.cuh"
-#include "cuda.h"
-#ifndef __CUDACC__ 
-#define __CUDACC__
-#endif
+#include <models/point.h>
+#include <models/lithologyData.h>
 //__global__ void calculateValues(int n, float* D, float* S, const DataPoint* points);
 
-static void calculateValuesCPU(int n,  double* D, double* S, std::vector<DataPoint>  points);
+static void calculateValuesCPU(int n,  double* D, double* S, std::vector<Point>  points);
 
-void createVariogram(std::vector<DataPoint>* points, EmpiricalVariogram* variogramData);
+void createVariogram(std::vector<Point>* points, EmpiricalVariogram* variogramData);
 
 void callback(const size_t iter, void* params, const gsl_multifit_nlinear_workspace* w);
 

@@ -1,7 +1,7 @@
 #include "kriging_gpu.cuh"
 #include "kriging_utilities.cuh"
 
-__global__ void calculateCovarianceMatrix(const DataPoint* observedData,int n,  double* covMatrix, TheoreticalParam param) {
+__global__ void calculateCovarianceMatrix(const Point* observedData,int n,  double* covMatrix, TheoreticalParam param) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int i = idx / n;
     int j = idx % n;
@@ -11,11 +11,11 @@ __global__ void calculateCovarianceMatrix(const DataPoint* observedData,int n,  
         
     } 
 }
-__device__ void runFunctionOnData(size_t n, double* K, const DataPoint* observedData, TheoreticalParam param, double targetX, double targetY) {
+__device__ void runFunctionOnData(size_t n, double* K, const Point* observedData, TheoreticalParam param, double targetX, double targetY) {
     size_t j = threadIdx.x;
 
 }
-__device__ void calculateVariance(const DataPoint* observedData, size_t row, size_t col, double* calculations, int dataSize, TheoreticalParam param) {
+__device__ void calculateVariance(const Point* observedData, size_t row, size_t col, double* calculations, int dataSize, TheoreticalParam param) {
     for (size_t i = 0; i < dataSize; ++i) {
         double h = std::sqrt(std::pow(observedData[i].x -(int)row, 2) + std::pow(observedData[i].y - (int)col, 2));
         calculations[i]=param.nugget + param.sill * (1.0 - exp(-((h * h) / (param.range * param.range))));
@@ -29,12 +29,12 @@ __device__ void solveForVari(double* covMxDecomposed, double* calculations, int 
         calculations[i] = (calculations[i] - s) / covMxDecomposed[i*dataSize+i];
     }
 }
-__device__ void estimation(double* d_krigingOutput,const DataPoint* observedData, size_t row, size_t col, double* calculations, int dataSize,size_t pitch) {
+__device__ void estimation(double* d_krigingOutput,const Point* observedData, size_t row, size_t col, double* calculations, int dataSize,size_t pitch) {
     for (size_t i = 0; i < dataSize; ++i)
-        ((double*)((char*)d_krigingOutput + row * pitch))[col]  += calculations[i] * observedData[i].value;
+        ((double*)((char*)d_krigingOutput + row * pitch))[col]  += calculations[i] * observedData[i].z;
 }
 
-__global__ void estimateValue(double* d_krigingOutput, const size_t size,size_t outputPitch, const DataPoint* observedData, double* covMatrixLLT, const size_t dataSize, TheoreticalParam param, cudaPitchedPtr d_calculationsMx) {
+__global__ void estimateValue(double* d_krigingOutput, const size_t size,size_t outputPitch, const Point* observedData, double* covMatrixLLT, const size_t dataSize, TheoreticalParam param, cudaPitchedPtr d_calculationsMx) {
     unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int row = idx / size;
     int col = idx % size;
@@ -52,13 +52,13 @@ __global__ void estimateValue(double* d_krigingOutput, const size_t size,size_t 
 
 }
 
-void createInterpolationGPU(const std::vector<DataPoint>* observedData, TheoreticalParam param, double** krigingOutput, size_t maxX, size_t maxY, size_t size) {
+void createInterpolationGPU(const std::vector<Point>* observedData, TheoreticalParam param, double** krigingOutput, size_t maxX, size_t maxY, size_t size) {
     cudaError_t cudaError;
     size_t observedDataSize = observedData->size();
 
-    DataPoint* d_observedData = nullptr;
-    cudaMalloc((void**)&d_observedData, sizeof(DataPoint) * observedDataSize);
-    checkCudaErrors(cudaMemcpy(d_observedData, observedData->data(), sizeof(DataPoint) * observedDataSize, cudaMemcpyHostToDevice));
+    Point* d_observedData = nullptr;
+    cudaMalloc((void**)&d_observedData, sizeof(Point) * observedDataSize);
+    checkCudaErrors(cudaMemcpy(d_observedData, observedData->data(), sizeof(Point) * observedDataSize, cudaMemcpyHostToDevice));
     double* d_covMatrix = nullptr;
     size_t cpitch=0;
     checkCudaErrors(cudaMalloc((void**)&d_covMatrix, observedDataSize * sizeof(double)*observedDataSize));

@@ -43,21 +43,17 @@ LayerBuilder::~LayerBuilder()
 
 void LayerBuilder::buildLayers()
 {
-    std::vector<std::vector<Point>> allPoints = interpolate();
-    m_numLayers=allPoints.size();
+    std::map<std::string, LithologyData> allLayers = interpolate();
+    m_numLayers=allLayers.size();
     m_layers.clear();
     m_layers.resize(m_numLayers);
-
-    for(int i = 0; i < m_numLayers; ++i)
-    {
-        m_layers[i].points.resize(allPoints[i].size());
+    int i=0;
+    for (auto it = allLayers.begin(); it != allLayers.end(); ++it) {
+        auto& data = it->second;
+        m_layers[i].points.resize(data.interpolatedData.size());
         m_layers[i].composition = "comp" + std::to_string(i);
-        
-        for (size_t j = 0; j < allPoints[i].size(); ++j)
-        {
-            m_layers[i].points[j] = Point{ allPoints[i][j].x, allPoints[i][j].y, allPoints[i][j].z };
-            //std::cout << "x: " << m_layers[i].points[j].x << " y: " << m_layers[i].points[j].y << " z: " << m_layers[i].points[j].z << std::endl;
-        }
+         std::copy(data.interpolatedData.begin(), data.interpolatedData.end(), m_layers[i].points.begin());
+        i++;
     }
     
     // normalizer.normalize(allPoints);    // normalize

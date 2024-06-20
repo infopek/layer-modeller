@@ -1,8 +1,9 @@
 #include "plotting.h"
 
+
 using std::filesystem::current_path;
 
-void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<DataPoint>* data, int maxX, int maxY) {
+void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY) {
     std::string min_val = std::to_string(matrix.minCoeff());
     std::string max_val = std::to_string(matrix.maxCoeff());
     std::string dirPath = getDir(formation);
@@ -12,7 +13,7 @@ void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string 
     double mxSize = static_cast<int>(matrix.rows());
     std::ofstream pointsFile(dirPath + "/matrix_observed_points.txt");
     for (const auto& point : (*data)) {
-        pointsFile << ((double)point.x / maxX) * mxSize << " " << ((double)point.y / maxY) * mxSize << " " << point.value << "\n";
+        pointsFile << ((double)point.x / maxX) * mxSize << " " << ((double)point.y / maxY) * mxSize << " " << point.z << "\n";
     }
     pointsFile.close();
 

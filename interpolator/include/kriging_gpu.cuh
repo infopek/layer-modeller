@@ -1,3 +1,4 @@
+#pragma once
 #include <cuda_runtime.h>
 #include "device_launch_parameters.h"
 #include <assert.h>
@@ -29,7 +30,7 @@
 #include <eigen3/Eigen/Dense>
 #include "models.h"
 #include "cuda.h"
-#include "lu_decomposition.cuh"
 #include "cusolverDn.h"
+#include <models/point.h>
 
-void createInterpolationGPU(const std::vector<DataPoint>* observedData, TheoreticalParam param, double** krigingOutput, size_t maxX, size_t maxY, size_t size);
+void createInterpolationGPU(const std::vector<Point>* observedData, TheoreticalParam param, double** krigingOutput, size_t maxX, size_t maxY, size_t size);
