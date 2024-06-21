@@ -10,12 +10,13 @@
 LayerBuilder::LayerBuilder(const std::string& regionName)
     : m_regionName{ regionName }
 {
+
 }
 
 LayerBuilder::LayerBuilder(const std::vector<Point>& points)
 {
 
-    buildLayers();
+    // buildLayers();
     // m_layers[0].points = points;
     // m_layers[0].composition = "comp1";
 
@@ -33,7 +34,7 @@ LayerBuilder::LayerBuilder(const std::vector<Point>& points)
     // m_layers[3].composition = "comp4";
     // for (size_t i = 0; i < points.size(); i++)
     //     m_layers[3].points[i] = Point{ points[i].x, points[i].y, (points[i].z + rand() % 9) + 110.0 };
-        
+
 }
 
 LayerBuilder::~LayerBuilder()
@@ -44,18 +45,18 @@ LayerBuilder::~LayerBuilder()
 void LayerBuilder::buildLayers()
 {
     std::map<std::string, LithologyData> allLayers = interpolate();
-    m_numLayers=allLayers.size();
+    m_numLayers = allLayers.size();
     m_layers.clear();
     m_layers.resize(m_numLayers);
-    int i=0;
+    int i = 0;
     for (auto it = allLayers.begin(); it != allLayers.end(); ++it) {
         auto& data = it->second;
         m_layers[i].points.resize(data.interpolatedData.size());
         m_layers[i].composition = "comp" + std::to_string(i);
-         std::copy(data.interpolatedData.begin(), data.interpolatedData.end(), m_layers[i].points.begin());
+        std::copy(data.interpolatedData.begin(), data.interpolatedData.end(), m_layers[i].points.begin());
         i++;
     }
-    
+
     // normalizer.normalize(allPoints);    // normalize
     // layerize(allPoints);
 }
