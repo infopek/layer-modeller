@@ -41,6 +41,7 @@ find_package(VTK COMPONENTS
   IOXML)
 
 find_package(GSL REQUIRED)
+find_package(GDAL CONFIG REQUIRED)
 find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
@@ -58,6 +59,7 @@ endmacro()
 add_subdirectory(common)
 
 add_subdirectory(geo-tiff)
+add_subdirectory(normalization)
 add_subdirectory(interpolator)
 add_subdirectory(layer-builder)
 add_subdirectory(mesh-generator)

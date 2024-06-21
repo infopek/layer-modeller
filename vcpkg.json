@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "cgal",
+    "gdal",
     "eigen3",
     "gsl",
     "nlohmann-json",
