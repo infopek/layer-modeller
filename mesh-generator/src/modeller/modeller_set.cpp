@@ -133,7 +133,7 @@ void ModellerSet::createMeshes()
         }
 
         // Extrude surface
-        Vector3 extrudeVector(0.0, 0.0, -150.0);
+        Vector3 extrudeVector(0.0, 0.0, -350.0);
         CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
 
         // Repair mesh

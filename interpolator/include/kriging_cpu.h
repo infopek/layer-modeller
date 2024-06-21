@@ -9,7 +9,7 @@ Eigen::MatrixXd calculateCovarianceMatrix(const std::vector<Point>* observedData
 
 KrigingOutput kriging(const std::vector<Point>* observedData, TheoreticalParam param, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY);
 
-void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, BoundingRectangle* boundingRect);
+void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, InterpolatedArea* area);
 
 double computeConditionNumber(const Eigen::MatrixXd& R) ;
 
