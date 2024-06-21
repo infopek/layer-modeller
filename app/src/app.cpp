@@ -2,7 +2,7 @@
 #include <modeller/modeller_set.h>
 #include <renderer.h>
 // #include <kriging_cpu.h>
-// #include <blur/blur.h>
+#include <blur/blur.h>
 
 #include <opencv2/opencv.hpp>
 
@@ -74,29 +74,42 @@ static std::vector<Point> generatePoints(const std::string& filename)
     return points;
 }
 
-// static void tiffToImage(const std::string& filepath)
-// {
-//     cv::Mat tiffImage = cv::imread(filepath, cv::IMREAD_UNCHANGED);
+static void tiffToImage(const std::string& inputPath, const std::string& outputPath)
+{
+    cv::Mat tiffImage = cv::imread(inputPath, cv::IMREAD_UNCHANGED);
+    cv::imwrite(outputPath, tiffImage);
+}
 
-//     std::string outputFile = "../../../res/intermediate/tiff_png.png";
-//     cv::imwrite(outputFile, tiffImage);
-// }
+static std::vector<Point> processTiff(const std::string& tiffImagePath)
+{
+    cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
+    Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
+    Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
 
-// static void processTiff(const std::string& tiffImagePath)
-// {
-//     cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
-//     Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
-//     Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
-//     cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
-// }
+    std::vector<Point> points{};
+    points.reserve(blurred.rows * blurred.cols);
+    for (int y = 0; y < blurred.rows; ++y)
+    {
+        for (int x = 0; x < blurred.cols; ++x)
+        {
+            uchar z = blurred.at<uchar>(y, x);
+
+            points.emplace_back(x, y, z);
+        }
+    }
+
+    cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
+    return points;
+}
 
 int main(int argc, char* argv[])
 {
-    // tiffToImage("../../../res/tiff/earthdata_1.tif");
-    // processTiff("../../../res/intermediate/tiff_png.png");
+    tiffToImage("../../../res/tiff/earthdata_1.tif", "../../../res/intermediate/tiff_png.png");
+    auto points = processTiff("../../../res/intermediate/tiff_png.png");
+
 
     // Get points(from interpolator ? )
-    std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
+    // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
 
     // std::vector<Triangulation> triangulations{};
     // triangulations.reserve(6);
@@ -113,21 +126,22 @@ int main(int argc, char* argv[])
     //     triangulations.push_back(triangulation);
     // }
 
-    LayerBuilder layerBuilder(points);
+    // // LayerBuilder layerBuilder(points);
+    // LayerBuilder layerBuilder("region");
 
-    ModellerSet modeller(layerBuilder);
-    modeller.createMeshes();
+    // ModellerSet modeller(layerBuilder);
+    // modeller.createMeshes();
 
-    Renderer renderer{};
-    renderer.addMeshes(modeller.getMeshes());
+    // Renderer renderer{};
+    // renderer.addMeshes(modeller.getMeshes());
 
-    // Describe what you want to be rendered
-    renderer.prepareEdges();
-    renderer.prepareSurfaces();
-    renderer.prepareLayerBody();
+    // // Describe what you want to be rendered
+    // renderer.prepareEdges();
+    // renderer.prepareSurfaces();
+    // renderer.prepareLayerBody();
 
-    // Render
-    renderer.render();
+    // // Render
+    // renderer.render();
 
     return 0;
 }
