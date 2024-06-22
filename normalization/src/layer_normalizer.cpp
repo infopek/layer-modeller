@@ -1,7 +1,7 @@
-#include "layer_normalizer.h"
+#include <layer_normalizer.h>
 
-void resolveCrossingLayers(std::map<std::string, LithologyData>& lithologyMap){
-    std::vector<std::string> seq = {"Qh","jT1", "k_c-tP3-T1",  "k_kP3"};//{"talaj","kisberi","csatkai","szoci","rudolfhazi","kisgyoni","ganti"};//
+void resolveCrossingLayers(std::map<std::string, LithologyData>& lithologyMap) {
+    std::vector<std::string> seq = { "Qh","jT1", "k_c-tP3-T1",  "k_kP3" };//{"talaj","kisberi","csatkai","szoci","rudolfhazi","kisgyoni","ganti"};//
     for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it) {
         auto& data = it->second;
         auto place = std::find(seq.begin(), seq.end(), it->first);
@@ -22,10 +22,10 @@ void resolveCrossingLayers(std::map<std::string, LithologyData>& lithologyMap){
         }
     }
 }
-void shiftPointsBasedOnBlur(std::map<std::string, LithologyData>& lithologyMap){
-    
+void shiftPointsBasedOnBlur(std::map<std::string, LithologyData>& lithologyMap) {
+
 }
-void normalize(std::map<std::string, LithologyData>& lithologyMap){
+void normalize(std::map<std::string, LithologyData>& lithologyMap) {
     shiftPointsBasedOnBlur(lithologyMap);
     resolveCrossingLayers(lithologyMap);
 }
