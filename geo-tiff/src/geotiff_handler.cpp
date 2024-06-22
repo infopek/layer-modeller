@@ -64,7 +64,7 @@ std::vector<Point> processGeoTIFF(const std::string& filename)
 }
 
 
-BoundingRectangle getBoundingRectangle(const char* fileName) {
+BoundingRectangle getBoundingRectangle(std::string fileName) {
     GDALAllRegister();
 
     GDALDataset* dataset = (GDALDataset*)GDALOpen(fileName, GA_ReadOnly);

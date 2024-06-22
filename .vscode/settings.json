@@ -112,6 +112,7 @@
         "codecvt": "cpp",
         "*.txx": "cpp",
         "dense": "cpp",
-        "__bit_reference": "cpp"
+        "__bit_reference": "cpp",
+        "semaphore": "cpp"
     }
 }

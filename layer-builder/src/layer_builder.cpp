@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <random>
+#include <geotiff_handler.h>
 
 LayerBuilder::LayerBuilder(const std::string& regionName)
     : m_regionName{ regionName }
@@ -44,7 +45,9 @@ LayerBuilder::~LayerBuilder()
 
 void LayerBuilder::buildLayers()
 {
-    std::map<std::string, LithologyData> allLayers = interpolate();
+    WorkingArea area;
+    area.boundingRect = getBoundingRectangle("../../../res/tiff/pecs.tif");
+    std::map<std::string, LithologyData> allLayers = interpolate(&area);
     m_numLayers = allLayers.size();
     m_layers.clear();
     m_layers.resize(m_numLayers);
