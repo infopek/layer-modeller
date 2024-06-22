@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include "point.h"
 struct TheoreticalParam {
     double nugget;
     double sill;

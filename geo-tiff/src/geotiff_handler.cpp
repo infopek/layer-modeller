@@ -47,3 +47,28 @@ BoundingRectangle GeoTiffHandler::getBoundingRectangle()
 
     return boundingRect;
 }
+float* GeoTiffHandler::getRaster(){
+    GDALRasterBand *poBand = m_dataset->GetRasterBand(1); // Get the first band
+    if (poBand == nullptr) {
+        std::cerr << "Failed to get raster band." << std::endl;
+        return nullptr;
+    }
+
+    int nXSize = poBand->GetXSize();
+    int nYSize = poBand->GetYSize();
+    float *pafRaster = (float *) CPLMalloc(sizeof(float) * nXSize * nYSize);
+
+    if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None) {
+        std::cerr << "Failed to read raster data." << std::endl;
+        CPLFree(pafRaster);
+        return nullptr;
+    }
+    // for (int y = 0; y < nYSize; ++y) {
+    //     for (int x = 0; x < nXSize; ++x) {
+    //         std::cout << pafRaster[y * nXSize + x] << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+
+    return pafRaster;
+}

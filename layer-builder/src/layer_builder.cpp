@@ -1,12 +1,11 @@
 #include <layer_builder.h>
-
-// #include <normalize.h>
 #include <interpolator.h>
 #include <blur/blur.h>
 
 #include <algorithm>
 #include <random>
 #include <geotiff_handler.h>
+#include <normalizer.h>
 
 LayerBuilder::LayerBuilder(const std::string& regionName)
     : m_regionName{ regionName }
@@ -17,7 +16,7 @@ LayerBuilder::LayerBuilder(const std::string& regionName)
 LayerBuilder::LayerBuilder(const std::vector<Point>& points)
 {
 
-    // buildLayers();
+    buildLayers();
     // m_layers[0].points = points;
     // m_layers[0].composition = "comp1";
 
@@ -49,6 +48,7 @@ void LayerBuilder::buildLayers()
     GeoTiffHandler geoTiff("../../../res/tiff/pecs.tif");
     area.boundingRect = geoTiff.getBoundingRectangle();
     std::map<std::string, LithologyData> allLayers = interpolate(&area);
+    normalizeLayers(allLayers, &geoTiff,&area);
     m_numLayers = allLayers.size();
     m_layers.clear();
     m_layers.resize(m_numLayers);
@@ -60,9 +60,6 @@ void LayerBuilder::buildLayers()
         std::copy(data.interpolatedData.begin(), data.interpolatedData.end(), m_layers[i].points.begin());
         i++;
     }
-
-    // normalizer.normalize(allPoints);    // normalize
-    // layerize(allPoints);
 }
 
 void LayerBuilder::layerize(const std::vector<std::vector<Point>>& allPoints)

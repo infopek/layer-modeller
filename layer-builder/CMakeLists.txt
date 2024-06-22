@@ -17,10 +17,13 @@ target_include_directories(
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
 find_package(GeoTiff REQUIRED)
+find_package(Normalizer REQUIRED)
 
 target_link_libraries(
     LayerBuilder
         PUBLIC 
             Common::Common
             Kriging::Kriging
-            GeoTiff::GeoTiff)
+            GeoTiff::GeoTiff
+            Normalizer::Normalizer
+    )

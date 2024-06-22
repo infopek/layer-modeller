@@ -1,3 +1,4 @@
+#pragma once
 #include <models/point.h>
 
 #include <gdal_priv.h>
@@ -11,7 +12,7 @@ public:
     ~GeoTiffHandler();
 
     BoundingRectangle getBoundingRectangle();
-
+    float* getRaster();
 private:
     GDALDataset* m_dataset;
 };
