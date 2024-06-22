@@ -40,22 +40,22 @@ KrigingOutput kriging(const std::vector<Point>* observedData, TheoreticalParam p
 void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, WorkingArea* area) {
     Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(observedData, lithoData->theoreticalParam);
     int n = observedData->size();
-    const BoundingRectangle bRect=area->boundingRect;
+    const BoundingRectangle bRect = area->boundingRect;
     double condR = computeConditionNumber(covMatrix);
     std::cout << "Condition number of cov mx: " << condR << std::endl;
 
     double kmax = pow(condR, 2) * 100;
     std::cout << "Kmax: " << kmax << std::endl;
-    Eigen::MatrixXd regularizedCovMatrix =  ridgeRegression(covMatrix, kmax );
+    Eigen::MatrixXd regularizedCovMatrix = ridgeRegression(covMatrix, kmax);
     Eigen::FullPivLU<Eigen::MatrixXd> luCovMatrix = regularizedCovMatrix.fullPivLu();
 
     for (double i = 0; i < area->yAxisPoints; ++i) {
         for (double j = 0; j < area->xAxisPoints; ++j) {
-            double realY=bRect.minY+i*area->yScale;
-            double realX=bRect.minX+j*area->xScale;
-            KrigingOutput output= kriging(observedData, lithoData->theoreticalParam, luCovMatrix, realX,realY);
-            Point pointValue(realX,realY,-output.value);
-            Point pointCertainty(realX,realY,output.certainty);
+            double realY = bRect.minY + i * area->yScale;
+            double realX = bRect.minX + j * area->xScale;
+            KrigingOutput output = kriging(observedData, lithoData->theoreticalParam, luCovMatrix, realX, realY);
+            Point pointValue{ .x = realX, .y = realY, .z = -output.value };
+            Point pointCertainty{ .x = realX, .y = realY, .z = output.certainty };
             lithoData->interpolatedData.push_back(pointValue);
         }
     }
@@ -74,7 +74,7 @@ Eigen::MatrixXd ridgeRegression(const Eigen::MatrixXd& R, double kmax) {
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(R);
     Eigen::VectorXd eigenvalues = solver.eigenvalues();
     double lambda1 = eigenvalues(eigenvalues.size() - 1);
-    double lambdad = eigenvalues(0); 
+    double lambdad = eigenvalues(0);
 
     double delta = (lambda1 - lambdad) / (kmax - 1);
 

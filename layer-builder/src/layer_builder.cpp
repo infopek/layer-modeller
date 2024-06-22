@@ -46,7 +46,8 @@ LayerBuilder::~LayerBuilder()
 void LayerBuilder::buildLayers()
 {
     WorkingArea area;
-    area.boundingRect = getBoundingRectangle("../../../res/tiff/pecs.tif");
+    GeoTiffHandler geoTiff("../../../res/tiff/pecs.tif");
+    area.boundingRect = geoTiff.getBoundingRectangle();
     std::map<std::string, LithologyData> allLayers = interpolate(&area);
     m_numLayers = allLayers.size();
     m_layers.clear();

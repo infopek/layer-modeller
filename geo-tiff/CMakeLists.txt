@@ -4,7 +4,7 @@ project(GeoTiff    VERSION 0.0.1
                     DESCRIPTION "GeoTIFF module"
                     LANGUAGES CUDA CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 # Enable CUDA language
@@ -12,18 +12,20 @@ enable_language(CUDA)
 
 add_library(GeoTiff
     src/blur/blur.cu
-    src/blur/blur.cpp)
+    src/blur/blur.cpp
+    src/geotiff_handler.cpp)
 add_library(GeoTiff::GeoTiff ALIAS GeoTiff)
 
 set_target_properties(GeoTiff PROPERTIES CUDA_ARCHITECTURES all-major)
 
 target_include_directories(GeoTiff
-    PUBLIC 
-        Common::Common
+    PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+
+find_package(Common)
 
 # Link libraries
 target_link_libraries(GeoTiff 
@@ -44,4 +46,6 @@ target_link_libraries(GeoTiff
         opencv_dnn 
         opencv_core
         opencv_imgcodecs 
-        opencv_flann)
+        opencv_flann
+    PUBLIC
+        Common::Common)

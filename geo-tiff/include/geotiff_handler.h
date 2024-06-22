@@ -1,9 +1,17 @@
-#include <Point.h>
+#include <models/point.h>
 
 #include <gdal_priv.h>
 #include <models/lithologyData.h>
 #include <stdexcept>
 
-BoundingRectangle getBoundingRectangle(std::string fileName);
+class GeoTiffHandler
+{
+public:
+    GeoTiffHandler(const std::string& filepath);
+    ~GeoTiffHandler();
 
-std::vector<Point> processGeoTIFF(const std::string& filename);
+    BoundingRectangle getBoundingRectangle();
+
+private:
+    GDALDataset* m_dataset;
+};

@@ -1,7 +1,7 @@
+#include <geotiff_handler.h>
 #include <layer_builder.h>
 #include <modeller/modeller_set.h>
 #include <renderer.h>
-// #include <kriging_cpu.h>
 #include <blur/blur.h>
 
 #include <opencv2/opencv.hpp>
@@ -15,31 +15,6 @@
 
 #include <fstream>
 #include <sstream>
-
-// static std::vector<Point> generatePoints(int width, int height)
-// {
-//     std::mt19937 rng(0);
-//     std::uniform_real_distribution<double> distribution(1.0, 10.0);
-
-//     const siv::PerlinNoise::seed_type seed = 123456u;
-//     const siv::PerlinNoise perlin{ seed };
-
-//     int numPoints = width * height;
-//     std::vector<Point> points;
-//     points.reserve(numPoints);
-
-//     for (int y = -height / 2; y <= height / 2; y++)
-//     {
-//         for (int x = -width / 2; x <= width / 2; x++)
-//         {
-//             double z = perlin.octave2D_01(x, y, 4) * 5.0;
-//             // double z = (x * x - y * y) / 2.0;
-//             points.emplace_back(x * 7.0 + distribution(rng), y * 7.0 + distribution(rng), z * distribution(rng));
-//         }
-//     }
-
-//     return points;
-// }
 
 static std::vector<Point> generatePoints(const std::string& filename)
 {
@@ -104,9 +79,8 @@ static std::vector<Point> processTiff(const std::string& tiffImagePath)
 
 int main(int argc, char* argv[])
 {
-    tiffToImage("../../../res/tiff/earthdata_1.tif", "../../../res/intermediate/tiff_png.png");
-    auto points = processTiff("../../../res/intermediate/tiff_png.png");
-
+    // tiffToImage("../../../res/tiff/earthdata_1.tif", "../../../res/intermediate/tiff_png.png");
+    // auto points = processTiff("../../../res/intermediate/tiff_png.png");
 
     // Get points(from interpolator ? )
     // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
@@ -126,22 +100,22 @@ int main(int argc, char* argv[])
     //     triangulations.push_back(triangulation);
     // }
 
-    // // LayerBuilder layerBuilder(points);
-    // LayerBuilder layerBuilder("region");
+    // LayerBuilder layerBuilder(points);
+    LayerBuilder layerBuilder("region");
 
-    // ModellerSet modeller(layerBuilder);
-    // modeller.createMeshes();
+    ModellerSet modeller(layerBuilder);
+    modeller.createMeshes();
 
-    // Renderer renderer{};
-    // renderer.addMeshes(modeller.getMeshes());
+    Renderer renderer{};
+    renderer.addMeshes(modeller.getMeshes());
 
-    // // Describe what you want to be rendered
-    // renderer.prepareEdges();
-    // renderer.prepareSurfaces();
-    // renderer.prepareLayerBody();
+    // Describe what you want to be rendered
+    renderer.prepareEdges();
+    renderer.prepareSurfaces();
+    renderer.prepareLayerBody();
 
-    // // Render
-    // renderer.render();
+    // Render
+    renderer.render();
 
     return 0;
 }
