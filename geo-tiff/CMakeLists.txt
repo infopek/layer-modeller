@@ -18,7 +18,8 @@ add_library(GeoTiff::GeoTiff ALIAS GeoTiff)
 set_target_properties(GeoTiff PROPERTIES CUDA_ARCHITECTURES all-major)
 
 target_include_directories(GeoTiff
-    PUBLIC
+    PUBLIC 
+        Common::Common
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     PRIVATE

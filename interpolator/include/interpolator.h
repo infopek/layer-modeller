@@ -9,4 +9,5 @@
 #include "models/point.h"
 #include <models/lithologyData.h>
 #include "models.h"
-std::map<std::string, LithologyData> interpolate();
+std::map<std::string, LithologyData> interpolate(WorkingArea* area);
+void calculatePointDensity(WorkingArea* area, int maxPointCount);

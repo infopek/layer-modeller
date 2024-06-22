@@ -1,9 +1,9 @@
 #include "geotiff_handler.h"
 
-BoundingRectangle getBoundingRectangle(const char* fileName) {
+BoundingRectangle getBoundingRectangle(std::string fileName) {
     GDALAllRegister();
-    
-    GDALDataset* dataset = (GDALDataset*)GDALOpen(fileName, GA_ReadOnly);
+
+    GDALDataset* dataset = (GDALDataset*)GDALOpen(fileName.c_str(), GA_ReadOnly);
     if (dataset == nullptr) {
         throw std::runtime_error("Failed to open GeoTIFF file.");
     }
