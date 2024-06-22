@@ -20,5 +20,4 @@ target_link_libraries(
     Normalizer
         PUBLIC
             Common::Common
-        PRIVATE
-            GDAL::GDAL)
+        )

@@ -17,8 +17,10 @@ struct BoundingRectangle{
     double minX;
     double minY;
 };
-struct InterpolatedArea{
+struct WorkingArea{
     BoundingRectangle boundingRect;
     int xAxisPoints;
     int yAxisPoints;
+    double xScale;
+    double yScale;
 };

@@ -1,11 +1,11 @@
 ﻿#include "interpolator.h"
 
-std::map<std::string, LithologyData> interpolate() {
+std::map<std::string, LithologyData> interpolate(WorkingArea* area) {
     std::locale::global(std::locale("en_US.UTF-8"));
     int maxX = 0, maxY = 0;
     std::map<std::string, LithologyData> lithologyMap;
-    InterpolatedArea area;
-    readObservationDataFromJson(lithologyMap, "../../../res/boreholes/borehole_kovago.json", &area);
+    calculatePointDensity(area, 10000);
+    readObservationDataFromJson(lithologyMap, "../../../res/boreholes/borehole_kovago.json");
     for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it) {
         auto& lithoType = it->first;
         auto& data = it->second;
@@ -18,7 +18,7 @@ std::map<std::string, LithologyData> interpolate() {
         
         //createInterpolationGPU(&data, param, &krigingData, maxX, maxY, plotSize);
 
-        createInterpolation(&data.points, &data, &area);
+        createInterpolation(&data.points, &data, area);
 
         // gnuPlotMatrix("values", data.interpolatedData, data.stratumName, &data.points, maxX, maxY);
         // gnuPlotMatrix("certainty", data.certaintyMatrix, data.stratumName, &data.points, maxX, maxY);
@@ -28,4 +28,28 @@ std::map<std::string, LithologyData> interpolate() {
     }
 
     return lithologyMap;
+}
+void calculatePointDensity(WorkingArea* area, int maxPointCount){
+
+    int width = static_cast<int>(area->boundingRect.maxX - area->boundingRect.minX);
+    int height = static_cast<int>(area->boundingRect.maxY - area->boundingRect.minY);
+
+    int gcd = std::gcd(width, height);
+    int aspectWidth = width / gcd;
+    int aspectHeight = height / gcd;
+
+    int numRows = static_cast<int>(std::sqrt(maxPointCount / (aspectWidth / static_cast<double>(aspectHeight))));
+    int numCols = maxPointCount / numRows;
+
+    if (numRows * numCols > maxPointCount)
+        numCols = maxPointCount / numRows;
+
+    area->xScale = (area->boundingRect.maxX - area->boundingRect.minX) / numCols;
+    area->yScale = (area->boundingRect.maxY - area->boundingRect.minY) / numRows;
+    std::cout << "maxX: " << area->boundingRect.maxX << "  maxY: " << area->boundingRect.maxY << std::endl;
+    std::cout << "minX: " << area->boundingRect.minX << "  minY: " << area->boundingRect.minY << std::endl;
+    std::cout << "scale: x" << area->xScale << ", y" << area->yScale << std::endl;
+    std::cout << "Adjusted xAxisPoints: " << numRows << ", yAxisPoints: " << numCols << std::endl;
+    area->xAxisPoints = numCols;
+    area->yAxisPoints = numRows;
 }

@@ -37,10 +37,10 @@ KrigingOutput kriging(const std::vector<Point>* observedData, TheoreticalParam p
     //output.certainty = sqrt((weights.transpose() * k)[0]);
     return output;
 }
-void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, InterpolatedArea* area) {
+void createInterpolation(const std::vector<Point>* observedData, LithologyData* lithoData, WorkingArea* area) {
     Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(observedData, lithoData->theoreticalParam);
     int n = observedData->size();
-
+    const BoundingRectangle bRect=area->boundingRect;
     double condR = computeConditionNumber(covMatrix);
     std::cout << "Condition number of cov mx: " << condR << std::endl;
 
@@ -48,12 +48,11 @@ void createInterpolation(const std::vector<Point>* observedData, LithologyData* 
     std::cout << "Kmax: " << kmax << std::endl;
     Eigen::MatrixXd regularizedCovMatrix =  ridgeRegression(covMatrix, kmax );
     Eigen::FullPivLU<Eigen::MatrixXd> luCovMatrix = regularizedCovMatrix.fullPivLu();
-    double xScale=(area->boundingRect.maxX-area->boundingRect.minX)/100;
-    double yScale=(area->boundingRect.maxY-area->boundingRect.minY)/100;
+
     for (double i = 0; i < area->yAxisPoints; ++i) {
         for (double j = 0; j < area->xAxisPoints; ++j) {
-            double realY=area->boundingRect.minY+i*yScale;
-            double realX=area->boundingRect.minX+j*xScale;
+            double realY=bRect.minY+i*yScale;
+            double realX=bRect.minX+j*xScale;
             KrigingOutput output= kriging(observedData, lithoData->theoreticalParam, luCovMatrix, realX,realY);
             Point pointValue(realX,realY,-output.value);
             Point pointCertainty(realX,realY,output.certainty);

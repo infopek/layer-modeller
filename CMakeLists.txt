@@ -39,7 +39,6 @@ find_package(VTK COMPONENTS
   RenderingCore
   RenderingOpenGL2
   IOXML)
-find_package(GDAL REQUIRED)
 find_package(GSL REQUIRED)
 find_package(GDAL CONFIG REQUIRED)
 find_package(PkgConfig)

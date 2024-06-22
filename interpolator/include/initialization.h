@@ -12,7 +12,7 @@
 
 using json = nlohmann::json;
 
-void readObservationDataFromJson(std::map<std::string, LithologyData> &lithologyMap, std::string path, InterpolatedArea* area);
+void readObservationDataFromJson(std::map<std::string, LithologyData> &lithologyMap, std::string path);
 //std::string replaceAccents(const std::string& input);
 // void readTiff();
 //void readObservationDataFromJson(std::map<std::string, LithologyData>& lithologyMap,std::string path, int* maxX, int* maxY, double* scaleFactor);
