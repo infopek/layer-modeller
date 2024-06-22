@@ -27,6 +27,7 @@ target_include_directories(GeoTiff
 # Link libraries
 target_link_libraries(GeoTiff 
     PRIVATE 
+        
         ${CUDA_LIBRARIES}
         ${CUDA_CUFFT_LIBRARIES}
         ${CUDA_CUBLAS_LIBRARIES}

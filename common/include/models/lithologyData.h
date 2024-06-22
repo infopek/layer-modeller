@@ -11,3 +11,14 @@ struct LithologyData {
     std::vector<Point> interpolatedData;
     std::vector<Point> certaintyMatrix;
 };
+struct BoundingRectangle{
+    double maxX;
+    double maxY;
+    double minX;
+    double minY;
+};
+struct InterpolatedArea{
+    BoundingRectangle boundingRect;
+    int xAxisPoints;
+    int yAxisPoints;
+};

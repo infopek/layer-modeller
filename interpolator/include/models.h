@@ -15,10 +15,3 @@ struct data {
     double* h;
     double* y;
 };
-
-struct BoundingRectangle{
-    double maxX;
-    double maxY;
-    double minX;
-    double minY;
-};
