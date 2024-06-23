@@ -63,12 +63,9 @@ float* GeoTiffHandler::getRaster(){
         CPLFree(pafRaster);
         return nullptr;
     }
-    // for (int y = 0; y < nYSize; ++y) {
-    //     for (int x = 0; x < nXSize; ++x) {
-    //         std::cout << pafRaster[y * nXSize + x] << " ";
-    //     }
-    //     std::cout << std::endl;
-    // }
-
     return pafRaster;
+}
+void GeoTiffHandler::freeRaster(float* raster){
+    CPLFree(raster);
+
 }

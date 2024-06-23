@@ -54,7 +54,7 @@ void createInterpolation(const std::vector<Point>* observedData, LithologyData* 
             double realY = bRect.minY + i * area->yScale;
             double realX = bRect.minX + j * area->xScale;
             KrigingOutput output = kriging(observedData, lithoData->theoreticalParam, luCovMatrix, realX, realY);
-            Point pointValue{ .x = realX, .y = realY, .z = -output.value };
+            Point pointValue{ .x = realX, .y = realY, .z = output.value };
             Point pointCertainty{ .x = realX, .y = realY, .z = output.certainty };
             lithoData->interpolatedData.push_back(pointValue);
         }

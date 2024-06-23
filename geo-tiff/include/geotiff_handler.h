@@ -13,6 +13,7 @@ public:
 
     BoundingRectangle getBoundingRectangle();
     float* getRaster();
+    void freeRaster(float* raster);
 private:
     GDALDataset* m_dataset;
 };

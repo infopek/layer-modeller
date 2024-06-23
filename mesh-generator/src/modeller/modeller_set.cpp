@@ -91,6 +91,7 @@ void ModellerSet::processMesh(SurfaceMesh& mesh)
 
 void ModellerSet::createMeshes()
 {
+
     for (size_t i = 0; i < m_meshes.size(); ++i)
     {
         // References
@@ -133,7 +134,7 @@ void ModellerSet::createMeshes()
         }
 
         // Extrude surface
-        Vector3 extrudeVector(0.0, 0.0, -350.0);
+        Vector3 extrudeVector(0.0, 0.0, -450.0);
         CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
 
         // Repair mesh

@@ -46,10 +46,7 @@ void calculatePointDensity(WorkingArea* area, int maxPointCount){
 
     area->xScale = (area->boundingRect.maxX - area->boundingRect.minX) / numCols;
     area->yScale = (area->boundingRect.maxY - area->boundingRect.minY) / numRows;
-    std::cout << "maxX: " << area->boundingRect.maxX << "  maxY: " << area->boundingRect.maxY << std::endl;
-    std::cout << "minX: " << area->boundingRect.minX << "  minY: " << area->boundingRect.minY << std::endl;
-    std::cout << "scale: x" << area->xScale << ", y" << area->yScale << std::endl;
-    std::cout << "Adjusted xAxisPoints: " << numRows << ", yAxisPoints: " << numCols << std::endl;
     area->xAxisPoints = numCols;
     area->yAxisPoints = numRows;
+    ;
 }
