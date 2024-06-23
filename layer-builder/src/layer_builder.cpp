@@ -15,8 +15,6 @@ LayerBuilder::LayerBuilder(const std::string& regionName)
 
 LayerBuilder::LayerBuilder(const std::vector<Point>& points)
 {
-
-    buildLayers();
     // m_layers[0].points = points;
     // m_layers[0].composition = "comp1";
 
@@ -48,7 +46,7 @@ void LayerBuilder::buildLayers()
     GeoTiffHandler geoTiff("../../../res/tiff/pecs.tif");
     area.boundingRect = geoTiff.getBoundingRectangle();
     std::map<std::string, LithologyData> allLayers = interpolate(&area);
-    normalizeLayers(allLayers, &geoTiff,&area);
+    normalizeLayers(allLayers, &geoTiff, &area);
     m_numLayers = allLayers.size();
     m_layers.clear();
     m_layers.resize(m_numLayers);

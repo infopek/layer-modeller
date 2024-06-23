@@ -47,25 +47,30 @@ BoundingRectangle GeoTiffHandler::getBoundingRectangle()
 
     return boundingRect;
 }
-float* GeoTiffHandler::getRaster(){
-    GDALRasterBand *poBand = m_dataset->GetRasterBand(1); // Get the first band
-    if (poBand == nullptr) {
+
+float* GeoTiffHandler::getRaster()
+{
+    GDALRasterBand* poBand = m_dataset->GetRasterBand(1); // Get the first band
+    if (poBand == nullptr)
+    {
         std::cerr << "Failed to get raster band." << std::endl;
         return nullptr;
     }
 
     int nXSize = poBand->GetXSize();
     int nYSize = poBand->GetYSize();
-    float *pafRaster = (float *) CPLMalloc(sizeof(float) * nXSize * nYSize);
+    float* pafRaster = (float*)CPLMalloc(sizeof(float) * nXSize * nYSize);
 
-    if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None) {
+    if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None)
+    {
         std::cerr << "Failed to read raster data." << std::endl;
         CPLFree(pafRaster);
         return nullptr;
     }
     return pafRaster;
 }
-void GeoTiffHandler::freeRaster(float* raster){
-    CPLFree(raster);
 
+void GeoTiffHandler::freeRaster(float* raster)
+{
+    CPLFree(raster);
 }

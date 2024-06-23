@@ -27,6 +27,7 @@ ModellerSet::~ModellerSet()
 void ModellerSet::init()
 {
     m_layerBuilder.buildLayers();
+
     const auto& layers = m_layerBuilder.getLayers();
 
     m_meshes.resize(layers.size());
@@ -36,8 +37,8 @@ void ModellerSet::init()
 
 void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Point3>& points, std::vector<std::vector<size_t>>& polygons)
 {
-    std::map<SurfaceMesh::Vertex_index, std::size_t> vertexIndexMap{};
-    std::size_t index = 0;
+    std::map<SurfaceMesh::Vertex_index, size_t> vertexIndexMap{};
+    size_t index = 0;
     for (auto v : mesh.vertices())
     {
         points.push_back(mesh.point(v));
@@ -45,7 +46,7 @@ void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Poin
     }
     for (auto f : mesh.faces())
     {
-        std::vector<std::size_t> polygon;
+        std::vector<size_t> polygon{};
         for (auto v : CGAL::vertices_around_face(mesh.halfedge(f), mesh))
             polygon.push_back(vertexIndexMap[v]);
         polygons.push_back(polygon);
@@ -55,12 +56,13 @@ void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Poin
 void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const std::vector<std::vector<size_t>>& polygons, SurfaceMesh& mesh)
 {
     std::vector<SurfaceMesh::Vertex_index> vertices{};
+    vertices.reserve(points.size());
     for (const auto& point : points)
         vertices.push_back(mesh.add_vertex(point));
 
     for (const auto& polygon : polygons)
     {
-        std::vector<SurfaceMesh::Vertex_index> face;
+        std::vector<SurfaceMesh::Vertex_index> face{};
         for (const auto& idx : polygon)
             face.push_back(vertices[idx]);
         mesh.add_face(face);
@@ -70,7 +72,10 @@ void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const 
 void ModellerSet::processMesh(SurfaceMesh& mesh)
 {
     std::vector<Point3> points{};
-    std::vector<std::vector<std::size_t>> polygons{};
+    std::vector<std::vector<size_t>> polygons{};
+    points.reserve(static_cast<size_t>(mesh.num_vertices()));
+    polygons.reserve(static_cast<size_t>(mesh.num_faces()));
+
     convertToPolygonSoup(mesh, points, polygons);
 
     PMP::repair_polygon_soup(points, polygons);
@@ -91,7 +96,6 @@ void ModellerSet::processMesh(SurfaceMesh& mesh)
 
 void ModellerSet::createMeshes()
 {
-
     for (size_t i = 0; i < m_meshes.size(); ++i)
     {
         // References
@@ -146,7 +150,7 @@ void ModellerSet::createMeshes()
         {
             SurfaceMesh result{};
             bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i - 1], result);
-            layerBody = result;
+            layerBody = std::move(result);
             if (validDifference)
             {
                 std::cout << "The difference is valid";
