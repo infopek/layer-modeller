@@ -1,14 +1,14 @@
 #include <layer_builder.h>
 #include <interpolator.h>
 #include <blur/blur.h>
-
-#include <algorithm>
-#include <random>
 #include <geotiff_handler.h>
 #include <normalizer.h>
 
-LayerBuilder::LayerBuilder(const std::string& regionName)
-    : m_regionName{ regionName }
+#include <algorithm>
+#include <random>
+
+LayerBuilder::LayerBuilder(const std::string& regionName, const std::string& observationDataPath, const std::string& tiffPath)
+    : m_regionName{ regionName }, m_observationDataPath{ observationDataPath }, m_tiffPath{ tiffPath }
 {
 
 }
@@ -43,34 +43,28 @@ LayerBuilder::~LayerBuilder()
 void LayerBuilder::buildLayers()
 {
     WorkingArea area;
-    GeoTiffHandler geoTiff("../../../res/tiff/pecs.tif");
+    GeoTiffHandler geoTiff(m_tiffPath);
     area.boundingRect = geoTiff.getBoundingRectangle();
-    std::map<std::string, LithologyData> allLayers = interpolate(&area);
+
+    std::map<std::string, LithologyData> allLayers = interpolate(&area, m_observationDataPath);
+
     normalizeLayers(allLayers, &geoTiff, &area);
-    m_numLayers = allLayers.size();
-    m_layers.clear();
+    layerize(allLayers);
+}
+
+void LayerBuilder::layerize(const std::map<std::string, LithologyData>& layers)
+{
+    m_numLayers = layers.size();
     m_layers.resize(m_numLayers);
+
     int i = 0;
-    for (auto it = allLayers.begin(); it != allLayers.end(); ++it) {
+    for (auto it = layers.begin(); it != layers.end(); ++it)
+    {
         auto& data = it->second;
         m_layers[i].points.resize(data.interpolatedData.size());
         m_layers[i].composition = "comp" + std::to_string(i);
+
         std::copy(data.interpolatedData.begin(), data.interpolatedData.end(), m_layers[i].points.begin());
         i++;
     }
-}
-
-void LayerBuilder::layerize(const std::vector<std::vector<Point>>& allPoints)
-{
-    std::for_each(allPoints.cbegin(), allPoints.cend(),
-        [&](const std::vector<Point>& points)
-        {
-            Layer layer{};
-            layer.points = points;
-            //layer.mineralMap = <where from>
-            //...
-
-            m_layers.push_back(layer);
-            ++m_numLayers;
-        });
 }

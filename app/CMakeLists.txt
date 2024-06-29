@@ -9,7 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 enable_language(CUDA)
 
-add_executable(App src/app.cpp)
+add_executable(App 
+  src/app.cpp
+  src/mainwindow.cpp)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
@@ -28,6 +30,7 @@ target_link_libraries(
       MeshGenerator::MeshGenerator
       Renderer::Renderer
     PRIVATE
+      Qt5::Widgets
       CGAL::CGAL
       opencv_ml 
       opencv_dnn 

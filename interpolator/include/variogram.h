@@ -10,10 +10,10 @@
 #include <gsl/gsl_blas.h>
 #include "kriging_utilities.cuh"
 #include <models/point.h>
-#include <models/lithologyData.h>
+#include <models/lithology_data.h>
 //__global__ void calculateValues(int n, float* D, float* S, const DataPoint* points);
 
-static void calculateValuesCPU(int n,  double* D, double* S, std::vector<Point>  points);
+static void calculateValuesCPU(int n, double* D, double* S, std::vector<Point>  points);
 
 void createVariogram(std::vector<Point>* points, EmpiricalVariogram* variogramData);
 

@@ -7,7 +7,8 @@
 #include "initialization.h"
 #include "kriging_cpu.h"
 #include "models/point.h"
-#include <models/lithologyData.h>
+#include <models/lithology_data.h>
 #include "models.h"
-std::map<std::string, LithologyData> interpolate(WorkingArea* area);
+
+std::map<std::string, LithologyData> interpolate(WorkingArea* area, const std::string& observationDataPath);
 void calculatePointDensity(WorkingArea* area, int maxPointCount);

@@ -1,8 +1,9 @@
 #pragma once
+
 #include <models/point.h>
+#include <models/lithology_data.h>
 
 #include <gdal_priv.h>
-#include <models/lithologyData.h>
 #include <stdexcept>
 
 class GeoTiffHandler

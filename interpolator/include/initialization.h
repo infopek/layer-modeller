@@ -8,11 +8,11 @@
 #include <iostream>
 #include <tuple>
 #include <models/point.h>
-#include <models/lithologyData.h>
+#include <models/lithology_data.h>
 
 using json = nlohmann::json;
 
-void readObservationDataFromJson(std::map<std::string, LithologyData> &lithologyMap, std::string path);
+void readObservationDataFromJson(std::map<std::string, LithologyData>& lithologyMap, std::string path);
 //std::string replaceAccents(const std::string& input);
 // void readTiff();
 //void readObservationDataFromJson(std::map<std::string, LithologyData>& lithologyMap,std::string path, int* maxX, int* maxY, double* scaleFactor);

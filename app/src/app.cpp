@@ -3,6 +3,7 @@
 #include <modeller/modeller_set.h>
 #include <renderer.h>
 #include <blur/blur.h>
+#include "mainwindow.h"
 
 #include <opencv2/opencv.hpp>
 
@@ -79,43 +80,34 @@ static std::vector<Point> processTiff(const std::string& tiffImagePath)
 
 int main(int argc, char* argv[])
 {
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
+    return app.exec();
     // tiffToImage("../../../res/tiff/earthdata_1.tif", "../../../res/intermediate/tiff_png.png");
     // auto points = processTiff("../../../res/intermediate/tiff_png.png");
 
-    // Get points(from interpolator ? )
-    // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
-
-    // std::vector<Triangulation> triangulations{};
-    // triangulations.reserve(6);
-    // for (size_t offset = 0; offset < 6; offset++)
-    // {
-    //     // To be removed
-    //     for (auto& point : points)
-    //     {
-    //         point.z -= offset * 5.0;
-    //     }
-
-    //     // Create 3D mesh
-    //     Triangulation triangulation(points);
-    //     triangulations.push_back(triangulation);
-    // }
-
     // LayerBuilder layerBuilder(points);
-    LayerBuilder layerBuilder("region");
+    // const std::string region = "region";
+    // const std::string observationDataPath = "../../../res/boreholes/borehole_kovago.json";
+    // const std::string tiffPath = "../../../res/tiff/pecs.tif";
 
-    ModellerSet modeller(layerBuilder);
-    modeller.createMeshes();
+    // LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
 
-    Renderer renderer{};
-    renderer.addMeshes(modeller.getMeshes());
+    // ModellerSet modeller(layerBuilder);
+    // modeller.createMeshes();
 
-    // Describe what you want to be rendered
-    renderer.prepareEdges();
-    renderer.prepareSurfaces();
-    renderer.prepareLayerBody();
+    // Renderer renderer{};
+    // renderer.addMeshes(modeller.getMeshes());
 
-    // Render
-    renderer.render();
+    // // Describe what you want to be rendered
+    // renderer.prepareEdges();
+    // renderer.prepareSurfaces();
+    // renderer.prepareLayerBody();
+
+    // // Render
+    // renderer.render();
+
 
     return 0;
 }

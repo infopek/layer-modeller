@@ -1,6 +1,10 @@
 #pragma once
-#include <vector>
+
 #include "point.h"
+
+#include <vector>
+#include <string>
+
 struct TheoreticalParam {
     double nugget;
     double sill;
@@ -13,13 +17,13 @@ struct LithologyData {
     std::vector<Point> interpolatedData;
     std::vector<Point> certaintyMatrix;
 };
-struct BoundingRectangle{
+struct BoundingRectangle {
     double maxX;
     double maxY;
     double minX;
     double minY;
 };
-struct WorkingArea{
+struct WorkingArea {
     BoundingRectangle boundingRect;
     int xAxisPoints;
     int yAxisPoints;

@@ -153,11 +153,11 @@ void ModellerSet::createMeshes()
             layerBody = std::move(result);
             if (validDifference)
             {
-                std::cout << "The difference is valid";
+                std::cout << "The difference is valid\n";
             }
             else
             {
-                std::cout << "The difference is not valid";
+                std::cout << "The difference is not valid\n";
             }
         }
     }

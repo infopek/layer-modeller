@@ -10,9 +10,9 @@
 #include "models.h"
 #include "kriging_utilities.cuh"
 #include <models/point.h>
-#include <models/lithologyData.h>
+#include <models/lithology_data.h>
 
-void gnuPlotMatrix(std::string name ,const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY);
+void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY);
 
 void gnuPlotVariogram(std::string formation, EmpiricalVariogram* vari, TheoreticalParam param);
 
