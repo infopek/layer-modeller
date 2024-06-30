@@ -7,7 +7,20 @@
     "gsl",
     "nlohmann-json",
     "pkgconf",
-    "vtk",
-    "opencv"
+    "opencv",
+    {
+      "name": "vtk",
+      "features": [
+        "qt"
+      ]
+    },
+    {
+      "name": "qtdeclarative",
+      "version>=": "6.6.1"
+    },
+    {
+      "name": "jasper",
+      "version>=": "4.2.1"
+    }
   ]
 }

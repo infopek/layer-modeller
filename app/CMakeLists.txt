@@ -13,6 +13,10 @@ add_executable(App
   src/app.cpp
   src/mainwindow.cpp)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
 find_package(GeoTiff REQUIRED)
@@ -31,6 +35,7 @@ target_link_libraries(
       Renderer::Renderer
     PRIVATE
       Qt5::Widgets
+      Qt5::Gui
       CGAL::CGAL
       opencv_ml 
       opencv_dnn 
@@ -38,6 +43,8 @@ target_link_libraries(
       opencv_flann
       ${OpenCV_LIBS}
       ${VTK_LIBRARIES})
+
+target_include_directories(App PRIVATE ${Qt5Widgets_INCLUDE_DIRS})
 
 vtk_module_autoinit(
   TARGETS App
