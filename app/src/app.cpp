@@ -1,3 +1,5 @@
+#include "app.h"
+
 #include <geotiff_handler.h>
 #include <layer_builder.h>
 #include <modeller/modeller_set.h>
@@ -16,106 +18,131 @@
 #include <fstream>
 #include <sstream>
 
-static std::vector<Point> generatePoints(const std::string& filename)
-{
-    std::vector<Point> points{};
-    std::ifstream file(filename);
-    if (!file.is_open())
-    {
-        std::cerr << "Error opening file " << filename << std::endl;
-        return points;
+// ss
+#include <wx/wx.h>
+#include <wx/glcanvas.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+#include <vtkSmartPointer.h>
+#include <vtkGenericOpenGLRenderWindow.h>
+#include <vtkInteractorStyleTrackballCamera.h>
+
+class MyVTKCanvas : public wxGLCanvas {
+public:
+    MyVTKCanvas(wxWindow* parent)
+        : wxGLCanvas(parent, wxID_ANY, nullptr, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE) {
+        context = new wxGLContext(this);
+        SetCurrent(*context);
+
+        vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+        renderWindow->SetMultiSamples(0);
+
+        vtkNew<vtkRenderer> renderer;
+        renderer->SetBackground(0.1, 0.2, 0.4);
+
+        vtkNew<vtkTextActor> textActor;
+        textActor->SetInput("Hello, VTK!");
+        textActor->GetTextProperty()->SetFontSize(24);
+        textActor->GetTextProperty()->SetColor(1.0, 0.0, 0.0);
+        renderer->AddActor(textActor);
+
+        renderWindow->AddRenderer(renderer);
+        interactor->SetRenderWindow(renderWindow);
+        interactor->SetInteractorStyle(vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New());
+
+        this->renderWindow = renderWindow;
+        this->renderer = renderer;
+        this->interactor = interactor;
+
+        Bind(wxEVT_PAINT, &MyVTKCanvas::OnPaint, this);
+        Bind(wxEVT_SIZE, &MyVTKCanvas::OnResize, this);
+
+        // Render once to initialize
+        this->Initialize();
     }
 
-    std::string line{};
-    const int skip = 20;
-    int i = 0;
-    while (std::getline(file, line))
-    {
-        std::istringstream iss(line);
-        Point p;
-        if (!(iss >> p.x >> p.y >> p.z))
-        {
-            std::cerr << "Error parsing line: " << line << std::endl;
-            continue;
+    ~MyVTKCanvas() {
+        delete context;
+    }
+
+    void OnPaint(wxPaintEvent& event) {
+        SetCurrent(*context);
+        renderWindow->Render();
+    }
+
+    void OnResize(wxSizeEvent& event) {
+        int w, h;
+        GetClientSize(&w, &h);
+        if (renderWindow) {
+            renderWindow->SetSize(w, h);
         }
-
-        if (i % skip == 0)
-            points.push_back(p);
-
-        ++i;
-    }
-    file.close();
-
-    return points;
-}
-
-static void tiffToImage(const std::string& inputPath, const std::string& outputPath)
-{
-    cv::Mat tiffImage = cv::imread(inputPath, cv::IMREAD_UNCHANGED);
-    cv::imwrite(outputPath, tiffImage);
-}
-
-static std::vector<Point> processTiff(const std::string& tiffImagePath)
-{
-    cv::Mat blurred = cv::imread(tiffImagePath, cv::IMREAD_UNCHANGED);
-    Blur::medianFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25);
-    Blur::gaussFilter(blurred.data, blurred.data, blurred.cols, blurred.rows, 25, 3.4f);
-
-    std::vector<Point> points{};
-    points.reserve(blurred.rows * blurred.cols);
-    for (int y = 0; y < blurred.rows; ++y)
-    {
-        for (int x = 0; x < blurred.cols; ++x)
-        {
-            uchar z = blurred.at<uchar>(y, x);
-
-            points.emplace_back(x, y, z);
-        }
+        Refresh();
     }
 
-    cv::imwrite("../../../res/blurred/blurred_output.png", blurred);
-    return points;
-}
+    void Initialize() {
+        SetCurrent(*context);
+        renderWindow->Render();
+        interactor->Initialize();
+    }
 
-int main(int argc, char* argv[])
-{
-    // tiffToImage("../../../res/tiff/earthdata_1.tif", "../../../res/intermediate/tiff_png.png");
-    // auto points = processTiff("../../../res/intermediate/tiff_png.png");
+private:
+    wxGLContext* context;
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow;
+    vtkSmartPointer<vtkRenderer> renderer;
+    vtkSmartPointer<vtkRenderWindowInteractor> interactor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+};
 
-    // Get points(from interpolator ? )
-    // std::vector<Point> points = generatePoints("../../../res/points/interpolated_points.txt");
+class MyFrame : public wxFrame {
+public:
+    MyFrame() : wxFrame(NULL, wxID_ANY, "VTK and wxWidgets Integration") {
+        wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+        MyVTKCanvas* vtkCanvas = new MyVTKCanvas(this);
+        sizer->Add(vtkCanvas, 1, wxEXPAND);
+        SetSizer(sizer);
+        SetSize(800, 600);
+    }
+};
 
-    // std::vector<Triangulation> triangulations{};
-    // triangulations.reserve(6);
-    // for (size_t offset = 0; offset < 6; offset++)
-    // {
-    //     // To be removed
-    //     for (auto& point : points)
-    //     {
-    //         point.z -= offset * 5.0;
-    //     }
+class MyApp : public wxApp {
+public:
+    virtual bool OnInit() {
+        MyFrame* frame = new MyFrame();
+        frame->Show(true);
+        return true;
+    }
+};
 
-    //     // Create 3D mesh
-    //     Triangulation triangulation(points);
-    //     triangulations.push_back(triangulation);
-    // }
+wxIMPLEMENT_APP(MyApp);
+// int main(int argc, char* argv[])
+// {
+//     // Create and initialize the wxApp object
+//     MyApp app;
+//     wxApp::SetInstance(&app);
+//     wxEntryStart(argc, argv);
+//     int result = wxEntry(argc, argv);
+//     wxEntryCleanup();
+//     return result;
+// }
+// int main(int argc, char* argv[])
+// {
 
-    // LayerBuilder layerBuilder(points);
-    LayerBuilder layerBuilder("region");
+//     // LayerBuilder layerBuilder("region");
 
-    ModellerSet modeller(layerBuilder);
-    modeller.createMeshes();
+//     // ModellerSet modeller(layerBuilder);
+//     // modeller.createMeshes();
 
-    Renderer renderer{};
-    renderer.addMeshes(modeller.getMeshes());
+//     // Renderer renderer{};
+//     // renderer.addMeshes(modeller.getMeshes());
 
-    // Describe what you want to be rendered
-    renderer.prepareEdges();
-    renderer.prepareSurfaces();
-    renderer.prepareLayerBody();
+//     // // Describe what you want to be rendered
+//     // renderer.prepareEdges();
+//     // renderer.prepareSurfaces();
+//     // renderer.prepareLayerBody();
 
-    // Render
-    renderer.render();
-
-    return 0;
-}
+//     // // Render
+//     // renderer.render();
+//     return 0;
+// }

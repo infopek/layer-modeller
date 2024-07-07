@@ -7,6 +7,7 @@
     "nlohmann-json",
     "pkgconf",
     "vtk",
-    "opencv"
+    "opencv",
+    "wxwidgets"
   ]
 }

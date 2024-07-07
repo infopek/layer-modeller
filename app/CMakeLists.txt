@@ -9,7 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 enable_language(CUDA)
 
-add_executable(App src/app.cpp)
+add_executable(App WIN32
+  src/app.cpp)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
@@ -34,7 +35,10 @@ target_link_libraries(
       opencv_core 
       opencv_flann
       ${OpenCV_LIBS}
-      ${VTK_LIBRARIES})
+      ${VTK_LIBRARIES}
+      wx::core 
+      wx::base
+      ${wxWidgets_LIBRARIES})
 
 vtk_module_autoinit(
   TARGETS App

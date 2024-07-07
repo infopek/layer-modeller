@@ -38,12 +38,16 @@ find_package(VTK COMPONENTS
   InteractionWidgets
   RenderingCore
   RenderingOpenGL2
+  RenderingFreeType
+  RenderingContextOpenGL2
   IOXML)
 find_package(GSL REQUIRED)
 find_package(GDAL CONFIG REQUIRED)
 find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
+find_package(wxWidgets CONFIG REQUIRED)
+
 include_directories(${GSL_INCLUDE_DIR}) 
 
 # Override default find_package
