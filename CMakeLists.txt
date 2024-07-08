@@ -24,13 +24,10 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject common geo-tiff normalization interpolator layer-builder mesh-generator renderer app)
-
-set(VTK_MODULE_ENABLE_VTK_GuiSupportQt "YES" CACHE STRING "Enable VTK GuiSupportQt")
-set(VTK_MODULE_ENABLE_VTK_RenderingQt "YES" CACHE STRING "Enable VTK RenderingQt")
+set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Normalizer App)
 
 # Packages
-find_package(Qt5 COMPONENTS Widgets Gui REQUIRED)
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(CGAL CONFIG REQUIRED)
 find_package(VTK COMPONENTS 
@@ -47,7 +44,6 @@ find_package(VTK COMPONENTS
   RenderingOpenGL2
   IOXML
   GUISupportQt
-  RenderingQt
   REQUIRED)
 find_package(GSL REQUIRED)
 find_package(GDAL CONFIG REQUIRED)
@@ -55,12 +51,14 @@ find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
 # Override default find_package
 macro(find_package)
   if(NOT "${ARGV0}" IN_LIST as_subproject)
     message(STATUS "Using native find_package for ${ARGV0}: ${ARGV}")
-    _find_package(${ARGV})
-  else()
     _find_package(${ARGV})
   endif()
 endmacro()

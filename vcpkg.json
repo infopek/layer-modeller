@@ -1,7 +1,6 @@
 {
   "dependencies": [
     "cgal",
-    "qt5",
     "gdal",
     "eigen3",
     "gsl",
@@ -10,17 +9,10 @@
     "opencv",
     {
       "name": "vtk",
+      "default-features": false,
       "features": [
         "qt"
       ]
-    },
-    {
-      "name": "qtdeclarative",
-      "version>=": "6.6.1"
-    },
-    {
-      "name": "jasper",
-      "version>=": "4.2.1"
     }
   ]
 }

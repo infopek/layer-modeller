@@ -45,5 +45,9 @@ target_link_libraries(Kriging
         ${CUDA_nppc_LIBRARY}
         ${CUDA_nppi_LIBRARY} 
         ${CUDA_npps_LIBRARY}
-        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY} GSL::gsl GSL::gslcblas nlohmann_json::nlohmann_json)
+        ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY}
+        GSL::gsl 
+        GSL::gslcblas 
+        nlohmann_json::nlohmann_json
+        Eigen3::Eigen3)
 

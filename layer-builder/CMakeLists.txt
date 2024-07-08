@@ -26,4 +26,6 @@ target_link_libraries(
             Kriging::Kriging
             GeoTiff::GeoTiff
             Normalizer::Normalizer
+        PRIVATE
+            GDAL::GDAL
     )

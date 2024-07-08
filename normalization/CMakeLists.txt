@@ -26,4 +26,6 @@ target_link_libraries(
         PUBLIC 
             Common::Common
             GeoTiff::GeoTiff
+        PRIVATE
+            GDAL::GDAL
 )
