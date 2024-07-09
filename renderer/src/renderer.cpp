@@ -1,13 +1,11 @@
 #include <renderer.h>
 
 #include <cgal_to_vtk_converter.h>
+#include <vtkCubeSource.h>
 
-Renderer::Renderer()
+Renderer::Renderer(vtkSmartPointer<vtkRenderer> renderer)
+    : m_renderer{ renderer }
 {
-    m_renderer = vtkSmartPointer<vtkRenderer>::New();
-    m_renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-    m_renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-
     init();
 }
 
@@ -17,15 +15,7 @@ Renderer::~Renderer()
 
 void Renderer::init()
 {
-    // Renderer
-    m_renderer->SetBackground(render::black.rgb);
 
-    // Render window
-    m_renderWindow->SetSize(render::windowWidth, render::windowHeight);
-    m_renderWindow->AddRenderer(m_renderer);
-
-    // Interactor
-    m_renderWindowInteractor->SetRenderWindow(m_renderWindow);
 }
 
 void Renderer::addMeshes(const std::vector<Mesh>& meshes)
@@ -35,12 +25,12 @@ void Renderer::addMeshes(const std::vector<Mesh>& meshes)
         {"comp1", render::blue},
         {"comp2", render::brown},
         {"comp3", render::green},
-        {"comp4", render::purple}, 
+        {"comp4", render::purple},
         {"comp5", render::orange},
-        {"comp6", render::yellow}, 
-        {"comp7", render::cyan},    
-        {"comp8", render::magenta}, 
-        {"comp9", render::lime},   
+        {"comp6", render::yellow},
+        {"comp7", render::cyan},
+        {"comp8", render::magenta},
+        {"comp9", render::lime},
     };
 
     m_meshes = meshes;
@@ -76,6 +66,7 @@ void Renderer::prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData
 
         auto color = m_colors[i];
         actor->GetProperty()->SetColor(color.rgb);
+        actor->GetProperty()->SetOpacity(1.0);
 
         m_renderer->AddActor(actor);
     }
@@ -106,6 +97,7 @@ void Renderer::prepareEdges()
         vtkSmartPointer<vtkActor> edgeActor = vtkSmartPointer<vtkActor>::New();
         edgeActor->SetMapper(edgeMapper);
         edgeActor->GetProperty()->SetColor(render::black.rgb);
+        edgeActor->GetProperty()->SetOpacity(1.0);
 
         m_renderer->AddActor(edgeActor);
     }
@@ -177,8 +169,23 @@ void Renderer::prepareCoordinateSystem()
     m_renderer->AddActor(zActor);
 }
 
-void Renderer::render()
+void Renderer::test()
 {
-    m_renderWindow->Render();
-    m_renderWindowInteractor->Start();
+    vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
+    cubeSource->Update();
+
+    // Create a mapper
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(cubeSource->GetOutputPort());
+
+    // Create an actor
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+
+    // Set actor properties (optional)
+    actor->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color
+    actor->GetProperty()->SetOpacity(1.0); // Fully opaque
+
+    // Add the actor to the renderer
+    m_renderer->AddActor(actor);
 }

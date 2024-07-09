@@ -1,39 +1,40 @@
-// #pragma once
+#include <renderer.h>
 
-// #include <QMainWindow>
-// #include <QLineEdit>
-// #include <QPushButton>
-// #include <QFileDialog>
-// #include <QFormLayout>
-// #include <QVBoxLayout>
-// #include <QVTKApplication.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QWidget>
 
-// #include <vtkRenderer.h>
+#include <QVTKOpenGLNativeWidget.h>
 
+#include <common-includes/vtk.h>
 
-// class MainWindow : public QMainWindow
-// {
-// public:
-//     MainWindow(QWidget* parent = nullptr);
-//     ~MainWindow();
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-//     inline std::string getRegion() const { return regionLineEdit->text().toStdString(); }
+public:
+    MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 
-//     inline std::string getJsonPath() const { return jsonPathLineEdit->text().toStdString(); }
+    std::string getTiffPath() const;
+    std::string getJsonPath() const;
 
-//     inline std::string getTiffPath() const { return tiffPathLineEdit->text().toStdString(); }
+private slots:
+    void onTiffBrowseButtonClicked();
+    void onJsonBrowseButtonClicked();
+    void onRenderButtonClicked();
 
-// private:
-//     void browseJson();
-//     void browseTiff();
+private:
+    QLineEdit* tiffPathField;
+    QLineEdit* jsonPathField;
 
-//     void closeWindow();
-
-// private:
-//     QLineEdit* regionLineEdit;
-//     QLineEdit* jsonPathLineEdit;
-//     QLineEdit* tiffPathLineEdit;
-//     QPushButton* jsonBrowseButton;
-//     QPushButton* tiffBrowseButton;
-//     QPushButton* okButton;
-// };
+    QVTKOpenGLNativeWidget* vtkWidget;
+    vtkSmartPointer<vtkRenderer> renderer;
+    
+    Renderer* meshRenderer;
+};

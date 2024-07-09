@@ -1,76 +1,107 @@
-// #include "mainwindow.h"
+#include "mainwindow.h"
 
-// MainWindow::MainWindow(QWidget* parent)
-//     : QMainWindow(parent)
-// {
-//     // Set the size of the window
-//     resize(1200, 800); // Adjust as necessary
+#include <geotiff_handler.h>
+#include <layer_builder.h>
+#include <modeller/modeller_set.h>
+#include <renderer.h>
+#include <blur/blur.h>
 
-//     QWidget* centralWidget = new QWidget(this);
-//     setCentralWidget(centralWidget);
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QFileDialog>
 
-//     QFormLayout* formLayout = new QFormLayout;
+#include <iostream> // for std::cout
 
-//     regionLineEdit = new QLineEdit();
-//     formLayout->addRow("Region:", regionLineEdit);
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent), meshRenderer(nullptr)
+{
+    // Create the main widget
+    QWidget* mainWidget = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
 
-//     jsonPathLineEdit = new QLineEdit();
-//     jsonPathLineEdit->setReadOnly(true); // Make it read-only
-//     formLayout->addRow("JSON File:", jsonPathLineEdit);
+    // Create the TIFF and JSON path input fields with browse buttons
+    QHBoxLayout* tiffLayout = new QHBoxLayout;
+    tiffPathField = new QLineEdit(this);
+    QPushButton* tiffBrowseButton = new QPushButton("Browse TIFF", this);
+    tiffLayout->addWidget(tiffPathField);
+    tiffLayout->addWidget(tiffBrowseButton);
 
-//     jsonBrowseButton = new QPushButton("Browse");
-//     connect(jsonBrowseButton, &QPushButton::clicked, this, &MainWindow::browseJson);
-//     formLayout->addRow(jsonBrowseButton);
+    QHBoxLayout* jsonLayout = new QHBoxLayout;
+    jsonPathField = new QLineEdit(this);
+    QPushButton* jsonBrowseButton = new QPushButton("Browse JSON", this);
+    jsonLayout->addWidget(jsonPathField);
+    jsonLayout->addWidget(jsonBrowseButton);
 
-//     tiffPathLineEdit = new QLineEdit();
-//     tiffPathLineEdit->setReadOnly(true); // Make it read-only
-//     formLayout->addRow("TIFF File:", tiffPathLineEdit);
+    // Add these layouts to the main layout
+    layout->addLayout(tiffLayout);
+    layout->addLayout(jsonLayout);
 
-//     tiffBrowseButton = new QPushButton("Browse");
-//     connect(tiffBrowseButton, &QPushButton::clicked, this, &MainWindow::browseTiff);
-//     formLayout->addRow(tiffBrowseButton);
+    // Create the custom VTK widget
+    vtkWidget = new QVTKOpenGLNativeWidget(this);
+    layout->addWidget(vtkWidget);
 
-//     QVBoxLayout* leftLayout = new QVBoxLayout;
-//     leftLayout->addLayout(formLayout);
+    // Create the Render button
+    QPushButton* renderButton = new QPushButton("Render", this);
+    layout->addWidget(renderButton);
 
-//     // Create a VTK widget
-//     vtkWidget = new QVTKWidget;
-//     leftLayout->addWidget(vtkWidget);
+    setCentralWidget(mainWidget);
 
-//     centralWidget->setLayout(leftLayout);
+    // Setup VTK
+    renderer = vtkSmartPointer<vtkRenderer>::New();
+    vtkWidget->renderWindow()->AddRenderer(renderer);
+    meshRenderer = new Renderer(renderer);
 
-//     // Initialize VTK renderer and render window
-//     renderer = vtkRenderer::New();
-//     vtkWidget->GetRenderWindow()->AddRenderer(renderer);
-//     renderer->SetBackground(0.8, 0.8, 0.8); // Set renderer background color
+    // Connect signals and slots
+    connect(tiffBrowseButton, &QPushButton::clicked, this, &MainWindow::onTiffBrowseButtonClicked);
+    connect(jsonBrowseButton, &QPushButton::clicked, this, &MainWindow::onJsonBrowseButtonClicked);
+    connect(renderButton, &QPushButton::clicked, this, &MainWindow::onRenderButtonClicked);
+}
 
-//     // Set up any initial VTK scene or interaction here
+MainWindow::~MainWindow()
+{
+    delete meshRenderer;
+}
 
-//     okButton = new QPushButton("OK");
-//     connect(okButton, &QPushButton::clicked, this, &MainWindow::closeWindow);
+std::string MainWindow::getTiffPath() const
+{
+    return tiffPathField->text().toStdString();
+}
 
-//     leftLayout->addWidget(okButton);
-// }
+std::string MainWindow::getJsonPath() const
+{
+    return jsonPathField->text().toStdString();
+}
 
-// MainWindow::~MainWindow()
-// {
-// }
+void MainWindow::onTiffBrowseButtonClicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "Open TIFF File", "", "TIFF Files (*.tiff *.tif)");
+    tiffPathField->setText(filePath);
+}
 
-// void MainWindow::browseJson() {
-//     QString fileName = QFileDialog::getOpenFileName(this, "Open JSON File", "", "JSON Files (*.json)");
-//     if (!fileName.isEmpty()) {
-//         jsonPathLineEdit->setText(fileName);
-//     }
-// }
+void MainWindow::onJsonBrowseButtonClicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "Open JSON File", "", "JSON Files (*.json)");
+    jsonPathField->setText(filePath);
+}
 
-// void MainWindow::browseTiff() {
-//     QString fileName = QFileDialog::getOpenFileName(this, "Open TIFF File", "", "TIFF Files (*.tif *.tiff)");
-//     if (!fileName.isEmpty()) {
-//         tiffPathLineEdit->setText(fileName);
-//     }
-// }
+void MainWindow::onRenderButtonClicked()
+{
+    const std::string region = "sidjfisjd";
+    const std::string observationDataPath = getJsonPath();
+    const std::string tiffPath = getTiffPath();
 
-// void MainWindow::closeWindow()
-// {
-//     close();
-// }
+    LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
+
+    ModellerSet modeller(layerBuilder);
+    modeller.createMeshes();
+
+    meshRenderer->addMeshes(modeller.getMeshes());
+
+    // Describe what you want to be rendered
+    // meshRenderer->prepareEdges();
+    meshRenderer->prepareSurfaces();
+    // meshRenderer->prepareLayerBody();
+
+    renderer->ResetCamera();
+    vtkWidget->renderWindow()->Render();
+}

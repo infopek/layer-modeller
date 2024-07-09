@@ -113,6 +113,8 @@
         "*.txx": "cpp",
         "dense": "cpp",
         "__bit_reference": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "qvboxlayout": "cpp",
+        "qmainwindow": "cpp"
     }
 }

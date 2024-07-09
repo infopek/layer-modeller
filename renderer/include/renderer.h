@@ -12,7 +12,7 @@
 class Renderer
 {
 public:
-    Renderer();
+    Renderer(vtkSmartPointer<vtkRenderer> renderer);
     ~Renderer();
 
     void addMeshes(const std::vector<Mesh>& meshes);
@@ -23,7 +23,7 @@ public:
     void preparePoints();
     void prepareCoordinateSystem();
 
-    void render();
+    void test();
 
 private:
     void init();
@@ -32,8 +32,6 @@ private:
 
 private:
     vtkSmartPointer<vtkRenderer> m_renderer;
-    vtkSmartPointer<vtkRenderWindow> m_renderWindow;
-    vtkSmartPointer<vtkRenderWindowInteractor> m_renderWindowInteractor;
 
     std::vector<Mesh> m_meshes{};
     std::vector<vtkSmartPointer<vtkPolyData>> m_surfaceMeshPolyData{};
