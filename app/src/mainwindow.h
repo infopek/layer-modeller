@@ -21,8 +21,9 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-    std::string getTiffPath() const;
-    std::string getJsonPath() const;
+    inline const std::string getTiffPath() const { return m_tiffPathField->text().toStdString(); }
+    inline const std::string getJsonPath() const { return m_jsonPathField->text().toStdString(); }
+    inline const std::string getRegion() const { return m_regionField->text().toStdString(); }
 
 private slots:
     void onTiffBrowseButtonClicked();
@@ -30,11 +31,12 @@ private slots:
     void onRenderButtonClicked();
 
 private:
-    QLineEdit* tiffPathField;
-    QLineEdit* jsonPathField;
+    QLineEdit* m_tiffPathField;
+    QLineEdit* m_jsonPathField;
+    QLineEdit* m_regionField;
 
-    QVTKOpenGLNativeWidget* vtkWidget;
-    vtkSmartPointer<vtkRenderer> renderer;
-    
-    Renderer* meshRenderer;
+    QVTKOpenGLNativeWidget* m_vtkWidget;
+    vtkSmartPointer<vtkRenderer> m_renderer;
+
+    Renderer* m_meshRenderer;
 };

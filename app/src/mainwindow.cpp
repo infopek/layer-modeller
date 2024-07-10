@@ -13,32 +13,44 @@
 #include <iostream> // for std::cout
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), meshRenderer(nullptr)
+    : QMainWindow(parent), m_meshRenderer(nullptr)
 {
+    resize(720, 540);
+
     // Create the main widget
     QWidget* mainWidget = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(mainWidget);
 
-    // Create the TIFF and JSON path input fields with browse buttons
+    // Create the TIFF path input layout
     QHBoxLayout* tiffLayout = new QHBoxLayout;
-    tiffPathField = new QLineEdit(this);
+    m_tiffPathField = new QLineEdit(this);
+    m_tiffPathField->setReadOnly(true);
     QPushButton* tiffBrowseButton = new QPushButton("Browse TIFF", this);
-    tiffLayout->addWidget(tiffPathField);
+    tiffLayout->addWidget(m_tiffPathField);
     tiffLayout->addWidget(tiffBrowseButton);
 
+    // Create the JSON path input layout
     QHBoxLayout* jsonLayout = new QHBoxLayout;
-    jsonPathField = new QLineEdit(this);
+    m_jsonPathField = new QLineEdit(this);
+    m_jsonPathField->setReadOnly(true);
     QPushButton* jsonBrowseButton = new QPushButton("Browse JSON", this);
-    jsonLayout->addWidget(jsonPathField);
+    jsonLayout->addWidget(m_jsonPathField);
     jsonLayout->addWidget(jsonBrowseButton);
+
+    // Create region input field
+    QHBoxLayout* regionLayout = new QHBoxLayout;
+    m_regionField = new QLineEdit(this);
+    m_regionField->setPlaceholderText("Enter region...");
+    regionLayout->addWidget(m_regionField);
 
     // Add these layouts to the main layout
     layout->addLayout(tiffLayout);
     layout->addLayout(jsonLayout);
+    layout->addLayout(regionLayout);
 
     // Create the custom VTK widget
-    vtkWidget = new QVTKOpenGLNativeWidget(this);
-    layout->addWidget(vtkWidget);
+    m_vtkWidget = new QVTKOpenGLNativeWidget(this);
+    layout->addWidget(m_vtkWidget);
 
     // Create the Render button
     QPushButton* renderButton = new QPushButton("Render", this);
@@ -46,10 +58,10 @@ MainWindow::MainWindow(QWidget* parent)
 
     setCentralWidget(mainWidget);
 
-    // Setup VTK
-    renderer = vtkSmartPointer<vtkRenderer>::New();
-    vtkWidget->renderWindow()->AddRenderer(renderer);
-    meshRenderer = new Renderer(renderer);
+    // Setup VTK and Renderer
+    m_renderer = vtkSmartPointer<vtkRenderer>::New();
+    m_vtkWidget->renderWindow()->AddRenderer(m_renderer);
+    m_meshRenderer = new Renderer(m_renderer);
 
     // Connect signals and slots
     connect(tiffBrowseButton, &QPushButton::clicked, this, &MainWindow::onTiffBrowseButtonClicked);
@@ -59,49 +71,42 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-    delete meshRenderer;
-}
-
-std::string MainWindow::getTiffPath() const
-{
-    return tiffPathField->text().toStdString();
-}
-
-std::string MainWindow::getJsonPath() const
-{
-    return jsonPathField->text().toStdString();
+    delete m_meshRenderer;
 }
 
 void MainWindow::onTiffBrowseButtonClicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Open TIFF File", "", "TIFF Files (*.tiff *.tif)");
-    tiffPathField->setText(filePath);
+    m_tiffPathField->setText(filePath);
 }
 
 void MainWindow::onJsonBrowseButtonClicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Open JSON File", "", "JSON Files (*.json)");
-    jsonPathField->setText(filePath);
+    m_jsonPathField->setText(filePath);
 }
 
 void MainWindow::onRenderButtonClicked()
 {
-    const std::string region = "sidjfisjd";
+    const std::string region = getRegion();
+
     const std::string observationDataPath = getJsonPath();
     const std::string tiffPath = getTiffPath();
 
+    // Build layers
     LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
 
     ModellerSet modeller(layerBuilder);
     modeller.createMeshes();
 
-    meshRenderer->addMeshes(modeller.getMeshes());
+    m_meshRenderer->addMeshes(modeller.getMeshes());
 
     // Describe what you want to be rendered
-    // meshRenderer->prepareEdges();
-    meshRenderer->prepareSurfaces();
-    // meshRenderer->prepareLayerBody();
+    m_meshRenderer->prepareEdges();
+    m_meshRenderer->prepareSurfaces();
+    m_meshRenderer->prepareLayerBody();
 
-    renderer->ResetCamera();
-    vtkWidget->renderWindow()->Render();
+    // Render
+    m_renderer->ResetCamera();
+    m_vtkWidget->renderWindow()->Render();
 }
