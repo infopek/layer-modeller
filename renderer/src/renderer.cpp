@@ -3,6 +3,8 @@
 #include <cgal_to_vtk_converter.h>
 #include <vtkCubeSource.h>
 
+std::string Renderer::s_logPrefix = "[RENDERER] --";
+
 Renderer::Renderer(vtkSmartPointer<vtkRenderer> renderer)
     : m_renderer{ renderer }
 {
@@ -11,11 +13,11 @@ Renderer::Renderer(vtkSmartPointer<vtkRenderer> renderer)
 
 Renderer::~Renderer()
 {
+
 }
 
 void Renderer::init()
 {
-
 }
 
 void Renderer::addMeshes(const std::vector<Mesh>& meshes)
@@ -40,6 +42,7 @@ void Renderer::addMeshes(const std::vector<Mesh>& meshes)
     m_layerBodyPolyData.resize(numMeshes);
     m_colors.resize(numMeshes);
 
+    Logger::log(LogLevel::INFO, Renderer::s_logPrefix + " Adding " + std::to_string(numMeshes) + " meshes...");
     for (size_t i = 0; i < numMeshes; i++)
     {
         const auto& mesh = m_meshes[i];
@@ -51,7 +54,6 @@ void Renderer::addMeshes(const std::vector<Mesh>& meshes)
         m_layerBodyPolyData[i] = layerBodyPolyData;
         m_colors[i] = colorMap[mesh.layer.composition];
     }
-
 }
 
 void Renderer::prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData)
@@ -74,16 +76,19 @@ void Renderer::prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData
 
 void Renderer::prepareSurfaces()
 {
+    Logger::log(LogLevel::INFO, Renderer::s_logPrefix + " Preparing surfaces of meshes...");
     prepare(m_surfaceMeshPolyData);
 }
 
 void Renderer::prepareLayerBody()
 {
+    Logger::log(LogLevel::INFO, Renderer::s_logPrefix + " Preparing 3D meshes...");
     prepare(m_layerBodyPolyData);
 }
 
 void Renderer::prepareEdges()
 {
+    Logger::log(LogLevel::INFO, Renderer::s_logPrefix + " Preparing edges for meshes...");
     for (const auto polyData : m_surfaceMeshPolyData)
     {
         vtkSmartPointer<vtkExtractEdges> extractEdges = vtkSmartPointer<vtkExtractEdges>::New();

@@ -115,6 +115,7 @@
         "__bit_reference": "cpp",
         "semaphore": "cpp",
         "qvboxlayout": "cpp",
-        "qmainwindow": "cpp"
+        "qmainwindow": "cpp",
+        "resumable": "cpp"
     }
 }

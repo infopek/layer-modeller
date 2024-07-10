@@ -7,31 +7,13 @@
 #include <algorithm>
 #include <random>
 
+std::string LayerBuilder::s_logPrefix = "[LAYER_BUILDER] --";
+
 LayerBuilder::LayerBuilder(const std::string& regionName, const std::string& observationDataPath, const std::string& tiffPath)
-    : m_regionName{ regionName }, m_observationDataPath{ observationDataPath }, m_tiffPath{ tiffPath }
+    : m_regionName{ regionName },
+    m_observationDataPath{ observationDataPath },
+    m_tiffPath{ tiffPath }
 {
-
-}
-
-LayerBuilder::LayerBuilder(const std::vector<Point>& points)
-{
-    // m_layers[0].points = points;
-    // m_layers[0].composition = "comp1";
-
-    // m_layers[1].points.resize(points.size());
-    // m_layers[1].composition = "comp2";
-    // for (size_t i = 0; i < points.size(); i++)
-    //     m_layers[1].points[i] = Point{ points[i].x, points[i].y, (points[i].z + rand() % 9) + 40.0 };
-
-    // m_layers[2].points.resize(points.size());
-    // m_layers[2].composition = "comp3";
-    // for (size_t i = 0; i < points.size(); i++)
-    //     m_layers[2].points[i] = Point{ points[i].x, points[i].y, (points[i].z + rand() % 9) + 70.0 };
-
-    // m_layers[3].points.resize(points.size());
-    // m_layers[3].composition = "comp4";
-    // for (size_t i = 0; i < points.size(); i++)
-    //     m_layers[3].points[i] = Point{ points[i].x, points[i].y, (points[i].z + rand() % 9) + 110.0 };
 
 }
 
@@ -60,6 +42,8 @@ void LayerBuilder::layerize(const std::map<std::string, LithologyData>& layers)
     int i = 0;
     for (auto it = layers.begin(); it != layers.end(); ++it)
     {
+        Logger::log(LogLevel::INFO, LayerBuilder::s_logPrefix + " Processing layer " + std::to_string(i + 1) + "...");
+
         auto& data = it->second;
         m_layers[i].points.resize(data.interpolatedData.size());
         m_layers[i].composition = "comp" + std::to_string(i);

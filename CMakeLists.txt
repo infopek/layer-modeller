@@ -4,6 +4,7 @@ project(LayerModeller VERSION 0.0.1
                       DESCRIPTION "Generating layers from lithostratigraphic data"
                       LANGUAGES CXX)     
 
+# C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -51,6 +52,7 @@ find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
 
+# For QT6
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)

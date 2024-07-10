@@ -2,6 +2,7 @@
 
 #include <models/mesh.h>
 #include <layer_builder.h>
+#include <logging.h>
 
 #include <common-includes/cgal.h>
 
@@ -29,4 +30,6 @@ private:
     LayerBuilder m_layerBuilder;
     std::vector<Mesh> m_meshes{};
     std::vector<SurfaceMesh> m_extrudedMeshes{};
+
+    static std::string s_logPrefix;
 };

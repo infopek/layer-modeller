@@ -2,9 +2,12 @@
 
 #include <models/point.h>
 #include <models/lithology_data.h>
+#include <logging.h>
 
 #include <gdal_priv.h>
+
 #include <stdexcept>
+#include <string>
 
 class GeoTiffHandler
 {
@@ -15,6 +18,9 @@ public:
     BoundingRectangle getBoundingRectangle();
     float* getRaster();
     void freeRaster(float* raster);
+
 private:
     GDALDataset* m_dataset;
+
+    static std::string s_logPrefix;
 };

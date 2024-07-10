@@ -14,6 +14,8 @@ struct PairHash
     }
 };
 
+std::string ModellerSet::s_logPrefix = "[MODELLER_SET] --";
+
 ModellerSet::ModellerSet(const LayerBuilder& layerBuilder)
     : m_layerBuilder{ layerBuilder }
 {
@@ -96,6 +98,7 @@ void ModellerSet::processMesh(SurfaceMesh& mesh)
 
 void ModellerSet::createMeshes()
 {
+    Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Creating " + std::to_string(m_meshes.size()) + " meshes...");
     for (size_t i = 0; i < m_meshes.size(); ++i)
     {
         // References
@@ -108,6 +111,7 @@ void ModellerSet::createMeshes()
         std::vector<Point2> points2d;
         std::unordered_map<std::pair<double, double>, double, PairHash> elevations{};
         points2d.reserve(points3d.size());
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Flattening...");
         for (const auto& p : points3d)
         {
             points2d.emplace_back(p.x, p.y);
@@ -115,6 +119,7 @@ void ModellerSet::createMeshes()
         }
 
         // Create 2D triangulation
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Creating 2D triangulation...");
         dt.insert(points2d.begin(), points2d.end());
         for (FaceIterator f = dt.finite_faces_begin(); f != dt.finite_faces_end(); ++f)
         {
@@ -138,10 +143,12 @@ void ModellerSet::createMeshes()
         }
 
         // Extrude surface
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Extruding triangulated surface...");
         Vector3 extrudeVector(0.0, 0.0, -450.0);
         CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
 
         // Repair mesh
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Repairing extruded surface...");
         processMesh(layerBody);
         m_extrudedMeshes.push_back(layerBody);
 
@@ -149,15 +156,16 @@ void ModellerSet::createMeshes()
         if (i > 0)
         {
             SurfaceMesh result{};
+            Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Computing geometric difference with layer " + std::to_string(i) + " ...");
             bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i - 1], result);
             layerBody = std::move(result);
             if (validDifference)
             {
-                std::cout << "The difference is valid\n";
+                Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "The difference is valid.");
             }
             else
             {
-                std::cout << "The difference is not valid\n";
+                Logger::log(LogLevel::WARN, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "The difference is invalid.");
             }
         }
     }

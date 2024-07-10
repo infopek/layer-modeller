@@ -5,7 +5,8 @@ project(Common  VERSION 0.0.1
                 LANGUAGES CXX)  
 
 add_library(Common 
-  	src/src.cpp)
+  	src/src.cpp
+	src/logging.cpp)
 add_library(Common::Common ALIAS Common)
 
 target_include_directories(

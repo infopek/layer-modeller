@@ -22,6 +22,10 @@
 *.out
 *.app
 
+# Logs
+/logs/
+*.log
+
 # CMake build directory
 /build/
 /build-*/

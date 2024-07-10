@@ -3,6 +3,7 @@
 #include <models/point.h>
 #include <models/layer.h>
 #include <models/lithology_data.h>
+#include <logging.h>
 
 #include <string>
 #include <vector>
@@ -11,9 +12,6 @@
 class LayerBuilder
 {
 public:
-    // To be deleted
-    LayerBuilder(const std::vector<Point>& points);
-
     LayerBuilder(const std::string& regionName, const std::string& observationDataPath, const std::string& tiffPath);
     ~LayerBuilder();
 
@@ -32,4 +30,6 @@ private:
     std::string m_regionName{};
     std::string m_observationDataPath{};
     std::string m_tiffPath{};
+
+    static std::string s_logPrefix;
 };

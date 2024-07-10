@@ -8,26 +8,37 @@
 
 #include <iostream>
 
+std::string GeoTiffHandler::s_logPrefix = "[GEO_TIFF_HANDLER] --";
+
 GeoTiffHandler::GeoTiffHandler(const std::string& filepath)
 {
     GDALAllRegister();
 
     m_dataset = (GDALDataset*)GDALOpen(filepath.c_str(), GA_ReadOnly);
     if (m_dataset == nullptr)
+    {
+        Logger::log(LogLevel::CRITICAL, GeoTiffHandler::s_logPrefix + " Failed to open GeoTIFF file.");
         throw std::runtime_error("Failed to open GeoTIFF file.");
+    }
 }
 
 GeoTiffHandler::~GeoTiffHandler()
 {
     if (m_dataset)
+    {
+        Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Closing dataset...");
         GDALClose(m_dataset);
+    }
 }
 
 BoundingRectangle GeoTiffHandler::getBoundingRectangle()
 {
     double adfGeoTransform[6];
     if (m_dataset->GetGeoTransform(adfGeoTransform) != CE_None)
+    {
+        Logger::log(LogLevel::CRITICAL, GeoTiffHandler::s_logPrefix + " Failed to get geotransform.");
         throw std::runtime_error("Failed to get geotransform.");
+    }
 
     // Image size
     int xSize = m_dataset->GetRasterXSize();
@@ -53,7 +64,7 @@ float* GeoTiffHandler::getRaster()
     GDALRasterBand* poBand = m_dataset->GetRasterBand(1); // Get the first band
     if (poBand == nullptr)
     {
-        std::cerr << "Failed to get raster band." << std::endl;
+        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to get raster band.");
         return nullptr;
     }
 
@@ -63,7 +74,7 @@ float* GeoTiffHandler::getRaster()
 
     if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None)
     {
-        std::cerr << "Failed to read raster data." << std::endl;
+        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to read raster data.");
         CPLFree(pafRaster);
         return nullptr;
     }
@@ -72,5 +83,6 @@ float* GeoTiffHandler::getRaster()
 
 void GeoTiffHandler::freeRaster(float* raster)
 {
+    Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Freeing raster...");
     CPLFree(raster);
 }
