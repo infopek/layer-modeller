@@ -8,6 +8,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QWidget>
+#include <QThread>
+#include <QtConcurrent/QtConcurrent>
 
 #include <QVTKOpenGLNativeWidget.h>
 
@@ -29,6 +31,7 @@ private slots:
     void onTiffBrowseButtonClicked();
     void onJsonBrowseButtonClicked();
     void onRenderButtonClicked();
+    void onRenderingComplete(QPushButton* renderButton);
 
 private:
     QLineEdit* m_tiffPathField;

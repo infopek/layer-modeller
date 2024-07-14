@@ -35,15 +35,17 @@ find_package(VTK COMPONENTS
   CommonCore
   CommonDataModel
   FiltersCore
-  FiltersGeneral
+  # FiltersGeneral
+  # FiltersSources
+  # FiltersGeometry
+  # FiltersModeling
+  FiltersExtraction
   FiltersSources
-  FiltersGeometry
-  FiltersModeling
-  InteractionStyle
-  InteractionWidgets
+  # InteractionStyle
+  # InteractionWidgets
   RenderingCore
   RenderingOpenGL2
-  IOXML
+  # IOXML
   GUISupportQt
   REQUIRED)
 find_package(GSL REQUIRED)

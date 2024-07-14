@@ -93,14 +93,27 @@ void MainWindow::onRenderButtonClicked()
     const std::string observationDataPath = getJsonPath();
     const std::string tiffPath = getTiffPath();
 
+    QPushButton* renderButton = qobject_cast<QPushButton*>(sender());
+    if (renderButton)
+        renderButton->setEnabled(false);
+
     // Build layers
-    LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
+    QtConcurrent::run(
+        [this, renderButton, region, observationDataPath, tiffPath]()
+        {
+            LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
 
-    ModellerSet modeller(layerBuilder);
-    modeller.createMeshes();
+            ModellerSet modeller(layerBuilder);
+            modeller.createMeshes();
 
-    m_meshRenderer->addMeshes(modeller.getMeshes());
+            m_meshRenderer->addMeshes(modeller.getMeshes());
 
+            QMetaObject::invokeMethod(this, "onRenderingComplete", Qt::QueuedConnection, Q_ARG(QPushButton*, renderButton));
+        });
+}
+
+void MainWindow::onRenderingComplete(QPushButton* renderButton)
+{
     // Describe what you want to be rendered
     m_meshRenderer->prepareEdges();
     m_meshRenderer->prepareSurfaces();
@@ -109,4 +122,7 @@ void MainWindow::onRenderButtonClicked()
     // Render
     m_renderer->ResetCamera();
     m_vtkWidget->renderWindow()->Render();
+
+    renderButton->setEnabled(true);
 }
+
