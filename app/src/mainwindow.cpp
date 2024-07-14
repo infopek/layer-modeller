@@ -98,7 +98,7 @@ void MainWindow::onRenderButtonClicked()
         renderButton->setEnabled(false);
 
     // Build layers
-    QtConcurrent::run(
+    auto _ = QtConcurrent::run(
         [this, renderButton, region, observationDataPath, tiffPath]()
         {
             LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
