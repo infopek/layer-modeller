@@ -78,6 +78,10 @@ float* GeoTiffHandler::getRaster()
         CPLFree(pafRaster);
         return nullptr;
     }
+
+    Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Applying blur to TIFF.");
+    Blur::gaussFilter(pafRaster, pafRaster, nXSize, nYSize, 5, 2.4f);
+
     return pafRaster;
 }
 

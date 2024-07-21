@@ -14,34 +14,28 @@ Blur::~Blur()
 {
 }
 
-void Blur::boxFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize)
+void Blur::boxFilter(const float* src, float* dst, int width, int height, int kernelSize)
 {
-    cv::Mat srcMat(height, width, CV_8UC1, (void*)src);
-    cv::Mat dstMat(height, width, CV_8UC1, (void*)dst);
+    cv::Mat srcMat(height, width, CV_32FC1, (void*)src);
+    cv::Mat dstMat(height, width, CV_32FC1, (void*)dst);
 
     cv::boxFilter(srcMat, dstMat, -1, cv::Size(kernelSize, kernelSize));
-
-    dstMat.copyTo(cv::Mat(height, width, CV_8UC1, (void*)dst));
 }
 
-void Blur::gaussFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize, float sigma)
+void Blur::gaussFilter(const float* src, float* dst, int width, int height, int kernelSize, float sigma)
 {
-    cv::Mat srcMat(height, width, CV_8UC1, (void*)src);
-    cv::Mat dstMat(height, width, CV_8UC1, (void*)dst);
+    cv::Mat srcMat(height, width, CV_32FC1, (void*)src);
+    cv::Mat dstMat(height, width, CV_32FC1, (void*)dst);
 
     cv::GaussianBlur(srcMat, dstMat, cv::Size(kernelSize, kernelSize), sigma, sigma);
-
-    dstMat.copyTo(cv::Mat(height, width, CV_8UC1, (void*)dst));
 }
 
-void Blur::medianFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize)
+void Blur::medianFilter(const float* src, float* dst, int width, int height, int kernelSize)
 {
-    cv::Mat srcMat(height, width, CV_8UC1, (void*)src);
-    cv::Mat dstMat(height, width, CV_8UC1, (void*)dst);
+    cv::Mat srcMat(height, width, CV_32FC1, (void*)src);
+    cv::Mat dstMat(height, width, CV_32FC1, (void*)dst);
 
     cv::medianBlur(srcMat, dstMat, kernelSize);
-
-    dstMat.copyTo(cv::Mat(height, width, CV_8UC1, (void*)dst));
 }
 
 float Blur::gaussFunction(float x, float y, float sigma)

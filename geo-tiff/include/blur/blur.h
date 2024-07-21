@@ -6,11 +6,11 @@ public:
 	Blur();
 	~Blur();
 
-	static void boxFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize);
+	static void boxFilter(const float* src, float* dst, int width, int height, int kernelSize);
 
-	static void gaussFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize, float sigma);
+	static void gaussFilter(const float* src, float* dst, int width, int height, int kernelSize, float sigma);
 
-	static void medianFilter(const unsigned char* src, unsigned char* dst, int width, int height, int kernelSize);
+	static void medianFilter(const float* src, float* dst, int width, int height, int kernelSize);
 
 private:
 	/// @brief Calculates the Gaussian function value at (x, y) with sigma_x = sigma_y = sigma.
