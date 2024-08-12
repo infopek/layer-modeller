@@ -11,7 +11,9 @@ enable_language(CUDA)
 
 add_executable(App 
   src/app.cpp
-  src/mainwindow.cpp)
+  src/mainwindow.cpp
+  src/stb_image_write.h
+  src/stb_image.h)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
@@ -32,11 +34,6 @@ target_link_libraries(
     PRIVATE
       Qt6::Widgets
       CGAL::CGAL
-      opencv_ml 
-      opencv_dnn 
-      opencv_core 
-      opencv_flann
-      ${OpenCV_LIBS}
       ${VTK_LIBRARIES})
 
 vtk_module_autoinit(

@@ -1,9 +1,5 @@
 #include <geotiff_handler.h>
 
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-
 #include <blur/blur.h>
 
 #include <iostream>
@@ -79,6 +75,7 @@ float* GeoTiffHandler::getRaster()
         return nullptr;
     }
 
+    // Blur the raster
     Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Applying blur to TIFF.");
     Blur::gaussFilter(pafRaster, pafRaster, nXSize, nYSize, 5, 2.4f);
 

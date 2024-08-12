@@ -29,7 +29,6 @@ set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Nor
 
 # Packages
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-find_package(OpenCV CONFIG REQUIRED)
 find_package(CGAL CONFIG REQUIRED)
 find_package(VTK COMPONENTS 
   CommonCore

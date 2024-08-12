@@ -6,7 +6,6 @@
     "gsl",
     "nlohmann-json",
     "pkgconf",
-    "opencv",
     {
       "name": "vtk",
       "default-features": false,

@@ -42,10 +42,5 @@ target_link_libraries(GeoTiff
         ${CUDA_nppi_LIBRARY} 
         ${CUDA_npps_LIBRARY}
         ${CUDA_nvcuvenc_LIBRARY} ${CUDA_nvcuvid_LIBRARY}
-        opencv_ml 
-        opencv_dnn 
-        opencv_core
-        opencv_imgcodecs 
-        opencv_flann
     PUBLIC
         Common::Common)

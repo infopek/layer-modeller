@@ -65,6 +65,7 @@ void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const 
     for (const auto& polygon : polygons)
     {
         std::vector<SurfaceMesh::Vertex_index> face{};
+        face.reserve(3);
         for (const auto& idx : polygon)
             face.push_back(vertices[idx]);
         mesh.add_face(face);
@@ -73,18 +74,20 @@ void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const 
 
 void ModellerSet::processMesh(SurfaceMesh& mesh)
 {
+    // Convert to poly soup
     std::vector<Point3> points{};
     std::vector<std::vector<size_t>> polygons{};
     points.reserve(static_cast<size_t>(mesh.num_vertices()));
     polygons.reserve(static_cast<size_t>(mesh.num_faces()));
-
     convertToPolygonSoup(mesh, points, polygons);
 
+    // Convert repaired mesh back to SurfaceMesh
     PMP::repair_polygon_soup(points, polygons);
-
     SurfaceMesh repairedMesh{};
+    repairedMesh.reserve(points.size(), 0, polygons.size());
     convertToSurfaceMesh(points, polygons, repairedMesh);
 
+    // Other repairs
     PMP::stitch_borders(repairedMesh);
     PMP::triangulate_faces(repairedMesh);
     if (!PMP::is_outward_oriented(repairedMesh))
@@ -93,11 +96,15 @@ void ModellerSet::processMesh(SurfaceMesh& mesh)
 
     assert(CGAL::is_valid_polygon_mesh(repairedMesh));
 
+    // Our mesh is now repaired
     mesh = std::move(repairedMesh);
 }
 
 void ModellerSet::createMeshes()
 {
+    float lowestZ = getMinimumZ(m_meshes[0].layer.points);
+    Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Lowest point: " + std::to_string(lowestZ));
+
     Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Creating " + std::to_string(m_meshes.size()) + " meshes...");
     for (size_t i = 0; i < m_meshes.size(); ++i)
     {
@@ -121,6 +128,7 @@ void ModellerSet::createMeshes()
         // Create 2D triangulation
         Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Creating 2D triangulation...");
         dt.insert(points2d.begin(), points2d.end());
+        surfaceMesh.reserve(dt.number_of_faces() * 3, 0, dt.number_of_faces());
         for (FaceIterator f = dt.finite_faces_begin(); f != dt.finite_faces_end(); ++f)
         {
             VertexHandle v0 = f->vertex(0);
@@ -170,3 +178,15 @@ void ModellerSet::createMeshes()
         }
     }
 }
+
+float ModellerSet::getMinimumZ(const std::vector<Point>& layerPoints)
+{
+    auto minPoint = std::min_element(layerPoints.begin(), layerPoints.end(),
+        [](const Point& p1, const Point& p2)
+        {
+            return p1.z < p2.z;
+        });
+
+    return minPoint->z;
+}
+
