@@ -17,5 +17,5 @@ private:
 
 	static void gaussFilterCUDA(const float* src, float* dst, int width, int height, int kernelRadius, float sigma);
 
-	static void medianFilterCUDA(const float* src, float* dst, int width, int height);
+	static void medianFilterCUDA(const float* src, float* dst, int width, int height, int kernelRadius);
 };

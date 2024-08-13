@@ -17,9 +17,6 @@ void Blur::gaussFilter(const float* src, float* dst, int width, int height, int 
 
 void Blur::medianFilter(const float* src, float* dst, int width, int height, int kernelRadius)
 {
-    // cv::Mat srcMat(height, width, CV_32FC1, (void*)src);
-    // cv::Mat dstMat(height, width, CV_32FC1, (void*)dst);
-
-    // cv::medianBlur(srcMat, dstMat, kernelRadius);
+    medianFilterCUDA(src, dst, width, height, kernelRadius);
 }
 
