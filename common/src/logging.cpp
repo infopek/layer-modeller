@@ -15,6 +15,7 @@ void Logger::init(const std::string& filename = "")
         std::filesystem::path logPath(filename);
         std::filesystem::create_directories(logPath.parent_path());
         getInstance().m_fileStream.open(filename, std::ios::out | std::ios::trunc);
+
         if (!getInstance().m_fileStream)
             std::cerr << "Failed to open log file: " << filename << std::endl;
     }

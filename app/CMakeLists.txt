@@ -11,9 +11,7 @@ enable_language(CUDA)
 
 add_executable(App 
   src/app.cpp
-  src/mainwindow.cpp
-  src/stb_image_write.h
-  src/stb_image.h)
+  src/mainwindow.cpp)
 
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)

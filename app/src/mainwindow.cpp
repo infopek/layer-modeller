@@ -117,7 +117,7 @@ void MainWindow::onRenderingComplete(QPushButton* renderButton)
     // Describe what you want to be rendered
     m_meshRenderer->prepareEdges();
     m_meshRenderer->prepareSurfaces();
-    m_meshRenderer->prepareLayerBody();
+    // m_meshRenderer->prepareLayerBody();
 
     // Render
     m_renderer->ResetCamera();

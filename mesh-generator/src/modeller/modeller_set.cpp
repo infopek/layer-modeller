@@ -33,6 +33,7 @@ void ModellerSet::init()
     const auto& layers = m_layerBuilder.getLayers();
 
     m_meshes.resize(layers.size());
+    m_extrudedMeshes.resize(layers.size());
     for (size_t i = 0; i < layers.size(); i++)
         m_meshes[i].layer = layers[i];
 }
@@ -102,12 +103,13 @@ void ModellerSet::processMesh(SurfaceMesh& mesh)
 
 void ModellerSet::createMeshes()
 {
-    float lowestZ = getMinimumZ(m_meshes[0].layer.points);
-    Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Lowest point: " + std::to_string(lowestZ));
-
+    const size_t numMeshes = m_meshes.size();
+    const float lowestZ = getMinimumZ(m_meshes[numMeshes - 1].layer.points) - 200.0f;   // below the lowest point of bottom layer
     Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Creating " + std::to_string(m_meshes.size()) + " meshes...");
-    for (size_t i = 0; i < m_meshes.size(); ++i)
+    for (int i = numMeshes - 1; i >= 0; --i)
     {
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Processing layer " + std::to_string(i + 1) + "...");
+
         // References
         const auto& points3d = m_meshes[i].layer.points;
         auto& dt = m_meshes[i].dt;
@@ -116,9 +118,9 @@ void ModellerSet::createMeshes()
 
         // Transform 3D points to 2D by ignoring z coordinate
         std::vector<Point2> points2d;
-        std::unordered_map<std::pair<double, double>, double, PairHash> elevations{};
         points2d.reserve(points3d.size());
-        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Flattening...");
+        std::unordered_map<std::pair<double, double>, double, PairHash> elevations{};
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tFlattening...");
         for (const auto& p : points3d)
         {
             points2d.emplace_back(p.x, p.y);
@@ -126,7 +128,7 @@ void ModellerSet::createMeshes()
         }
 
         // Create 2D triangulation
-        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Creating 2D triangulation...");
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tCreating 2D triangulation...");
         dt.insert(points2d.begin(), points2d.end());
         surfaceMesh.reserve(dt.number_of_faces() * 3, 0, dt.number_of_faces());
         for (FaceIterator f = dt.finite_faces_begin(); f != dt.finite_faces_end(); ++f)
@@ -151,30 +153,36 @@ void ModellerSet::createMeshes()
         }
 
         // Extrude surface
-        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Extruding triangulated surface...");
-        Vector3 extrudeVector(0.0, 0.0, -450.0);
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tExtruding triangulated surface...");
+        float currLowestZ = getMinimumZ(points3d);
+        Vector3 extrudeVector(0.0, 0.0, -(currLowestZ - lowestZ));  // extrude vector should point downwards
         CGAL::Polygon_mesh_processing::extrude_mesh(surfaceMesh, layerBody, extrudeVector);
 
         // Repair mesh
-        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Repairing extruded surface...");
+        Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tRepairing extruded surface...");
         processMesh(layerBody);
-        m_extrudedMeshes.push_back(layerBody);
+        m_extrudedMeshes[i] = layerBody;
 
-        // Perform set operations on meshes
-        if (i > 0)
+        if (i < numMeshes - 1)
         {
+            // Lowest layer processed already, use it
             SurfaceMesh result{};
-            Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "Computing geometric difference with layer " + std::to_string(i) + " ...");
-            bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i - 1], result);
-            layerBody = std::move(result);
+            Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tComputing geometric difference with layer " + std::to_string(i) + "...");
+            bool validDifference = PMP::corefine_and_compute_difference(layerBody, m_extrudedMeshes[i + 1], result);
             if (validDifference)
             {
-                Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "The difference is valid.");
+                Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + "\tThe difference is valid.");
+                layerBody = std::move(result);
             }
             else
             {
-                Logger::log(LogLevel::WARN, ModellerSet::s_logPrefix + " (Layer " + std::to_string(i + 1) + "): " + "The difference is invalid.");
+                Logger::log(LogLevel::WARN, ModellerSet::s_logPrefix + "\tThe difference is invalid.");
             }
+        }
+        else
+        {
+            // Lowest layer
+            layerBody = m_extrudedMeshes[i];
         }
     }
 }
