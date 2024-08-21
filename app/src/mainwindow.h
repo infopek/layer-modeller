@@ -31,7 +31,7 @@ private slots:
     void onTiffBrowseButtonClicked();
     void onJsonBrowseButtonClicked();
     void onRenderButtonClicked();
-    void onRenderingComplete(QPushButton* renderButton);
+    void onGeneratingComplete(QPushButton* renderButton);
 
 private:
     QLineEdit* m_tiffPathField;

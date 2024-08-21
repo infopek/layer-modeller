@@ -6,7 +6,6 @@
 
 struct Mesh
 {
-    CDT2 dt{};
     SurfaceMesh surfaceMesh{};
     SurfaceMesh layerBody{};
     Layer layer{};

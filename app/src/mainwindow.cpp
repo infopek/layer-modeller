@@ -108,16 +108,16 @@ void MainWindow::onRenderButtonClicked()
 
             m_meshRenderer->addMeshes(modeller.getMeshes());
 
-            QMetaObject::invokeMethod(this, "onRenderingComplete", Qt::QueuedConnection, Q_ARG(QPushButton*, renderButton));
+            QMetaObject::invokeMethod(this, "onGeneratingComplete", Qt::QueuedConnection, Q_ARG(QPushButton*, renderButton));
         });
 }
 
-void MainWindow::onRenderingComplete(QPushButton* renderButton)
+void MainWindow::onGeneratingComplete(QPushButton* renderButton)
 {
     // Describe what you want to be rendered
     m_meshRenderer->prepareEdges();
     m_meshRenderer->prepareSurfaces();
-    // m_meshRenderer->prepareLayerBody();
+    m_meshRenderer->prepareLayerBody();
 
     // Render
     m_renderer->ResetCamera();
