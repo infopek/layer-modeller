@@ -14,9 +14,13 @@
 
 int main(int argc, char* argv[])
 {
-    Logger::init("../../../logs/app.log");
+    Logger::init("../logs/app.log");
 
-    QCoreApplication::addLibraryPath("../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
+#ifdef _DEBUG
+    QCoreApplication::setLibraryPaths(QStringList() << "../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
+#else
+    QCoreApplication::setLibraryPaths(QStringList() << "../../vcpkg_installed/x64-windows/Qt6/plugins");
+#endif
 
     QApplication app(argc, argv);
 

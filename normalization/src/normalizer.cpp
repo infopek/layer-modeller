@@ -1,12 +1,12 @@
 #include <normalizer.h>
 #include <iostream>
 
-void resolveCrossingLayers(std::map<std::string, LithologyData> &lithologyMap)
+void resolveCrossingLayers(std::map<std::string, LithologyData>& lithologyMap)
 {
-    std::vector<std::string> seq = {"TOP-SOIL", "Qh", "jT1", "k_c-tP3-T1", "k_kP3"}; //{"talaj","kisberi","csatkai","szoci","rudolfhazi","kisgyoni","ganti"};//
+    std::vector<std::string> seq = { "TOP-SOIL", "Qh", "jT1", "k_c-tP3-T1", "k_kP3" }; //{"talaj","kisberi","csatkai","szoci","rudolfhazi","kisgyoni","ganti"};//
     for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it)
     {
-        auto &data = it->second;
+        auto& data = it->second;
         auto place = std::find(seq.begin(), seq.end(), it->first);
         if (place != seq.end() && place != seq.begin())
         {
@@ -15,7 +15,7 @@ void resolveCrossingLayers(std::map<std::string, LithologyData> &lithologyMap)
 
             if (lithologyMap.find(prevKey) != lithologyMap.end())
             {
-                auto &prevData = lithologyMap[prevKey];
+                auto& prevData = lithologyMap[prevKey];
                 for (size_t i = 0; i < data.interpolatedData.size(); ++i)
                 {
                     if (i < prevData.interpolatedData.size())
@@ -30,9 +30,9 @@ void resolveCrossingLayers(std::map<std::string, LithologyData> &lithologyMap)
         }
     }
 }
-void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, GeoTiffHandler *geoTiff, WorkingArea *area)
+void shiftPointsBasedOnBlur(std::map<std::string, LithologyData>& lithologyMap, GeoTiffHandler* geoTiff, WorkingArea* area)
 {
-    float *raster = geoTiff->getRaster();
+    float* raster = geoTiff->getRaster();
     LithologyData soil;
     // for(int i=0; i<static_cast<int>(area->yAxisPoints*area->yScale); i++){
     //     for(int j=0; j<static_cast<int>(area->xAxisPoints*area->xScale); j++){
@@ -56,10 +56,10 @@ void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, 
             soil.interpolatedData.push_back(Point{
                 .x = area->boundingRect.minX + realX,
                 .y = area->boundingRect.minY + realY,
-                .z = raster[realLocation]});
+                .z = raster[realLocation] });
             for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it)
             {
-                auto &data = it->second;
+                auto& data = it->second;
                 // std::cout<<"depth: "<<data.interpolatedData[virtualLocation].z<<" lidar: "<<raster[realLocation]<<" calculated: "<<raster[realLocation]-data.interpolatedData[virtualLocation].z<<std::endl;
                 data.interpolatedData[virtualLocation].z = raster[realLocation] - data.interpolatedData[virtualLocation].z;
             }
@@ -69,7 +69,7 @@ void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, 
     lithologyMap["TOP-SOIL"] = soil;
     ;
 }
-void normalizeLayers(std::map<std::string, LithologyData> &lithologyMap, GeoTiffHandler *geoTiff, WorkingArea *area)
+void normalizeLayers(std::map<std::string, LithologyData>& lithologyMap, GeoTiffHandler* geoTiff, WorkingArea* area)
 {
     shiftPointsBasedOnBlur(lithologyMap, geoTiff, area);
     //resolveCrossingLayers(lithologyMap);

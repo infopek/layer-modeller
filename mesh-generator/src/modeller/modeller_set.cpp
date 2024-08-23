@@ -87,7 +87,6 @@ void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const 
     for (size_t i = 0; i < points.size(); ++i)
         vertices[i] = mesh.add_vertex(points[i]);
 
-    std::cout << 'd';
     for (const auto& polygon : polygons)
     {
         std::vector<SurfaceMesh::Vertex_index> face{};
