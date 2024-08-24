@@ -11,12 +11,40 @@
 #include <string>
 
 #include <QApplication>
+#include <QDir>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+QString getApplicationDirPath()
+{
+#ifdef _WIN32
+    wchar_t buffer[MAX_PATH];
+    GetModuleFileNameW(NULL, buffer, MAX_PATH);
+    QString path = QString::fromWCharArray(buffer);
+    path = QDir::toNativeSeparators(path);
+    return QFileInfo(path).absolutePath();
+#else
+    // Other platforms can be added similarly
+    return QString();
+#endif
+}
 
 int main(int argc, char* argv[])
 {
-    Logger::init("../../../logs/app.log");
+    Logger::init("../logs/app.log");
 
-    QCoreApplication::addLibraryPath("../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
+    QString appDirPath = getApplicationDirPath();
+    QString pluginPath;
+
+#ifdef _DEBUG
+    pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
+#else
+    pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/Qt6/plugins");
+#endif
+
+    QCoreApplication::setLibraryPaths(QStringList() << pluginPath);
 
     QApplication app(argc, argv);
 

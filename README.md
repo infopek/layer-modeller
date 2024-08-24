@@ -32,11 +32,11 @@ cmake --preset=x64-<debug/release>
 ### Debug
 ```bash
 cd ./build-x64-debug/
-cmake --build .
+cmake --build . -j 14
 ```
 ### Release
 ```bash
 cd ./build-x64-release/
-cmake --build . --config Release
+cmake --build . --config Release -j 14
 ```
 This project is licensed under the MIT License - see the LICENSE file for details.

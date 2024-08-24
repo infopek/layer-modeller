@@ -22,7 +22,7 @@ void resolveCrossingLayers(std::vector<std::pair<std::string, LithologyData>> &l
 }
 void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler *geoTiff, WorkingArea *area)
 {
-    float *raster = geoTiff->getRaster();
+    float* raster = geoTiff->getRaster();
     LithologyData soil;
 
     for (int i = 0; i < area->yAxisPoints; i++)
@@ -39,7 +39,7 @@ void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &
                 .z = raster[realLocation]});
             for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
             {
-                auto &data = it->second;
+                auto& data = it->second;
                 // std::cout<<"depth: "<<data.interpolatedData[virtualLocation].z<<" lidar: "<<raster[realLocation]<<" calculated: "<<raster[realLocation]-data.interpolatedData[virtualLocation].z<<std::endl;
                 data.interpolatedData[virtualLocation].z = raster[realLocation] - data.interpolatedData[virtualLocation].z;
             }
