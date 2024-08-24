@@ -21,7 +21,7 @@ public:
     void buildLayers();
 
 private:
-    void layerize(const std::map<std::string, LithologyData>& layers);
+    void layerize(std::vector<std::pair<std::string, LithologyData>>& layers);
 
 private:
     std::vector<Layer> m_layers{};

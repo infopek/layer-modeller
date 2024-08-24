@@ -7,6 +7,6 @@
 #include <models/lithology_data.h>
 #include <geotiff_handler.h>
 
-void resolveCrossingLayers(std::map<std::string, LithologyData>& lithologyMap);
-void shiftPointsBasedOnBlur(std::map<std::string, LithologyData>& lithologyMap, GeoTiffHandler* geoTiff, WorkingArea* area);
-void normalizeLayers(std::map<std::string, LithologyData>& lithologyMap, GeoTiffHandler* geoTiff, WorkingArea* area);
+void resolveCrossingLayers(std::vector<std::pair<std::string, LithologyData>>& lithologyVector);
+void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>>& lithologyVector,GeoTiffHandler* geoTiff, WorkingArea* area);
+void normalizeLayers(std::vector<std::pair<std::string, LithologyData>>& lithologyVector,GeoTiffHandler* geoTiff, WorkingArea* area);

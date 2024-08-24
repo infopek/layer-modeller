@@ -1,14 +1,15 @@
 ﻿#include "interpolator.h"
 
 #include <string>
+#include <initialization.h>
 
-std::map<std::string, LithologyData> interpolate(WorkingArea* area, const std::string& observationDataPath) {
+std::vector<std::pair<std::string, LithologyData>> interpolate(WorkingArea* area, const std::string& observationDataPath) {
     std::locale::global(std::locale("en_US.UTF-8"));
     int maxX = 0, maxY = 0;
-    std::map<std::string, LithologyData> lithologyMap;
+    std::vector<std::pair<std::string, LithologyData>> lithologyVector;
     calculatePointDensity(area, 10000);
-    readObservationDataFromJson(lithologyMap, observationDataPath);
-    for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it) {
+    readObservationDataFromJson(lithologyVector, observationDataPath);
+    for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it) {
         auto& lithoType = it->first;
         auto& data = it->second;
         EmpiricalVariogram empiricalData;
@@ -29,7 +30,7 @@ std::map<std::string, LithologyData> interpolate(WorkingArea* area, const std::s
         //layers.push_back(toPointVector(data.interpolatedData));
     }
 
-    return lithologyMap;
+    return lithologyVector;
 }
 void calculatePointDensity(WorkingArea* area, int maxPointCount) {
 

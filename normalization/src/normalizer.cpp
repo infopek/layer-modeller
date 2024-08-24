@@ -1,50 +1,30 @@
 #include <normalizer.h>
 #include <iostream>
 
-void resolveCrossingLayers(std::map<std::string, LithologyData> &lithologyMap)
+void resolveCrossingLayers(std::vector<std::pair<std::string, LithologyData>> &lithologyVector)
 {
-    std::vector<std::string> seq = {"TOP-SOIL", "Qh", "jT1", "k_c-tP3-T1", "k_kP3"}; //{"talaj","kisberi","csatkai","szoci","rudolfhazi","kisgyoni","ganti"};//
-    for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it)
+    for (auto it = lithologyVector.begin()+1; it != lithologyVector.end(); ++it)
     {
-        auto &data = it->second;
-        auto place = std::find(seq.begin(), seq.end(), it->first);
-        if (place != seq.end() && place != seq.begin())
-        {
-            auto prevPlace = std::prev(place);
-            std::string prevKey = *prevPlace;
 
-            if (lithologyMap.find(prevKey) != lithologyMap.end())
+        auto &data = it->second;
+        auto prevData = (*std::prev(it)).second;
+        for (size_t i = 0; i < data.interpolatedData.size(); ++i)
+        {
+            if (i < prevData.interpolatedData.size())
             {
-                auto &prevData = lithologyMap[prevKey];
-                for (size_t i = 0; i < data.interpolatedData.size(); ++i)
+                if (prevData.interpolatedData[i].z < data.interpolatedData[i].z)
                 {
-                    if (i < prevData.interpolatedData.size())
-                    {
-                        if (prevData.interpolatedData[i].z > data.interpolatedData[i].z)
-                        {
-                            data.interpolatedData[i].z = prevData.interpolatedData[i].z;
-                        }
-                    }
+                    data.interpolatedData[i].z = prevData.interpolatedData[i].z;
                 }
             }
         }
     }
 }
-void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, GeoTiffHandler *geoTiff, WorkingArea *area)
+void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler *geoTiff, WorkingArea *area)
 {
     float *raster = geoTiff->getRaster();
     LithologyData soil;
-    // for(int i=0; i<static_cast<int>(area->yAxisPoints*area->yScale); i++){
-    //     for(int j=0; j<static_cast<int>(area->xAxisPoints*area->xScale); j++){
-    //         auto virtualLocation=i*area->yAxisPoints+j;
-    //         auto realLocation= static_cast<int>(i*static_cast<int>(area->xAxisPoints*area->xScale)+j);
-    //         soil.interpolatedData.push_back(Point{
-    //             .x = area->boundingRect.minX + j,
-    //             .y = area->boundingRect.minY + i,
-    //             .z = raster[realLocation]
-    //         });
-    //     }
-    // }
+
     for (int i = 0; i < area->yAxisPoints; i++)
     {
         for (int j = 0; j < area->xAxisPoints; j++)
@@ -57,7 +37,7 @@ void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, 
                 .x = area->boundingRect.minX + realX,
                 .y = area->boundingRect.minY + realY,
                 .z = raster[realLocation]});
-            for (auto it = lithologyMap.begin(); it != lithologyMap.end(); ++it)
+            for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
             {
                 auto &data = it->second;
                 // std::cout<<"depth: "<<data.interpolatedData[virtualLocation].z<<" lidar: "<<raster[realLocation]<<" calculated: "<<raster[realLocation]-data.interpolatedData[virtualLocation].z<<std::endl;
@@ -66,11 +46,19 @@ void shiftPointsBasedOnBlur(std::map<std::string, LithologyData> &lithologyMap, 
         }
     }
     geoTiff->freeRaster(raster);
-    lithologyMap["TOP-SOIL"] = soil;
-    ;
+    std::pair soilPair("TOP-SOIL",soil);
+    lithologyVector.push_back(soilPair);
+    std::rotate(lithologyVector.rbegin(), lithologyVector.rbegin() + 1, lithologyVector.rend());
+    std::cout << "Sorted reteglitonev names: ";
+    for (const auto &name : lithologyVector)
+    {
+        std::cout << name.first << " ";
+    }
+    std::cout << std::endl;
+
 }
-void normalizeLayers(std::map<std::string, LithologyData> &lithologyMap, GeoTiffHandler *geoTiff, WorkingArea *area)
+void normalizeLayers(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler *geoTiff, WorkingArea *area)
 {
-    shiftPointsBasedOnBlur(lithologyMap, geoTiff, area);
-    //resolveCrossingLayers(lithologyMap);
+    shiftPointsBasedOnBlur(lithologyVector, geoTiff, area);
+    resolveCrossingLayers(lithologyVector);
 }

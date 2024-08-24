@@ -27,14 +27,12 @@ void LayerBuilder::buildLayers()
     WorkingArea area;
     GeoTiffHandler geoTiff(m_tiffPath);
     area.boundingRect = geoTiff.getBoundingRectangle();
-
-    std::map<std::string, LithologyData> allLayers = interpolate(&area, m_observationDataPath);
-
+    std::vector<std::pair<std::string, LithologyData>> allLayers = interpolate(&area, m_observationDataPath);
     normalizeLayers(allLayers, &geoTiff, &area);
     layerize(allLayers);
 }
 
-void LayerBuilder::layerize(const std::map<std::string, LithologyData>& layers)
+void LayerBuilder::layerize(std::vector<std::pair<std::string, LithologyData>>& layers)
 {
     m_numLayers = layers.size();
     m_layers.resize(m_numLayers);
