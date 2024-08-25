@@ -6,7 +6,19 @@
 
 #include <common-includes/cgal.h>
 
+#include <unordered_map>
 #include <vector>
+
+struct PairHash
+{
+    template <typename T1, typename T2>
+    std::size_t operator()(const std::pair<T1, T2>& pair) const
+    {
+        auto hash1 = std::hash<T1>{}(pair.first);
+        auto hash2 = std::hash<T2>{}(pair.second);
+        return hash1 ^ hash2;
+    }
+};
 
 class ModellerSet
 {
@@ -24,6 +36,11 @@ private:
     void triangulate(int index);
     void extrude(float lowestZ, int index);
     void takeDifference(int idx1, int idx2);
+
+    void flattenBottomSurface(SurfaceMesh& mesh, float zVal) const;
+
+    std::vector<Point2> transformTo2D(const std::vector<Point>& points, std::unordered_map<std::pair<double, double>, double, PairHash>& elevations) const;
+    void construct3DSurfaceMesh(CDT2& dt, SurfaceMesh& surfaceMesh, const std::unordered_map<std::pair<double, double>, double, PairHash>& elevations) const;
 
     static void repair(SurfaceMesh& mesh);
 
