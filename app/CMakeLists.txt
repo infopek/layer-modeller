@@ -19,6 +19,7 @@ find_package(GeoTiff REQUIRED)
 find_package(LayerBuilder REQUIRED)
 find_package(MeshGenerator REQUIRED)
 find_package(Renderer REQUIRED)
+find_package(RestClient REQUIRED)
 
 target_link_libraries(
   App 
@@ -29,6 +30,7 @@ target_link_libraries(
       LayerBuilder::LayerBuilder
       MeshGenerator::MeshGenerator
       Renderer::Renderer
+      RestClient::RestClient
     PRIVATE
       Qt6::Widgets
       CGAL::CGAL

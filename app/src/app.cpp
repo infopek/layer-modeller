@@ -6,6 +6,7 @@
 #include <renderer.h>
 #include <blur/blur.h>
 #include <logging.h>
+#include <client.h>
 
 #include <iostream>
 #include <string>
@@ -43,7 +44,6 @@ int main(int argc, char* argv[])
 #else
     pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/Qt6/plugins");
 #endif
-
     QCoreApplication::setLibraryPaths(QStringList() << pluginPath);
 
     QApplication app(argc, argv);

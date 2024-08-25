@@ -25,7 +25,7 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Normalizer App)
+set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Normalizer RestClient App)
 
 # Packages
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
@@ -52,7 +52,7 @@ find_package(GDAL CONFIG REQUIRED)
 find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
-
+find_package(CURL REQUIRED)
 # For QT6
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -74,5 +74,6 @@ add_subdirectory(interpolator)
 add_subdirectory(layer-builder)
 add_subdirectory(mesh-generator)
 add_subdirectory(renderer)
+add_subdirectory(client)
 add_subdirectory(app)
 # add_subdirectory(tests)
