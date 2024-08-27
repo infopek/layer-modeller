@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget* parent)
     QHBoxLayout* tiffLayout = new QHBoxLayout;
     m_tiffPathField = new QLineEdit(this);
     m_tiffPathField->setReadOnly(true);
+
     QPushButton* tiffBrowseButton = new QPushButton("Browse TIFF", this);
     tiffLayout->addWidget(m_tiffPathField);
     tiffLayout->addWidget(tiffBrowseButton);
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget* parent)
     QHBoxLayout* jsonLayout = new QHBoxLayout;
     m_jsonPathField = new QLineEdit(this);
     m_jsonPathField->setReadOnly(true);
+
     QPushButton* jsonBrowseButton = new QPushButton("Browse JSON", this);
     jsonLayout->addWidget(m_jsonPathField);
     jsonLayout->addWidget(jsonBrowseButton);
@@ -97,6 +99,11 @@ void MainWindow::onRenderButtonClicked()
     if (renderButton)
         renderButton->setEnabled(false);
 
+    m_meshRenderer->clear();
+    m_renderer->RemoveAllViewProps();
+    m_renderer->ResetCamera();
+    m_vtkWidget->renderWindow()->Render();
+
     // Build layers
     auto _ = QtConcurrent::run(
         [this, renderButton, region, observationDataPath, tiffPath]()
@@ -115,9 +122,9 @@ void MainWindow::onRenderButtonClicked()
 void MainWindow::onGeneratingComplete(QPushButton* renderButton)
 {
     // Describe what you want to be rendered
-    m_meshRenderer->prepareEdges();
-    m_meshRenderer->prepareSurfaces();
-    m_meshRenderer->prepareLayerBody();
+    // m_meshRenderer->prepareEdges();
+    // m_meshRenderer->prepareSurfaces();
+    m_meshRenderer->prepareMeshes();
 
     // Render
     m_renderer->ResetCamera();
