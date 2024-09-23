@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16..3.24)
+cmake_minimum_required(VERSION 3.27)
 
 project(Normalizer	VERSION 0.0.1
                     DESCRIPTION "Normalize Kriging Output"

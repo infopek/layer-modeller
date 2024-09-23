@@ -1,33 +1,25 @@
 {
-  "builtin-baseline": "821100d967e1737d96414a308e3f7cbe0d1abf18",
   "dependencies": [
     {
-      "name": "cgal",
-      "version>=": "5.6.1"
+      "name": "cgal"
     },
     {
-      "name": "gdal",
-      "version>=": "3.9.1"
+      "name": "gdal"
     },
     {
-      "name": "eigen3",
-      "version>=": "3.4.0"
+      "name": "eigen3"
     },
     {
-      "name": "gsl",
-      "version>=": "2.8"
+      "name": "gsl"
     },
     {
-      "name": "nlohmann-json",
-      "version>=": "3.11.3"
+      "name": "nlohmann-json"
     },
     {
-      "name": "pkgconf",
-      "version>=": "2.2.0"
+      "name": "pkgconf"
     },
     {
       "name": "vtk",
-      "version>=": "9.3.0-pv5.12.1",
       "default-features": false,
       "features": [
         "qt"
