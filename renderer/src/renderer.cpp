@@ -80,7 +80,7 @@ void Renderer::prepareSurfaces()
     prepare(m_surfaceMeshPolyData);
 }
 
-void Renderer::prepareLayerBody()
+void Renderer::prepareMeshes()
 {
     Logger::log(LogLevel::INFO, Renderer::s_logPrefix + " Preparing 3D meshes...");
     prepare(m_layerBodyPolyData);
@@ -174,23 +174,25 @@ void Renderer::prepareCoordinateSystem()
     m_renderer->AddActor(zActor);
 }
 
-void Renderer::test()
+void Renderer::clear()
 {
-    vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-    cubeSource->Update();
+    clearMeshes();
+    clearPolyData();
+    clearColors();
+}
 
-    // Create a mapper
-    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapper->SetInputConnection(cubeSource->GetOutputPort());
+void Renderer::clearMeshes()
+{
+    m_meshes.clear();
+}
 
-    // Create an actor
-    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-    actor->SetMapper(mapper);
+void Renderer::clearPolyData()
+{
+    m_surfaceMeshPolyData.clear();
+    m_layerBodyPolyData.clear();
+}
 
-    // Set actor properties (optional)
-    actor->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color
-    actor->GetProperty()->SetOpacity(1.0); // Fully opaque
-
-    // Add the actor to the renderer
-    m_renderer->AddActor(actor);
+void Renderer::clearColors()
+{
+    m_colors.clear();
 }

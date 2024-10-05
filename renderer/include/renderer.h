@@ -20,17 +20,21 @@ public:
     void addMeshes(const std::vector<Mesh>& meshes);
 
     void prepareSurfaces();
-    void prepareLayerBody();
+    void prepareMeshes();
     void prepareEdges();
     void preparePoints();
     void prepareCoordinateSystem();
 
-    void test();
+    void clear();
 
 private:
     void init();
 
     void prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData);
+
+    void clearMeshes();
+    void clearPolyData();
+    void clearColors();
 
 private:
     vtkSmartPointer<vtkRenderer> m_renderer;

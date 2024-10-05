@@ -54,5 +54,6 @@ private:
     std::vector<Mesh> m_meshes{};
     std::vector<SurfaceMesh> m_extrudedMeshes{};
 
+    static constexpr float s_underLowestZ = 100.0f;
     static std::string s_logPrefix;
 };

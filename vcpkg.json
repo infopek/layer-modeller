@@ -1,14 +1,32 @@
 {
   "dependencies": [
-    "cgal",
-    "gdal",
-    "eigen3",
-    "gsl",
-    "nlohmann-json",
-    "curl",
-    "zlib",
-    "libzip",
-    "pkgconf",
+    {
+      "name": "cgal"
+    },
+    {
+      "name": "gdal"
+    },
+    {
+      "name": "eigen3"
+    },
+    {
+      "name": "gsl"
+    },
+    {
+      "name": "nlohmann-json"
+    },
+    {
+      "name":  "curl"
+    },
+    {
+      "name":  "zlib"
+    },
+    {
+      "name": "libzip"
+    },
+    {
+      "name": "pkgconf"
+    },
     {
       "name": "vtk",
       "default-features": false,

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.27)
 
 project(LayerModeller VERSION 0.0.1
                       DESCRIPTION "Generating layers from lithostratigraphic data"

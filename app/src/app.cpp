@@ -27,7 +27,7 @@ QString getApplicationDirPath()
     path = QDir::toNativeSeparators(path);
     return QFileInfo(path).absolutePath();
 #else
-    // Other platforms can be added similarly
+    // Linux maybe?
     return QString();
 #endif
 }

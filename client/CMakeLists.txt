@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16..3.24)
+cmake_minimum_required(VERSION 3.27)
 
 project(RestClient VERSION 1.0
                 DESCRIPTION "C++ Client Module to access layer modeller server"

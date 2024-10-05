@@ -39,18 +39,13 @@ void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Poin
     for (auto v : mesh.vertices())
         vertices.push_back(v);
 
-    // Parallelize vertex processing
+    // Vertex processing
     points.resize(vertices.size());
-#pragma omp parallel for
     for (size_t i = 0; i < vertices.size(); ++i)
     {
         auto v = vertices[i];
         points[i] = mesh.point(v);
-
-#pragma omp critical
-        {
-            vertexIndexMap[v] = i;
-        }
+        vertexIndexMap[v] = i;
     }
 
     // Fill poly with vertices of mesh
@@ -72,7 +67,6 @@ void ModellerSet::convertToSurfaceMesh(const std::vector<Point3>& points, const 
     std::vector<SurfaceMesh::Vertex_index> vertices(points.size());
 
     // Add vertices to mesh
-#pragma omp parallel for
     for (size_t i = 0; i < points.size(); ++i)
         vertices[i] = mesh.add_vertex(points[i]);
 
@@ -176,7 +170,8 @@ void ModellerSet::extrude(float lowestZ, int index)
 
     auto& layerBody = m_meshes[index].layerBody;
 
-    Vector3 extrudeVector(0.0, 0.0, -(getMinimumZ(m_meshes[index].layer.points) - lowestZ));  // extrude vector should point downwards
+    const float currLowestZ = getMinimumZ(m_meshes[index].layer.points);
+    Vector3 extrudeVector(0.0, 0.0, -(currLowestZ - lowestZ));  // extrude vector should point downwards
     CGAL::Polygon_mesh_processing::extrude_mesh(m_meshes[index].surfaceMesh, layerBody, extrudeVector);
 
     flattenBottomSurface(layerBody, lowestZ);
@@ -191,7 +186,6 @@ void ModellerSet::flattenBottomSurface(SurfaceMesh& mesh, float zVal) const
     for (auto f : faces(mesh))
     {
         auto normal = CGAL::Polygon_mesh_processing::compute_face_normal(f, mesh);
-
         if (normal.z() < 0) // normal is pointing downwards -> bottom face
         {
             for (auto v : vertices_around_face(mesh.halfedge(f), mesh))
@@ -225,7 +219,7 @@ void ModellerSet::createMeshes()
     Logger::log(LogLevel::INFO, ModellerSet::s_logPrefix + " Creating " + std::to_string(m_meshes.size()) + " meshes...");
 
     const size_t numMeshes = m_meshes.size();
-    const float lowestZ = getMinimumZ(m_meshes[numMeshes - 1].layer.points) - 200.0f;   // below the lowest point of bottom layer
+    const float lowestZ = getMinimumZ(m_meshes[numMeshes - 1].layer.points) - s_underLowestZ;   // below the lowest point of bottom layer
 
     auto makeRange = [](int start, int end) -> std::vector<int> {
         std::vector<int> range{};
@@ -244,7 +238,6 @@ void ModellerSet::createMeshes()
     std::for_each(std::execution::par, range2.begin(), range2.end(), [&](int i) {
         takeDifference(i, i + 1);
         });
-
 }
 
 float ModellerSet::getMinimumZ(const std::vector<Point>& layerPoints)
