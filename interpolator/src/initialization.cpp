@@ -7,10 +7,10 @@ void readObservationDataFromJson(std::vector<std::pair<std::string, LithologyDat
     for (const auto &entry : dataJson)
     {
         Point point;
-        std::string lithoType = entry["reteg$lito$geo"];
-        point.x = static_cast<double>(entry["eovX"]);
-        point.y = static_cast<double>(entry["eovY"]);
-        point.z = entry["reteg$mig"].get<double>();
+        std::string lithoType = entry["reteg_lito_geo"];
+        point.x = static_cast<double>(entry["x"]);
+        point.y = static_cast<double>(entry["y"]);
+        point.z = entry["reteg_mig"].get<double>();
         auto it = std::find_if(lithologyVector.begin(), lithologyVector.end(), [&lithoType](const auto &pair) {
             return pair.first == lithoType;
         });
@@ -22,7 +22,7 @@ void readObservationDataFromJson(std::vector<std::pair<std::string, LithologyDat
         else
         {
             LithologyData newData;
-            newData.stratumName = entry["reteg$lito$nev"];
+            newData.stratumName = entry["reteg_lito_nev"];
             newData.points.push_back(point);
             lithologyVector.push_back({lithoType, newData});
         }

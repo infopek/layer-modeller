@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 add_library(RestClient
     src/client.cpp
+    src/zip-handler.cpp 
 )
 add_library(RestClient::RestClient ALIAS RestClient)
 target_include_directories(RestClient
@@ -20,7 +21,9 @@ target_include_directories(RestClient
         )
 
 target_link_libraries(RestClient 
-    PRIVATE 
+    PRIVATE
+        libzip::zip 
+        ZLIB::ZLIB
         CURL::libcurl
         ${CURL_LIBRARIES}
 )

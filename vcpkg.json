@@ -5,6 +5,9 @@
     "eigen3",
     "gsl",
     "nlohmann-json",
+    "curl",
+    "zlib",
+    "libzip",
     "pkgconf",
     {
       "name": "vtk",

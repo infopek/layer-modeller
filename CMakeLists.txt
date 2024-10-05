@@ -53,6 +53,8 @@ find_package(PkgConfig)
 pkg_search_module(Eigen3 REQUIRED eigen3)
 find_package(nlohmann_json REQUIRED)
 find_package(CURL REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(libzip REQUIRED)
 # For QT6
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)

@@ -14,6 +14,7 @@ target_include_directories(
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>)
 
+find_package(RestClient REQUIRED)
 find_package(Common REQUIRED)
 find_package(Kriging REQUIRED)
 find_package(GeoTiff REQUIRED)
@@ -21,7 +22,8 @@ find_package(Normalizer REQUIRED)
 
 target_link_libraries(
     LayerBuilder
-        PUBLIC 
+        PUBLIC
+            RestClient::RestClient
             Common::Common
             Kriging::Kriging
             GeoTiff::GeoTiff

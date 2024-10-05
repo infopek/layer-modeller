@@ -3,18 +3,36 @@
 #include <blur/blur.h>
 #include <geotiff_handler.h>
 #include <normalizer.h>
-
+#include <client.h>
+#include <zip-handler.h>
 #include <algorithm>
 #include <random>
 
 std::string LayerBuilder::s_logPrefix = "[LAYER_BUILDER] --";
 
-LayerBuilder::LayerBuilder(const std::string& regionName, const std::string& observationDataPath, const std::string& tiffPath)
-    : m_regionName{ regionName },
+LayerBuilder::LayerBuilder(const std::string& location, const std::string& observationDataPath, const std::string& tiffPath)
+    : m_regionName{ location },
     m_observationDataPath{ observationDataPath },
     m_tiffPath{ tiffPath }
 {
+    if (!location.empty()) {
+        MemoryStruct zipData;
+        if (!downloadZipFile(location, zipData)) {
+            throw std::runtime_error("Failed to download ZIP file for region: " + location);
+        }
+        std::string resPath = "./res";
+        if (!std::filesystem::exists(resPath)) {
+            std::filesystem::create_directory(resPath);
+        }
+        std::string geotiffFileName, jsonFileName;
+        if (!extractZipFromMemory(zipData.memory, resPath)) {
+            throw std::runtime_error("Failed to extract ZIP file for region: " + location);
+        }
 
+        // Step 3: Set the file paths based on the unzipped contents
+        m_tiffPath = resPath + "/raster.tif";
+        m_observationDataPath = resPath + "/boreholes.json";
+    }
 }
 
 LayerBuilder::~LayerBuilder()
