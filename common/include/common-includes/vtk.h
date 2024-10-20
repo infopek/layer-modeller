@@ -28,3 +28,5 @@
 #include <vtkTransform.h>
 #include <vtkAppendFilter.h>
 #include <vtkAppendPolyData.h>
+
+#include <vtkPolyDataWriter.h>

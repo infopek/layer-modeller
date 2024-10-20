@@ -150,7 +150,8 @@ void Blur::gaussFilterCUDA(const float* src, float* dst, int width, int height, 
 
 	// Kernel launch dimensions
 	dim3 blockSize(16, 16);
-	dim3 gridSize((width + blockSize.x - 1) / blockSize.x, (height + blockSize.y - 1) / blockSize.y);
+	dim3 gridSize((width + blockSize.x - 1) / blockSize.x,
+		(height + blockSize.y - 1) / blockSize.y);
 
 	// Horizontal pass
 	gaussBlurHorizontal KERNEL_ARGS2(gridSize, blockSize)(d_src, d_intermediate, width, height, d_kernel, kernelRadius);

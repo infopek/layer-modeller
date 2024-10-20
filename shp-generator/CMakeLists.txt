@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(Renderer	VERSION 0.0.1
-                    DESCRIPTION "Renderer using VTK"
+project(ShpGenerator	VERSION 0.0.1
+                    DESCRIPTION "Shapefile generator using VTK"
                     LANGUAGES CXX)  
 
-add_library(Renderer 
-  	src/renderer.cpp)
-add_library(Renderer::Renderer ALIAS Renderer)
+add_library(ShpGenerator
+  	src/shp_generator.cpp)
+add_library(ShpGenerator::ShpGenerator ALIAS ShpGenerator)
 
 target_include_directories(
-    Renderer 
+    ShpGenerator 
 		PUBLIC 	
 			$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>)
@@ -18,7 +18,7 @@ find_package(Common REQUIRED)
 find_package(MeshGenerator REQUIRED)
 
 target_link_libraries(
-    Renderer
+    ShpGenerator
         PUBLIC
             Common::Common
             MeshGenerator::MeshGenerator
@@ -26,5 +26,5 @@ target_link_libraries(
             ${VTK_LIBRARIES})
 
 vtk_module_autoinit(
-  	TARGETS Renderer
+  	TARGETS ShpGenerator
   	MODULES ${VTK_LIBRARIES})

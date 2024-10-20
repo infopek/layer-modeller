@@ -25,7 +25,7 @@ include(CTest)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
-set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Normalizer RestClient App)
+set(as_subproject Common Kriging GeoTiff LayerBuilder MeshGenerator Renderer Normalizer RestClient ShpGenerator App)
 
 # Packages
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
@@ -34,18 +34,13 @@ find_package(VTK COMPONENTS
   CommonCore
   CommonDataModel
   FiltersCore
-  # FiltersGeneral
-  # FiltersSources
-  # FiltersGeometry
-  # FiltersModeling
   FiltersExtraction
   FiltersSources
-  # InteractionStyle
-  # InteractionWidgets
   RenderingCore
   RenderingOpenGL2
-  # IOXML
   GUISupportQt
+  IOCore
+  IOLegacy
   REQUIRED)
 find_package(GSL REQUIRED)
 find_package(GDAL CONFIG REQUIRED)
@@ -77,5 +72,6 @@ add_subdirectory(layer-builder)
 add_subdirectory(mesh-generator)
 add_subdirectory(renderer)
 add_subdirectory(client)
+add_subdirectory(shp-generator)
 add_subdirectory(app)
 # add_subdirectory(tests)

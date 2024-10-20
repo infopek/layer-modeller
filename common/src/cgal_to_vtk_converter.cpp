@@ -1,4 +1,4 @@
-#include <cgal_to_vtk_converter.h>
+#include <converters/cgal_to_vtk_converter.h>
 
 vtkSmartPointer<vtkPolyData> CGALToVTKConverter::convertMeshToVTK(const SurfaceMesh& mesh)
 {

@@ -6,7 +6,8 @@ project(Common  VERSION 0.0.1
 
 add_library(Common 
   	src/src.cpp
-	src/logging.cpp)
+	src/logging.cpp
+	src/cgal_to_vtk_converter.cpp)
 add_library(Common::Common ALIAS Common)
 
 target_include_directories(

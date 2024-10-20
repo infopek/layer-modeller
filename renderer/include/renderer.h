@@ -28,8 +28,6 @@ public:
     void clear();
 
 private:
-    void init();
-
     void prepare(const std::vector<vtkSmartPointer<vtkPolyData>>& polyData);
 
     void clearMeshes();

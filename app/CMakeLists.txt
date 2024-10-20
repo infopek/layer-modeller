@@ -20,6 +20,7 @@ find_package(LayerBuilder REQUIRED)
 find_package(MeshGenerator REQUIRED)
 find_package(Renderer REQUIRED)
 find_package(RestClient REQUIRED)
+find_package(ShpGenerator REQUIRED)
 
 target_link_libraries(
   App 
@@ -31,6 +32,7 @@ target_link_libraries(
       MeshGenerator::MeshGenerator
       Renderer::Renderer
       RestClient::RestClient
+      ShpGenerator::ShpGenerator
     PRIVATE
       Qt6::Widgets
       CGAL::CGAL
