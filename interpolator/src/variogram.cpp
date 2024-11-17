@@ -3,85 +3,41 @@
 #include <iostream>
 #include <models/point.h>
 
-void calculateValuesCPU(int n, double* D, double* S, std::vector<Point> points) {
-    for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j < n; ++j) {  // compare every point with every other point
-            double dx = (double)(points[i].x - points[j].x);
-            double dy = (double)(points[i].y - points[j].y);
-            D[i * n + j] = std::sqrt(dx * dx + dy * dy);  // distance calculation
-            S[i * n + j] = 0.5 * std::pow(points[i].z - points[j].z, 2);  // squared difference
+
+void computeEmpiricalVariogram(std::vector<Point>& points, EmpiricalVariogram& empiricalVariogram) {
+    int numPoints = points.size();
+    int numPairs = numPoints * (numPoints + 1) / 2;
+    std::vector<int> indices(numPairs);
+    for (int i = 0; i < numPairs; i++) indices[i] = i;
+
+    double* distances = new double[numPoints * numPoints];
+    double* semivariances = new double[numPoints * numPoints];
+    
+    for (size_t i = 0; i < numPoints; ++i) {
+        for (size_t j = 0; j < numPoints; ++j) {
+            double deltaX = static_cast<double>(points[i].x - points[j].x);
+            double deltaY = static_cast<double>(points[i].y - points[j].y);
+            distances[i * numPoints + j] = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+            semivariances[i * numPoints + j] = 0.5 * std::pow(points[i].z - points[j].z, 2);
         }
     }
-}
-//__global__ void calculateValues(int n, uint32_t* k, double* D, double* S, const DataPoint* points) {
-//    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-//    int i = idx / n;
-//    int j = idx % n;
-//    if (i < n && j < n && i < j) {
-//        uint32_t index = atomicAdd(k, 1);
-//        double dx = (double)(points[i].x - points[j].x);
-//        double dy = (double)(points[i].y - points[j].y);
-//        D[index] = std::sqrt(dx * dx + dy * dy);
-//        S[index] = 0.5 * std::pow(points[i].z - points[j].z, 2);
-//    }
-//}
+    std::sort(indices.begin(), indices.end(), [&](const int& idx1, const int& idx2) {
+        return distances[idx1] < distances[idx2];
+    });
 
-void createVariogram(std::vector<Point>* points, EmpiricalVariogram* variogramData) { 
-    int n = points->size();
-    int N = n * (n + 1) / 2;
-    std::vector<int> I(N);
-    for (int i = 0; i < N; i++) {
-        I[i] = i;
+    std::vector<double> semivarianceAverages(numPairs);
+    std::vector<double> sortedDistances(numPairs);
+
+    semivarianceAverages[0] = semivariances[indices[0]];
+    for (int k = 1; k < numPairs; k++) {
+        semivarianceAverages[k] = (semivarianceAverages[k - 1] * k + semivariances[indices[k]]) / (k + 1.0);
+        sortedDistances[k] = distances[indices[k]];
     }
-    //double* d_D, * d_S;
-    //DataPoint *d_points;
-    //cudaMalloc((void**)&d_D, sizeof(double) * n * n);
-    //cudaMalloc((void**)&d_S, sizeof(double) * n * n);
-    //cudaMalloc((void**)&d_points, sizeof(DataPoint) * n);
-    //    
-    //cudaMemcpy(d_points, &(*points)[0], sizeof(DataPoint) * n, cudaMemcpyHostToDevice);
-    //uint32_t* d_k;
-    //uint32_t k=0;
-    //cudaMalloc((void**)&d_k, sizeof(uint32_t));
-    //cudaMemcpy(d_k,&k,sizeof(uint32_t),cudaMemcpyHostToDevice);
-    //calculateValues << < (int)(pow(n,2)+511)/512,512>> > (n,d_k, d_D, d_S,d_points );
-    //cudaError_t cudaError = cudaGetLastError();
-    //if (cudaError != cudaSuccess) {
-    //    fprintf(stderr, "Kernel launch failed: %s\n", cudaGetErrorString(cudaError));
-    //    exit(EXIT_FAILURE);
-    //}
-
-    double* D = new double[n*n];
-    double* S = new double[n * n];
-    //cudaDeviceSynchronize();
-    //cudaFree(d_k);
-    //cudaMemcpy(D, d_D, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
-    //cudaMemcpy(S, d_S, sizeof(double) * n * n, cudaMemcpyDeviceToHost);
-
-    //cudaFree(d_D);
-    //cudaFree(d_S);
-    //cudaFree(d_points);
-    calculateValuesCPU(n, D, S, *points);
-
-    std::sort(I.begin(), I.end(),
-        [&](const int& k, const int& l) {
-            return (D[k] < D[l]);
-        });
-
-    std::vector<double> valvec(N);
-    std::vector<double> distvec(N);
-
-    valvec[0]=S[I[0]];
-    for (int k = 1; k < N; k++) {
-        valvec[k] = (valvec[k - 1] * k + S[I[k]]) / (k + 1.0);
-        valvec[k - 1] *= 0.5;
-        distvec[k] = D[I[k]];
-    }
-    valvec[N - 1] *= 0.5;
-    variogramData->values = valvec;
-    variogramData->distances = distvec;
-
+    empiricalVariogram.values = semivarianceAverages;
+    empiricalVariogram.distances = sortedDistances;
 }
+
+
 void callback(const size_t iter, void* params, const gsl_multifit_nlinear_workspace* w)
 {
     gsl_vector* f = gsl_multifit_nlinear_residual(w);
@@ -90,13 +46,6 @@ void callback(const size_t iter, void* params, const gsl_multifit_nlinear_worksp
 
     gsl_multifit_nlinear_rcond(&rcond, w);
 
-    fprintf(stderr, "iter %2zu: nugget = %.4f, sill = %.4f, range = %.4f, cond(J) = %8.4f, |f(x)| = %.4f\n",
-        iter,
-        gsl_vector_get(x, 0),
-        gsl_vector_get(x, 1),
-        gsl_vector_get(x, 2),
-        1.0 / rcond,
-        gsl_blas_dnrm2(f));
 }
 
 int gaussianModel(const gsl_vector* x, void* data, gsl_vector* f)
@@ -171,26 +120,13 @@ TheoreticalParam fitTheoreticalFunction(EmpiricalVariogram* variogram) {
     #define FIT(i) gsl_vector_get(w->x, i)
     #define ERR(i) sqrt(gsl_matrix_get(covar,i,i))
 
-    fprintf(stderr, "summary from method '%s/%s'\n", gsl_multifit_nlinear_name(w), gsl_multifit_nlinear_trs_name(w));
-    fprintf(stderr, "number of iterations: %zu\n", gsl_multifit_nlinear_niter(w));
-    fprintf(stderr, "function evaluations: %zu\n", fdf.nevalf);
-    fprintf(stderr, "Jacobian evaluations: %zu\n", fdf.nevaldf);
-    fprintf(stderr, "reason for stopping: %s\n", (info == 1) ? "small step size" : "small gradient");
-    fprintf(stderr, "initial |f(x)| = %f\n", sqrt(chisq0));
-    fprintf(stderr, "final   |f(x)| = %f\n", sqrt(chisq));
-
     {
         double dof = n - p;
         double c = GSL_MAX_DBL(1, sqrt(chisq / dof));
-
-        fprintf(stderr, "chisq/dof = %g\n", chisq / dof);
-
-        fprintf(stderr, "nugget      = %.5f +/- %.5f\n", FIT(0), c * ERR(0));
-        fprintf(stderr, "sill = %.5f +/- %.5f\n", FIT(1), c * ERR(1));
-        fprintf(stderr, "range   = %.5f +/- %.5f\n", FIT(2), c * ERR(2));
+        // fprintf(stderr, "nugget      = %.5f +/- %.5f\n", FIT(0), c * ERR(0));
+        // fprintf(stderr, "sill = %.5f +/- %.5f\n", FIT(1), c * ERR(1));
+        // fprintf(stderr, "range   = %.5f +/- %.5f\n", FIT(2), c * ERR(2));
     }
-
-    fprintf(stderr, "status = %s\n", gsl_strerror(status));
     TheoreticalParam param{ FIT(0),FIT(1), FIT(2) };
     gsl_multifit_nlinear_free(w);
     gsl_matrix_free(covar);

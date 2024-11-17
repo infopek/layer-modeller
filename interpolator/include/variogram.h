@@ -13,9 +13,7 @@
 #include <models/lithology_data.h>
 //__global__ void calculateValues(int n, float* D, float* S, const DataPoint* points);
 
-static void calculateValuesCPU(int n, double* D, double* S, std::vector<Point>  points);
-
-void createVariogram(std::vector<Point>* points, EmpiricalVariogram* variogramData);
+void computeEmpiricalVariogram(std::vector<Point>& points, EmpiricalVariogram& empiricalVariogram);
 
 void callback(const size_t iter, void* params, const gsl_multifit_nlinear_workspace* w);
 

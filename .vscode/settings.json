@@ -116,6 +116,9 @@
         "semaphore": "cpp",
         "qvboxlayout": "cpp",
         "qmainwindow": "cpp",
-        "resumable": "cpp"
+        "resumable": "cpp",
+        "__functional_base": "cpp",
+        "__node_handle": "cpp",
+        "__memory": "cpp"
     }
 }

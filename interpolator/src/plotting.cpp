@@ -3,21 +3,54 @@
 
 using std::filesystem::current_path;
 
-void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY) {
-    std::string min_val = std::to_string(matrix.minCoeff());
-    std::string max_val = std::to_string(matrix.maxCoeff());
-    std::string dirPath = getDir(formation);
-    std::ofstream dataFile(dirPath + "/matrix_"+name+"_data.txt");
-    dataFile << matrix;
-    dataFile.close();
-    double mxSize = static_cast<int>(matrix.rows());
-    std::ofstream pointsFile(dirPath + "/matrix_observed_points.txt");
-    for (const auto& point : (*data)) {
-        pointsFile << ((double)point.x / maxX) * mxSize << " " << ((double)point.y / maxY) * mxSize << " " << point.z << "\n";
+void gnuPlotValidity(const LithologyData& lithodata, const WorkingArea& area,std::vector<Point> data){
+    std::string dirPath = getDir(lithodata.stratumName);
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+    
+    // Determine min and max values for color range from interpolatedData
+    for (const auto& point : data) {
+        min_val = std::min(min_val, point.z);
+        max_val = std::max(max_val, point.z);
     }
-    pointsFile.close();
-
-    std::string gnuplotScript = R"(set title ')" + formation + R"('
+    std::ofstream dataFile(dirPath + "/matrix_observed_points_validation.txt");
+    for (const auto& point : data) {
+        double scaledX = (point.x - area.boundingRect.minX);
+        double scaledY = (point.y - area.boundingRect.minY);
+        dataFile << scaledX << " " << scaledY << " " << point.z << "\n";
+    }
+    dataFile.close();
+    std::string gnuplotScript = R"(set title ')" + lithodata.stratumName + R"('
+        set xlabel 'Column'
+        set ylabel 'Row'
+        set cbrange [)" + std::to_string(min_val) + ":" + std::to_string(max_val) + R"(]
+        set colorbox
+        set palette defined (1 'green', 2 'yellow', 3 'red')
+        plot 'matrix_observed_points_validation.txt' using 1:2:3 with points palette pointtype 7 pointsize 1.5 notitle)"
+    ;
+    std::ofstream scriptFile(dirPath + "/matrix_observed_points_validation.plt");
+    scriptFile << gnuplotScript;
+    scriptFile.close();
+}
+void gnuPlotArea(const LithologyData& lithodata, const WorkingArea& area, std::string dataTypeStr){
+    std::string dirPath = getDir(lithodata.stratumName);
+    const auto data = dataTypeStr=="certainty"?lithodata.certaintyMatrix:lithodata.interpolatedData;
+    double min_val = std::numeric_limits<double>::max();
+    double max_val = std::numeric_limits<double>::lowest();
+    
+    // Determine min and max values for color range from interpolatedData
+    for (const auto& point : data) {
+        min_val = std::min(min_val, point.z);
+        max_val = std::max(max_val, point.z);
+    }
+    std::ofstream dataFile(dirPath + "/matrix_"+ dataTypeStr + ".txt");
+    for (const auto& point : data) {
+        double scaledX = (point.x - area.boundingRect.minX);
+        double scaledY = (point.y - area.boundingRect.minY);
+        dataFile << scaledX << " " << scaledY << " " << point.z << "\n";
+    }
+    dataFile.close();
+        std::string gnuplotScript = R"(set title ')" + lithodata.stratumName + R"('
         set xlabel 'Column'
         set ylabel 'Row'
         set pm3d map
@@ -26,15 +59,27 @@ void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string 
         set size square
         set size ratio -1
         set auto fix
-        set cbrange [)" + min_val + ":" + max_val + R"(]
-        plot 'matrix_)"+name + R"(_data.txt' matrix with image, 'matrix_observed_points.txt' u 1:2:3 with labels point offset character 0,character 1 tc rgb "black" notitle
+        set cbrange [)" + std::to_string(min_val) + ":" + std::to_string(max_val) + R"(]
+        plot 'matrix_)" + dataTypeStr+ R"(.txt' using 1:2:3 with image, 'matrix_observed_points.txt' using 1:2:3 with labels point offset character 0,character 1 tc rgb "black" notitle
     )";
-
-    std::ofstream scriptFile(dirPath + "/matrix_" + name + ".plt");
+    std::ofstream scriptFile(dirPath + "/matrix_" + dataTypeStr + ".plt");
     scriptFile << gnuplotScript;
     scriptFile.close();
 }
-void gnuPlotVariogram(std::string formation, EmpiricalVariogram* vari, TheoreticalParam param) {
+void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area) {
+    std::string dirPath = getDir(lithodata.stratumName);
+    std::ofstream pointsFile(dirPath + "/matrix_observed_points.txt");
+    for (const auto& point : lithodata.points) {
+        double scaledX = (point.x - area.boundingRect.minX);
+        double scaledY = (point.y - area.boundingRect.minY);
+        pointsFile << scaledX << " " << scaledY << " " << point.z << "\n";
+    }
+    pointsFile.close();
+    gnuPlotArea(lithodata,area,"interpolation");
+    gnuPlotArea(lithodata,area,"certainty");
+}
+void gnuPlotVariogram(LithologyData& lithoData, EmpiricalVariogram* vari){
+    std::string formation=lithoData.stratumName;
     std::string dirPath = getDir(formation);
     std::vector<double> variograms = vari->values;
     std::vector<double> distances = vari->distances;
@@ -49,6 +94,7 @@ void gnuPlotVariogram(std::string formation, EmpiricalVariogram* vari, Theoretic
     std::ofstream scriptFile(dirPath+"/variogram.plt");
     std::ofstream empiricalFile(empirical_data);
     std::ofstream theoreticalFile(theoretical_data);
+    auto param= lithoData.theoreticalParam;
     auto nugget = param.nugget;
     auto sill = param.sill;
     auto range = param.range;

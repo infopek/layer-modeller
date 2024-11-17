@@ -12,9 +12,13 @@
 #include <models/point.h>
 #include <models/lithology_data.h>
 
+void gnuPlotValidity(const LithologyData& lithodata, const WorkingArea& area,std::vector<Point> data);
+
+void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area);
+
 void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY);
 
-void gnuPlotVariogram(std::string formation, EmpiricalVariogram* vari, TheoreticalParam param);
+void gnuPlotVariogram(LithologyData& lithoData, EmpiricalVariogram* vari);
 
 bool createDirectoryRecursive(std::string const& dirName, std::error_code& err);
 
