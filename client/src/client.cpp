@@ -16,7 +16,7 @@ static size_t WriteMemoryCallback(void* contents, size_t size, size_t nmemb, voi
 bool downloadZipFile(const std::string& location, MemoryStruct& zipData) {
     CURL* curl;
     CURLcode res;
-    std::string url = "http://localhost:13000/raster/"+location;
+    std::string url = "http://localhost:13000/get-data/"+location;
     curl = curl_easy_init();
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
