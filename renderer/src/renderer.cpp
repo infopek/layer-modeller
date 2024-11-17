@@ -1,6 +1,6 @@
 #include <renderer.h>
 
-#include <cgal_to_vtk_converter.h>
+#include <converters/cgal_to_vtk_converter.h>
 #include <vtkCubeSource.h>
 
 std::string Renderer::s_logPrefix = "[RENDERER] --";
@@ -8,16 +8,11 @@ std::string Renderer::s_logPrefix = "[RENDERER] --";
 Renderer::Renderer(vtkSmartPointer<vtkRenderer> renderer)
     : m_renderer{ renderer }
 {
-    init();
 }
 
 Renderer::~Renderer()
 {
 
-}
-
-void Renderer::init()
-{
 }
 
 void Renderer::addMeshes(const std::vector<Mesh>& meshes)

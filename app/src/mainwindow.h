@@ -1,4 +1,5 @@
 #include <renderer.h>
+#include <shp_generator.h>
 
 #include <QApplication>
 #include <QMainWindow>
@@ -30,16 +31,31 @@ public:
 private slots:
     void onTiffBrowseButtonClicked();
     void onJsonBrowseButtonClicked();
+    void onRegionFieldTextChanged(const QString& text);
+
+    void onGenerateButtonClicked();
     void onRenderButtonClicked();
-    void onGeneratingComplete(QPushButton* renderButton);
+    void onExportButtonClicked();
+
+    void onGeneratingComplete();
+
+private:
+    void setButtonStates(bool generateButtonState, bool renderButtonState, bool exportButtonState);
 
 private:
     QLineEdit* m_tiffPathField;
     QLineEdit* m_jsonPathField;
     QLineEdit* m_regionField;
 
+    QPushButton* m_generateButton;
+    QPushButton* m_renderButton;
+    QPushButton* m_exportButton;
+
     QVTKOpenGLNativeWidget* m_vtkWidget;
     vtkSmartPointer<vtkRenderer> m_renderer;
 
+    std::vector<Mesh> m_generatedMeshes{};
+
     Renderer* m_meshRenderer;
+    ShapefileGenerator* m_shapefileGenerator;
 };

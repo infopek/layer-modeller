@@ -54,9 +54,17 @@ MainWindow::MainWindow(QWidget* parent)
     m_vtkWidget = new QVTKOpenGLNativeWidget(this);
     layout->addWidget(m_vtkWidget);
 
+    // Create generate button
+    m_generateButton = new QPushButton("Generate", this);
+    layout->addWidget(m_generateButton);
+
     // Create the Render button
-    QPushButton* renderButton = new QPushButton("Render", this);
-    layout->addWidget(renderButton);
+    m_renderButton = new QPushButton("Render", this);
+    layout->addWidget(m_renderButton);
+
+    // Export to shapefile / vtk file
+    m_exportButton = new QPushButton("Export", this);
+    layout->addWidget(m_exportButton);
 
     setCentralWidget(mainWidget);
 
@@ -64,72 +72,134 @@ MainWindow::MainWindow(QWidget* parent)
     m_renderer = vtkSmartPointer<vtkRenderer>::New();
     m_vtkWidget->renderWindow()->AddRenderer(m_renderer);
     m_meshRenderer = new Renderer(m_renderer);
+    m_shapefileGenerator = new ShapefileGenerator();
 
     // Connect signals and slots
     connect(tiffBrowseButton, &QPushButton::clicked, this, &MainWindow::onTiffBrowseButtonClicked);
     connect(jsonBrowseButton, &QPushButton::clicked, this, &MainWindow::onJsonBrowseButtonClicked);
-    connect(renderButton, &QPushButton::clicked, this, &MainWindow::onRenderButtonClicked);
+    connect(m_regionField, &QLineEdit::textChanged, this, &MainWindow::onRegionFieldTextChanged);
+
+    connect(m_generateButton, &QPushButton::clicked, this, &MainWindow::onGenerateButtonClicked);
+    connect(m_renderButton, &QPushButton::clicked, this, &MainWindow::onRenderButtonClicked);
+    connect(m_exportButton, &QPushButton::clicked, this, &MainWindow::onExportButtonClicked);
+
+    setButtonStates(false, false, false);
 }
 
 MainWindow::~MainWindow()
 {
     delete m_meshRenderer;
+    delete m_shapefileGenerator;
 }
 
 void MainWindow::onTiffBrowseButtonClicked()
 {
+    setButtonStates(false, false, false);
+
     QString filePath = QFileDialog::getOpenFileName(this, "Open TIFF File", "", "TIFF Files (*.tiff *.tif)");
     m_tiffPathField->setText(filePath);
+
+    if (!filePath.isEmpty() && !m_jsonPathField->text().isEmpty())
+        setButtonStates(true, false, false);
 }
 
 void MainWindow::onJsonBrowseButtonClicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Open JSON File", "", "JSON Files (*.json)");
     m_jsonPathField->setText(filePath);
+
+    if (!filePath.isEmpty() && !m_tiffPathField->text().isEmpty())
+        setButtonStates(true, false, false);
+}
+
+void MainWindow::onRegionFieldTextChanged(const QString& text)
+{
+    if (!text.isEmpty())
+        setButtonStates(true, false, false);
+}
+
+void MainWindow::onGenerateButtonClicked()
+{
+    const std::string region = getRegion();
+    const std::string observationDataPath = getJsonPath();
+    const std::string tiffPath = getTiffPath();
+
+    setButtonStates(false, false, false);
+
+    // Build layers
+    auto _ = QtConcurrent::run(
+        [this, region, observationDataPath, tiffPath]()
+        {
+            try {
+                LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
+
+                ModellerSet modeller(layerBuilder);
+                modeller.createMeshes();
+
+                m_generatedMeshes = modeller.getMeshes();
+
+                // Invoke the method on the main thread
+                QMetaObject::invokeMethod(this, "onGeneratingComplete", Qt::QueuedConnection);
+            }
+            catch (const std::exception& e) {
+                std::cerr << "Exception caught: " << e.what() << std::endl;
+            }
+        });
 }
 
 void MainWindow::onRenderButtonClicked()
 {
-    const std::string region = getRegion();
-
-    const std::string observationDataPath = getJsonPath();
-    const std::string tiffPath = getTiffPath();
-
-    QPushButton* renderButton = qobject_cast<QPushButton*>(sender());
-    if (renderButton)
-        renderButton->setEnabled(false);
-
+    // Setup
     m_meshRenderer->clear();
     m_renderer->RemoveAllViewProps();
     m_renderer->ResetCamera();
     m_vtkWidget->renderWindow()->Render();
 
-    // Build layers
-    auto _ = QtConcurrent::run(
-        [this, renderButton, region, observationDataPath, tiffPath]()
-        {
-            LayerBuilder layerBuilder(region, observationDataPath, tiffPath);
+    setButtonStates(false, false, false);
 
-            ModellerSet modeller(layerBuilder);
-            modeller.createMeshes();
-
-            m_meshRenderer->addMeshes(modeller.getMeshes());
-
-            QMetaObject::invokeMethod(this, "onGeneratingComplete", Qt::QueuedConnection, Q_ARG(QPushButton*, renderButton));
-        });
-}
-
-void MainWindow::onGeneratingComplete(QPushButton* renderButton)
-{
-    // Describe what you want to be rendered
-    // m_meshRenderer->prepareEdges();
-    // m_meshRenderer->prepareSurfaces();
+    // Add meshes
+    m_meshRenderer->addMeshes(m_generatedMeshes);
     m_meshRenderer->prepareMeshes();
 
     // Render
     m_renderer->ResetCamera();
     m_vtkWidget->renderWindow()->Render();
 
-    renderButton->setEnabled(true);
+    setButtonStates(true, true, true);
 }
+
+void MainWindow::onExportButtonClicked()
+{
+    QString directoryPath = QFileDialog::getExistingDirectory(this, "Select Output Folder", "");
+
+    if (!directoryPath.isEmpty()) {
+        setButtonStates(false, false, false);
+
+        try {
+            m_shapefileGenerator->addMeshes(m_generatedMeshes);
+            m_shapefileGenerator->writeVTKFile(directoryPath.toStdString());
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Exception caught: " << e.what() << std::endl;
+        }
+
+        setButtonStates(true, true, true);
+    }
+    else {
+        std::cerr << "No directory selected!" << std::endl;
+    }
+}
+
+void MainWindow::onGeneratingComplete()
+{
+    setButtonStates(true, true, true);
+}
+
+void MainWindow::setButtonStates(bool generateButtonState, bool renderButtonState, bool exportButtonState)
+{
+    m_generateButton->setEnabled(generateButtonState);
+    m_renderButton->setEnabled(renderButtonState);
+    m_exportButton->setEnabled(exportButtonState);
+}
+
 

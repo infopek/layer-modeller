@@ -42,9 +42,11 @@ void LayerBuilder::buildLayers()
 {
     WorkingArea area;
     GeoTiffHandler geoTiff(m_tiffPath);
+
     area.boundingRect = geoTiff.getBoundingRectangle();
     std::vector<std::pair<std::string, LithologyData>> allLayers = interpolate(area, m_observationDataPath);
     normalizeLayers(allLayers, &geoTiff, &area);
+
     layerize(allLayers);
 }
 

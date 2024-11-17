@@ -26,6 +26,7 @@ void ModellerSet::init()
     m_extrudedMeshes.resize(layers.size());
     for (size_t i = 0; i < layers.size(); i++)
         m_meshes[i].layer = layers[i];
+
 }
 
 void ModellerSet::convertToPolygonSoup(const SurfaceMesh& mesh, std::vector<Point3>& points, std::vector<std::vector<size_t>>& polygons)
