@@ -20,12 +20,14 @@ target_include_directories(Normalizer
 
 find_package(Common REQUIRED)
 find_package(GeoTiff REQUIRED)
+find_package(Kriging REQUIRED)
 
 target_link_libraries(
     Normalizer
         PUBLIC 
             Common::Common
             GeoTiff::GeoTiff
+            Kriging::Kriging
         PRIVATE
             GDAL::GDAL
 )

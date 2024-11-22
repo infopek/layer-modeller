@@ -3,50 +3,76 @@
 
 void resolveCrossingLayers(std::vector<std::pair<std::string, LithologyData>> &lithologyVector)
 {
-    for (auto it = lithologyVector.begin()+1; it != lithologyVector.end(); ++it)
+    for (auto it = lithologyVector.begin() + 1; it != lithologyVector.end(); ++it)
     {
 
         auto &data = it->second;
         auto prevData = (*std::prev(it)).second;
         for (size_t i = 0; i < data.interpolatedData.size(); ++i)
-        {
             if (i < prevData.interpolatedData.size())
-            {
                 if (prevData.interpolatedData[i].z < data.interpolatedData[i].z)
-                {
                     data.interpolatedData[i].z = prevData.interpolatedData[i].z;
-                }
-            }
-        }
     }
 }
-void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler *geoTiff, WorkingArea *area)
+std::vector<Point> getFactorOfPreviosLayer(float strength, std::vector<Point> certainty)
 {
-    float* raster = geoTiff->getRaster();
-    LithologyData soil;
+    std::vector<Point> scaledCertainty = certainty;
 
-    for (int i = 0; i < area->yAxisPoints; i++)
+    float minZ = std::numeric_limits<float>::max();
+    float maxZ = std::numeric_limits<float>::lowest();
+
+    for (const auto& point : certainty) {
+        if(point.z<minZ) minZ=point.z;
+        if(point.z>maxZ) maxZ=point.z;
+    }
+    float zeroFactor=minZ+(maxZ-minZ)*strength;
+    float maxFactor=maxZ-zeroFactor;
+    for (const auto& point : certainty) {
+        float factor = point.z-zeroFactor;
+        if(factor<0)factor=0;
+        scaledCertainty.push_back({.x=point.x,.y=point.y,.z= factor/maxFactor});
+
+    }
+    return scaledCertainty;
+}
+void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler &geoTiff,const WorkingArea &area)
+{
+    float *raster = geoTiff.getRaster();
+    LithologyData soil;
+    for (int i = 0; i < area.yAxisPoints; i++)
     {
-        for (int j = 0; j < area->xAxisPoints; j++)
+        for (int j = 0; j < area.xAxisPoints; j++)
         {
-            auto virtualLocation = i * area->xAxisPoints + j;
-            double realX = j * area->xScale;
-            double realY = i * area->yScale;
-            auto realLocation = static_cast<int>(realY) * static_cast<int>(area->xAxisPoints * area->xScale) + static_cast<int>(realX);
+            auto virtualLocation = i * area.xAxisPoints + j;
+            double realX = j * area.xScale;
+            double realY = i * area.yScale;
+            auto realLocation = static_cast<int>(realY) * static_cast<int>(area.xAxisPoints * area.xScale) + static_cast<int>(realX);
             soil.interpolatedData.push_back(Point{
-                .x = area->boundingRect.minX + realX,
-                .y = area->boundingRect.minY + realY,
+                .x = area.boundingRect.minX + realX,
+                .y = area.boundingRect.minY + realY,
                 .z = raster[realLocation]});
-            for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
+        }
+    }
+    for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
+    {
+        auto &data = it->second;
+        auto factors= getFactorOfPreviosLayer(0.7,data.certaintyMatrix);
+        gnuPlotArea(factors,data.stratumName,area,"factors");
+        for (int i = 0; i < area.yAxisPoints; i++)
+        {
+            for (int j = 0; j < area.xAxisPoints; j++)
             {
-                auto& data = it->second;
+                auto virtualLocation = i * area.xAxisPoints + j;
+                double realX = j * area.xScale;
+                double realY = i * area.yScale;
+                auto realLocation = static_cast<int>(realY) * static_cast<int>(area.xAxisPoints * area.xScale) + static_cast<int>(realX);
                 // std::cout<<"depth: "<<data.interpolatedData[virtualLocation].z<<" lidar: "<<raster[realLocation]<<" calculated: "<<raster[realLocation]-data.interpolatedData[virtualLocation].z<<std::endl;
                 data.interpolatedData[virtualLocation].z = raster[realLocation] - data.interpolatedData[virtualLocation].z;
             }
         }
     }
-    geoTiff->freeRaster(raster);
-    std::pair soilPair("TOP-SOIL",soil);
+    geoTiff.freeRaster(raster);
+    std::pair soilPair("TOP-SOIL", soil);
     lithologyVector.push_back(soilPair);
     std::rotate(lithologyVector.rbegin(), lithologyVector.rbegin() + 1, lithologyVector.rend());
     std::cout << "Sorted reteglitonev names: ";
@@ -55,9 +81,8 @@ void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &
         std::cout << name.first << " ";
     }
     std::cout << std::endl;
-
 }
-void normalizeLayers(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler *geoTiff, WorkingArea *area)
+void normalizeLayers(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler &geoTiff, WorkingArea &area)
 {
     shiftPointsBasedOnBlur(lithologyVector, geoTiff, area);
     resolveCrossingLayers(lithologyVector);

@@ -12,9 +12,11 @@
 #include <models/point.h>
 #include <models/lithology_data.h>
 
-void gnuPlotValidity(const LithologyData& lithodata, const WorkingArea& area,std::vector<Point> data);
+void gnuPlotArea(std::vector<Point> data, std::string stratumName, const WorkingArea& area, std::string dataTypeStr,std::string properties="");
 
-void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area);
+void gnuPlotValidity(const LithologyData& lithodata, const WorkingArea& area,std::vector<Point> data,std::string properties);
+
+void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area,std::string properties);
 
 void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY);
 

@@ -16,7 +16,7 @@ std::vector<std::pair<std::string, LithologyData>> interpolate(WorkingArea& area
     for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it) {
         auto& data = it->second;
         std::cout<<std::endl <<it->first<< std::endl;
-        createInterpolation(data, area);
+        createInterpolation(data, area,true);
     }
     return lithologyVector;
 }

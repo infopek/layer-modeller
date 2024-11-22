@@ -11,6 +11,7 @@ struct TheoreticalParam {
     double range;
 };
 struct LithologyData {
+    float averageDepth;
     std::string stratumName;
     std::vector<Point> points;
     TheoreticalParam theoreticalParam;
