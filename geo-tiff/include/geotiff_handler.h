@@ -17,10 +17,15 @@ public:
 
     BoundingRectangle getBoundingRectangle();
     float* getRaster();
+    void blurRaster(float* raster);
     void freeRaster(float* raster);
 
 private:
+    void handleOrientation();
+    void flipVertically();
     GDALDataset* m_dataset;
-
+    int nXSize;
+    int nYSize;
+    float* pafRaster;
     static std::string s_logPrefix;
 };

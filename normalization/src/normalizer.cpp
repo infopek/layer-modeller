@@ -16,7 +16,7 @@ void resolveCrossingLayers(std::vector<std::pair<std::string, LithologyData>> &l
 }
 std::vector<Point> getFactorOfPreviosLayer(float strength, std::vector<Point> certainty)
 {
-    std::vector<Point> scaledCertainty = certainty;
+    std::vector<Point> scaledCertainty;
 
     float minZ = std::numeric_limits<float>::max();
     float maxZ = std::numeric_limits<float>::lowest();
@@ -35,9 +35,10 @@ std::vector<Point> getFactorOfPreviosLayer(float strength, std::vector<Point> ce
     }
     return scaledCertainty;
 }
-void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler &geoTiff,const WorkingArea &area)
+void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, GeoTiffHandler &geoTiff,WorkingArea &area)
 {
     float *raster = geoTiff.getRaster();
+    geoTiff.blurRaster(raster);
     LithologyData soil;
     for (int i = 0; i < area.yAxisPoints; i++)
     {
@@ -53,6 +54,7 @@ void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &
                 .z = raster[realLocation]});
         }
     }
+    
     for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
     {
         auto &data = it->second;

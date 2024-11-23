@@ -1,20 +1,72 @@
 #include <geotiff_handler.h>
-
 #include <blur/blur.h>
-
 #include <iostream>
+#include <algorithm> // For std::swap
 
 std::string GeoTiffHandler::s_logPrefix = "[GEO_TIFF_HANDLER] --";
 
-GeoTiffHandler::GeoTiffHandler(const std::string& filepath)
+GeoTiffHandler::GeoTiffHandler(const std::string &filepath)
 {
     GDALAllRegister();
 
-    m_dataset = (GDALDataset*)GDALOpen(filepath.c_str(), GA_ReadOnly);
+    m_dataset = (GDALDataset *)GDALOpen(filepath.c_str(), GA_ReadOnly);
     if (m_dataset == nullptr)
     {
         Logger::log(LogLevel::CRITICAL, GeoTiffHandler::s_logPrefix + " Failed to open GeoTIFF file.");
         throw std::runtime_error("Failed to open GeoTIFF file.");
+    }
+    GDALRasterBand *poBand = m_dataset->GetRasterBand(1); // Get the first band
+    if (poBand == nullptr)
+    {
+        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to get raster band.");
+        pafRaster = nullptr;
+    }
+
+    nXSize = poBand->GetXSize();
+    nYSize = poBand->GetYSize();
+    pafRaster = (float *)CPLMalloc(sizeof(float) * nXSize * nYSize);
+
+    if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None)
+    {
+        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to read raster data.");
+        CPLFree(pafRaster);
+        pafRaster = nullptr;
+    }
+
+    handleOrientation();
+}
+
+void GeoTiffHandler::handleOrientation()
+{
+    double geoTransform[6];
+    if (m_dataset->GetGeoTransform(geoTransform) == CE_None)
+    {
+        Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Checking raster orientation...");
+
+        // Check vertical flip
+        if (geoTransform[5] < 0)
+        {
+            Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Raster is flipped vertically. Correcting...");
+            flipVertically();
+        }
+
+        // Additional logic for rotation or other orientation adjustments can be added here
+        // if the GeoTransform matrix indicates rotation (geoTransform[2] != 0 or geoTransform[4] != 0).
+    }
+    else
+    {
+        Logger::log(LogLevel::WARN, GeoTiffHandler::s_logPrefix + " Unable to determine geotransform for orientation.");
+    }
+}
+
+void GeoTiffHandler::flipVertically()
+{
+    for (int y = 0; y < nYSize / 2; ++y)
+    {
+        for (int x = 0; x < nXSize; ++x)
+        {
+            std::swap(pafRaster[y * nXSize + x], pafRaster[(nYSize - 1 - y) * nXSize + x]);
+        }
     }
 }
 
@@ -55,35 +107,19 @@ BoundingRectangle GeoTiffHandler::getBoundingRectangle()
     return boundingRect;
 }
 
-float* GeoTiffHandler::getRaster()
+float *GeoTiffHandler::getRaster()
 {
-    GDALRasterBand* poBand = m_dataset->GetRasterBand(1); // Get the first band
-    if (poBand == nullptr)
-    {
-        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to get raster band.");
-        return nullptr;
-    }
-
-    int nXSize = poBand->GetXSize();
-    int nYSize = poBand->GetYSize();
-    float* pafRaster = (float*)CPLMalloc(sizeof(float) * nXSize * nYSize);
-
-    if (poBand->RasterIO(GF_Read, 0, 0, nXSize, nYSize, pafRaster, nXSize, nYSize, GDT_Float32, 0, 0) != CE_None)
-    {
-        Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to read raster data.");
-        CPLFree(pafRaster);
-        return nullptr;
-    }
-
-    // Blur the raster
-    Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Applying blur to TIFF.");
-    Blur::medianFilter(pafRaster, pafRaster, nXSize, nYSize, 7);
-    Blur::gaussFilter(pafRaster, pafRaster, nXSize, nYSize, 7, 2.4f);
-
     return pafRaster;
 }
 
-void GeoTiffHandler::freeRaster(float* raster)
+void GeoTiffHandler::blurRaster(float *raster)
+{
+    Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Applying blur to TIFF.");
+    Blur::medianFilter(pafRaster, pafRaster, nXSize, nYSize, 7);
+    Blur::gaussFilter(pafRaster, pafRaster, nXSize, nYSize, 7, 2.4f);
+}
+
+void GeoTiffHandler::freeRaster(float *raster)
 {
     Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Freeing raster...");
     CPLFree(raster);
