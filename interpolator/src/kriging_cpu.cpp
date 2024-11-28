@@ -1,8 +1,14 @@
 #include "kriging_cpu.h"
-#include <iostream>
-#include <variogram.h>
-#include <plotting.h>
-Eigen::MatrixXd calculateCovarianceMatrix(std::vector<Point>& observedData, TheoreticalParam param) {
+
+KrigingCalculator::KrigingCalculator()
+{
+}
+
+KrigingCalculator::~KrigingCalculator()
+{
+}
+
+Eigen::MatrixXd KrigingCalculator::calculateCovarianceMatrix(std::vector<Point>& observedData, TheoreticalParam param) {
     int n = observedData.size();
     Eigen::MatrixXd covMatrix(n, n);
     auto nugget = param.nugget;
@@ -16,10 +22,10 @@ Eigen::MatrixXd calculateCovarianceMatrix(std::vector<Point>& observedData, Theo
     }
     return covMatrix;
 }
-KrigingOutput kriging(LithologyData& lithoData, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY) {
+KrigingOutput KrigingCalculator::krigingForPoint(LithologyData& lithoData, const Eigen::FullPivLU<Eigen::MatrixXd>& luCovMatrix, double targetX, double targetY) {
     int n = lithoData.points.size();
     Eigen::VectorXd k(n);
-    auto param = lithoData.theoreticalParam;
+    auto param = lithoData.variogram.theoretical;
     auto nugget = param.nugget;
     auto sill = param.sill;
     auto range = param.range;
@@ -39,23 +45,23 @@ KrigingOutput kriging(LithologyData& lithoData, const Eigen::FullPivLU<Eigen::Ma
     output.certainty = sqrt(std::abs(variance));
     return output;
 }
-void createVariogram(LithologyData& lithoData){
+void KrigingCalculator::createVariogram(LithologyData& lithoData){
     EmpiricalVariogram empiricalData;
-    computeEmpiricalVariogram(lithoData.points, empiricalData);
-    lithoData.theoreticalParam = fitTheoreticalFunction(&empiricalData);
-    gnuPlotVariogram(lithoData, &empiricalData);
+    VariogramCalculator variogramCalc(lithoData.points);
+    lithoData.variogram=variogramCalc.getVariogram();
+    gnuPlotVariogram(lithoData);
 }
-Eigen::FullPivLU<Eigen::MatrixXd> createCovMatrix(LithologyData& lithoData, bool useRegularization){
-    Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(lithoData.points, lithoData.theoreticalParam);
+Eigen::FullPivLU<Eigen::MatrixXd> KrigingCalculator::createCovMatrix(LithologyData& lithoData, bool useRegularization){
+    Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(lithoData.points, lithoData.variogram.theoretical);
     double condR = computeConditionNumber(covMatrix);
     double kmax = pow(condR, 2) * 1000;
-    Eigen::MatrixXd regularizedCovMatrix = ridgeRegression(covMatrix, kmax);
-    // if(useRegularization){
-    //     regularizedCovMatrix=ridgeRegression(covMatrix, kmax);
-    // }
+    Eigen::MatrixXd regularizedCovMatrix = covMatrix;
+    if(useRegularization){
+        regularizedCovMatrix=ridgeRegression(covMatrix, kmax);
+    }
     return regularizedCovMatrix.fullPivLu();
 }
-void crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area, bool useRegularization) {
+void KrigingCalculator::crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area, bool useRegularization) {
     double totalErrorAbs = 0.0;
     double totalErrorSquared = 0.0;
     int n = lithoData.points.size();
@@ -72,7 +78,7 @@ void crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area, boo
         double realY = lithoData.points[i].y;
         double realZ = lithoData.points[i].z;
 
-        KrigingOutput output = kriging(tmp, luCovMatrix, realX, realY);
+        KrigingOutput output = krigingForPoint(tmp, luCovMatrix, realX, realY);
 
         double predictionError = output.value - realZ;
         std::cout<<i<<". "<<predictionError<<std::endl;
@@ -90,8 +96,8 @@ void crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area, boo
     std::cout << "Root Mean Squared Error (RMSE): " << RMSE << std::endl;
 }
 
-
-void createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRegularization) {
+void KrigingCalculator::createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRegularization)
+{
     const BoundingRectangle bRect = area.boundingRect;
     EmpiricalVariogram empiricalData;
     createVariogram(lithoData);
@@ -102,7 +108,7 @@ void createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRe
         for (double j = 0; j < area.xAxisPoints; ++j) {
             double realY = bRect.minY + i * area.yScale;
             double realX = bRect.minX + j * area.xScale;
-            KrigingOutput output = kriging(lithoData, luCovMatrix, realX, realY);
+            KrigingOutput output = krigingForPoint(lithoData, luCovMatrix, realX, realY);
             Point pointValue{ .x = realX, .y = realY, .z = output.value };
             Point pointCertainty{ .x = realX, .y = realY, .z = output.certainty };
             lithoData.interpolatedData.push_back(pointValue);
@@ -110,21 +116,21 @@ void createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRe
         }
     }
     gnuPlotKriging(lithoData,area,useRegularization?"_regularized":"");
-    crossValidateInterpolation(lithoData, area,useRegularization);
+    //crossValidateInterpolation(lithoData, area,useRegularization);
 }
-double computeConditionNumber(const Eigen::MatrixXd& R) {
+double KrigingCalculator::computeConditionNumber(const Eigen::MatrixXd& R) {
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(R);
     Eigen::VectorXd eigenvalues = solver.eigenvalues();
     double lambda1 = eigenvalues(eigenvalues.size() - 1);
     double lambdad = eigenvalues(0);
     return lambda1 / lambdad;
 }
-Eigen::MatrixXd ridgeRegression(const Eigen::MatrixXd& R, double kmax) {
+Eigen::MatrixXd KrigingCalculator::ridgeRegression(const Eigen::MatrixXd& R, double kmax) {
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(R);
     Eigen::VectorXd eigenvalues = solver.eigenvalues();
     double lambda1 = eigenvalues(eigenvalues.size() - 1);
     double lambdad = eigenvalues(0);
- double delta = (lambda1 - lambdad) / (kmax - 1);
+    double delta = (lambda1 - lambdad) / (kmax - 1);
     // double delta = (lambda1 / kmax) - lambdad;
     if (delta < 0) delta = 0;
 

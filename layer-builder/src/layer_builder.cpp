@@ -44,7 +44,8 @@ void LayerBuilder::buildLayers()
     GeoTiffHandler geoTiff(m_tiffPath);
 
     area.boundingRect = geoTiff.getBoundingRectangle();
-    std::vector<std::pair<std::string, LithologyData>> allLayers = interpolate(area, m_observationDataPath);
+    Interpolator interpolator;
+    std::vector<std::pair<std::string, LithologyData>> allLayers = interpolator.interpolate(area, m_observationDataPath);
     normalizeLayers(allLayers, geoTiff, area);
 
     layerize(allLayers);

@@ -76,11 +76,11 @@ void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area,std:
     gnuPlotArea(lithodata.interpolatedData,lithodata.stratumName,area,"interpolation",properties);
     gnuPlotArea(lithodata.certaintyMatrix,lithodata.stratumName,area,"certainty",properties);
 }
-void gnuPlotVariogram(LithologyData& lithoData, EmpiricalVariogram* vari){
+void gnuPlotVariogram(LithologyData& lithoData){
     std::string formation=lithoData.stratumName;
     std::string dirPath = getDir(formation);
-    std::vector<double> variograms = vari->values;
-    std::vector<double> distances = vari->distances;
+    std::vector<double> variograms = lithoData.variogram.empirical.values;
+    std::vector<double> distances = lithoData.variogram.empirical.distances;
     std::string theoretical_data = dirPath + "/theoretical_data.txt";
     std::string empirical_data = dirPath + "/empirical_data.txt";
     std::string gnuplotScript = R"(
@@ -92,7 +92,7 @@ void gnuPlotVariogram(LithologyData& lithoData, EmpiricalVariogram* vari){
     std::ofstream scriptFile(dirPath+"/variogram.plt");
     std::ofstream empiricalFile(empirical_data);
     std::ofstream theoreticalFile(theoretical_data);
-    auto param= lithoData.theoreticalParam;
+    auto param= lithoData.variogram.theoretical;
     auto nugget = param.nugget;
     auto sill = param.sill;
     auto range = param.range;

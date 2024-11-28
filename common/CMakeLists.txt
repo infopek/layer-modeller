@@ -14,6 +14,7 @@ target_include_directories(
     Common 
 		PUBLIC 		
 			$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+			$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/vendor/perlin-noise>
             $<INSTALL_INTERFACE:include>
 	)
 

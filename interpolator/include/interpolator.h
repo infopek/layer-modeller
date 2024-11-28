@@ -10,6 +10,11 @@
 #include <models/lithology_data.h>
 #include "models.h"
 
-std::vector<std::pair<std::string, LithologyData>> interpolate(WorkingArea& area, const std::string& observationDataPath);
+class Interpolator
+{
+public:
+    std::vector<std::pair<std::string, LithologyData>> interpolate(WorkingArea &area, const std::string &observationDataPath);
 
-void calculatePointDensity(WorkingArea& area, int maxPointCount);
+private:
+    void calculatePointDensity(WorkingArea &area, int maxPointCount);
+};

@@ -20,7 +20,7 @@ void gnuPlotKriging(const LithologyData& lithodata, const WorkingArea& area,std:
 
 void gnuPlotMatrix(std::string name, const Eigen::MatrixXd& matrix, std::string formation, std::vector<Point>* data, int maxX, int maxY);
 
-void gnuPlotVariogram(LithologyData& lithoData, EmpiricalVariogram* vari);
+void gnuPlotVariogram(LithologyData& lithoData);
 
 bool createDirectoryRecursive(std::string const& dirName, std::error_code& err);
 

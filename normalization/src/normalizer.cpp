@@ -54,24 +54,27 @@ void shiftPointsBasedOnBlur(std::vector<std::pair<std::string, LithologyData>> &
                 .z = raster[realLocation]});
         }
     }
-    
+    LithologyData previous=soil;
+    previous.averageDepth=0;
     for (auto it = lithologyVector.begin(); it != lithologyVector.end(); ++it)
     {
         auto &data = it->second;
         auto factors= getFactorOfPreviosLayer(0.7,data.certaintyMatrix);
         gnuPlotArea(factors,data.stratumName,area,"factors");
+        auto averageDepthDiff= data.averageDepth-previous.averageDepth;
+        std::cout<<averageDepthDiff<<"m "<<std::endl;
         for (int i = 0; i < area.yAxisPoints; i++)
         {
             for (int j = 0; j < area.xAxisPoints; j++)
             {
                 auto virtualLocation = i * area.xAxisPoints + j;
-                double realX = j * area.xScale;
-                double realY = i * area.yScale;
-                auto realLocation = static_cast<int>(realY) * static_cast<int>(area.xAxisPoints * area.xScale) + static_cast<int>(realX);
-                // std::cout<<"depth: "<<data.interpolatedData[virtualLocation].z<<" lidar: "<<raster[realLocation]<<" calculated: "<<raster[realLocation]-data.interpolatedData[virtualLocation].z<<std::endl;
-                data.interpolatedData[virtualLocation].z = raster[realLocation] - data.interpolatedData[virtualLocation].z;
+
+                data.interpolatedData[virtualLocation].z = 
+                ( previous.interpolatedData[virtualLocation].z-averageDepthDiff)*factors[virtualLocation].z+
+                ((soil.interpolatedData[virtualLocation].z-data.interpolatedData[virtualLocation].z)*(1-factors[virtualLocation].z));
             }
         }
+        previous=data;
     }
     geoTiff.freeRaster(raster);
     std::pair soilPair("TOP-SOIL", soil);

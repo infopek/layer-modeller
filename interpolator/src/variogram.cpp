@@ -1,18 +1,67 @@
 #include "variogram.h"
-#include <algorithm>
-#include <iostream>
-#include <models/point.h>
 
+std::string VariogramCalculator::s_logPrefix = "[VARIOGRAM_CALCULATOR] --";
 
-void computeEmpiricalVariogram(std::vector<Point>& points, EmpiricalVariogram& empiricalVariogram) {
+VariogramCalculator::VariogramCalculator(std::vector<Point> &points)
+{
+    auto start = std::chrono::high_resolution_clock::now();
+    Logger::log(LogLevel::INFO, s_logPrefix + "Starting VariogramCalculator constructor.");
+
+    computeEmpiricalVariogram(points);
+    fitTheoreticalFunction();
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    Logger::log(LogLevel::INFO, s_logPrefix + "VariogramCalculator constructed in " + std::to_string(duration) + " ms.");
+}
+
+VariogramCalculator::~VariogramCalculator()
+{
+    Logger::log(LogLevel::INFO, s_logPrefix + "Destroying VariogramCalculator.");
+}
+void VariogramCalculator::callback(const size_t iter, void *params, const gsl_multifit_nlinear_workspace *w)
+{
+    gsl_vector* f = gsl_multifit_nlinear_residual(w);
+    gsl_vector* x = gsl_multifit_nlinear_position(w);
+    double rcond;
+
+    gsl_multifit_nlinear_rcond(&rcond, w);
+
+}
+
+int VariogramCalculator::gaussianModel(const gsl_vector* x, void* data, gsl_vector* f)
+{
+    size_t n = ((struct data*)data)->n;
+    double* h = ((struct data*)data)->h;
+    double* y = ((struct data*)data)->y;
+
+    double nugget = gsl_vector_get(x, 0);
+    double sill = gsl_vector_get(x, 1);
+    double range = gsl_vector_get(x, 2);
+
+    size_t i;
+
+    for (i = 0; i < n; i++)
+    {
+        double Yi = nugget + sill * (1.0 - exp(-((h[i] * h[i]) / (range * range))));
+        gsl_vector_set(f, i, Yi - y[i]);
+    }
+
+    return GSL_SUCCESS;
+}
+void VariogramCalculator::computeEmpiricalVariogram(std::vector<Point>& points) {
+    auto start = std::chrono::high_resolution_clock::now();
+    Logger::log(LogLevel::INFO, s_logPrefix + "Starting computeEmpiricalVariogram with " + std::to_string(points.size()) + " points.");
+
     int numPoints = points.size();
     int numPairs = numPoints * (numPoints + 1) / 2;
     std::vector<int> indices(numPairs);
+
     for (int i = 0; i < numPairs; i++) indices[i] = i;
 
     double* distances = new double[numPoints * numPoints];
     double* semivariances = new double[numPoints * numPoints];
-    
+
     for (size_t i = 0; i < numPoints; ++i) {
         for (size_t j = 0; j < numPoints; ++j) {
             double deltaX = static_cast<double>(points[i].x - points[j].x);
@@ -33,58 +82,36 @@ void computeEmpiricalVariogram(std::vector<Point>& points, EmpiricalVariogram& e
         semivarianceAverages[k] = (semivarianceAverages[k - 1] * k + semivariances[indices[k]]) / (k + 1.0);
         sortedDistances[k] = distances[indices[k]];
     }
-    empiricalVariogram.values = semivarianceAverages;
-    empiricalVariogram.distances = sortedDistances;
+    variogram.empirical.values = semivarianceAverages;
+    variogram.empirical.distances = sortedDistances;
+
+    delete[] distances;
+    delete[] semivariances;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    Logger::log(LogLevel::INFO, s_logPrefix + "computeEmpiricalVariogram completed in " + std::to_string(duration) + " ms.");
 }
 
+void VariogramCalculator::fitTheoreticalFunction() {
+    auto start = std::chrono::high_resolution_clock::now();
+    Logger::log(LogLevel::INFO, s_logPrefix + "Starting fitTheoreticalFunction.");
 
-void callback(const size_t iter, void* params, const gsl_multifit_nlinear_workspace* w)
-{
-    gsl_vector* f = gsl_multifit_nlinear_residual(w);
-    gsl_vector* x = gsl_multifit_nlinear_position(w);
-    double rcond;
-
-    gsl_multifit_nlinear_rcond(&rcond, w);
-
-}
-
-int gaussianModel(const gsl_vector* x, void* data, gsl_vector* f)
-{
-    size_t n = ((struct data*)data)->n;
-    double* h = ((struct data*)data)->h;
-    double* y = ((struct data*)data)->y;
-
-    double nugget = gsl_vector_get(x, 0);
-    double sill = gsl_vector_get(x, 1);
-    double range = gsl_vector_get(x, 2);
-
-    size_t i;
-
-    for (i = 0; i < n; i++)
-    {
-        double Yi = nugget + sill * (1.0 - exp(-((h[i] * h[i]) / (range * range))));
-        gsl_vector_set(f, i, Yi - y[i]);
-    }
-
-    return GSL_SUCCESS;
-}
-
-TheoreticalParam fitTheoreticalFunction(EmpiricalVariogram* variogram) {
     const gsl_multifit_nlinear_type* T = gsl_multifit_nlinear_trust;
     gsl_multifit_nlinear_workspace* w;
     gsl_multifit_nlinear_fdf fdf;
     gsl_multifit_nlinear_parameters fdf_params =
         gsl_multifit_nlinear_default_parameters();
-    const size_t n = variogram->distances.size();
+    const size_t n = variogram.empirical.distances.size();
     const size_t p = 3;
 
     gsl_vector* f;
     gsl_matrix* J;
     gsl_matrix* covar = gsl_matrix_alloc(p, p);
-    double* h = &variogram->distances[0];
-    double* y = &variogram->values[0];
+    double* h = &variogram.empirical.distances[0];
+    double* y = &variogram.empirical.values[0];
     struct data d = { n, h, y };
-    double x_init[3] = { 0, 1, variogram->distances[(variogram->distances.size() - 1) / 3] };
+    double x_init[3] = { 0, 1, variogram.empirical.distances[(variogram.empirical.distances.size() - 1) / 3] };
     gsl_vector_view x = gsl_vector_view_array(x_init, p);
     gsl_rng* r;
     double chisq, chisq0;
@@ -97,7 +124,7 @@ TheoreticalParam fitTheoreticalFunction(EmpiricalVariogram* variogram) {
 
     gsl_rng_env_setup();
     r = gsl_rng_alloc(gsl_rng_default);
-    fdf.f = gaussianModel;
+    fdf.f = this->gaussianModel;
     fdf.df = NULL;
     fdf.fvv = NULL;
     fdf.n = n;
@@ -110,7 +137,7 @@ TheoreticalParam fitTheoreticalFunction(EmpiricalVariogram* variogram) {
     f = gsl_multifit_nlinear_residual(w);
     gsl_blas_ddot(f, f, &chisq0);
 
-    status = gsl_multifit_nlinear_driver(100, xtol, gtol, ftol, callback, NULL, &info, w);
+    status = gsl_multifit_nlinear_driver(100, xtol, gtol, ftol, this->callback, NULL, &info, w);
 
     J = gsl_multifit_nlinear_jac(w);
     gsl_multifit_nlinear_covar(J, 0.0, covar);
@@ -123,14 +150,18 @@ TheoreticalParam fitTheoreticalFunction(EmpiricalVariogram* variogram) {
     {
         double dof = n - p;
         double c = GSL_MAX_DBL(1, sqrt(chisq / dof));
-        // fprintf(stderr, "nugget      = %.5f +/- %.5f\n", FIT(0), c * ERR(0));
-        // fprintf(stderr, "sill = %.5f +/- %.5f\n", FIT(1), c * ERR(1));
-        // fprintf(stderr, "range   = %.5f +/- %.5f\n", FIT(2), c * ERR(2));
+        Logger::log(LogLevel::INFO, s_logPrefix + 
+                    "Fitting results: Nugget = " + std::to_string(FIT(0)) +
+                    ", Sill = " + std::to_string(FIT(1)) +
+                    ", Range = " + std::to_string(FIT(2)));
     }
-    TheoreticalParam param{ FIT(0),FIT(1), FIT(2) };
+    TheoreticalParam param{ FIT(0), FIT(1), FIT(2) };
     gsl_multifit_nlinear_free(w);
     gsl_matrix_free(covar);
     gsl_rng_free(r);
+    variogram.theoretical = param;
 
-    return param;
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    Logger::log(LogLevel::INFO, s_logPrefix + "fitTheoreticalFunction completed in " + std::to_string(duration) + " ms.");
 }

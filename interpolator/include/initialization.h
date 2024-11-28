@@ -9,10 +9,11 @@
 #include <tuple>
 #include <models/point.h>
 #include <models/lithology_data.h>
+#include "perlin_noise.h"
 
 using json = nlohmann::json;
 void filterMaxElements(std::unordered_map<std::string, std::vector<Point>>& map) ;
-
+void generateTestData(std::vector<std::pair<std::string, LithologyData>>& lithologyVector);
 void readObservationDataFromJson(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, const std::string &path);
 //std::string replaceAccents(const std::string& input);
 // void readTiff();

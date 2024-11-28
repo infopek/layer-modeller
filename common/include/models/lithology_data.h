@@ -1,20 +1,29 @@
 #pragma once
 
 #include "point.h"
-
 #include <vector>
 #include <string>
 
+struct EmpiricalVariogram {
+    std::vector<double> values;
+    std::vector<double> distances;
+};
 struct TheoreticalParam {
     double nugget;
     double sill;
     double range;
 };
+struct Variogram
+{
+    EmpiricalVariogram empirical;
+    TheoreticalParam theoretical;
+};
+
 struct LithologyData {
     float averageDepth;
     std::string stratumName;
     std::vector<Point> points;
-    TheoreticalParam theoreticalParam;
+    Variogram variogram;
     std::vector<Point> interpolatedData;
     std::vector<Point> certaintyMatrix;
 };
