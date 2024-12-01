@@ -21,7 +21,7 @@ include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 # Enable testing
 include(CTest)
-add_compile_definitions(EVALUATION_MODE_ENABLED)
+#add_compile_definitions(EVALUATION_MODE_ENABLED)
 # Before macro, add external dependencies
 add_subdirectory(external)
 
