@@ -33,26 +33,28 @@ QString getApplicationDirPath()
 #endif
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-    LayerBuilder layerBuilder("pecs","./res/raster.tif","./res/boreholes.json");
+    Logger::init("../logs/app.log");
+#ifdef EVALUATION_MODE_ENABLED
+    LayerBuilder layerBuilder("pecs", "./res/raster.tif", "./res/boreholes.json");
     layerBuilder.buildLayers();
-//     Logger::init("../logs/app.log");
+#else
+    QString appDirPath = getApplicationDirPath();
+    QString pluginPath;
 
-//     QString appDirPath = getApplicationDirPath();
-//     QString pluginPath;
+#ifdef _DEBUG
+    pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
+#else
+    pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/Qt6/plugins");
+#endif
+    QCoreApplication::setLibraryPaths(QStringList() << pluginPath);
 
-// #ifdef _DEBUG
-//     pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/debug/Qt6/plugins");
-// #else
-//     pluginPath = QDir(appDirPath).absoluteFilePath("../../vcpkg_installed/x64-windows/Qt6/plugins");
-// #endif
-//     QCoreApplication::setLibraryPaths(QStringList() << pluginPath);
+    QApplication app(argc, argv);
 
-//     QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
 
-//     MainWindow window;
-//     window.show();
-
-//     return app.exec();
+    return app.exec();
+#endif
 }

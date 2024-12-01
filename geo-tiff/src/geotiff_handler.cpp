@@ -15,7 +15,7 @@ GeoTiffHandler::GeoTiffHandler(const std::string &filepath)
         Logger::log(LogLevel::CRITICAL, GeoTiffHandler::s_logPrefix + " Failed to open GeoTIFF file.");
         throw std::runtime_error("Failed to open GeoTIFF file.");
     }
-    GDALRasterBand *poBand = m_dataset->GetRasterBand(1); // Get the first band
+    GDALRasterBand *poBand = m_dataset->GetRasterBand(1);
     if (poBand == nullptr)
     {
         Logger::log(LogLevel::ERROR, GeoTiffHandler::s_logPrefix + " Failed to get raster band.");
@@ -43,15 +43,11 @@ void GeoTiffHandler::handleOrientation()
     {
         Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Checking raster orientation...");
 
-        // Check vertical flip
         if (geoTransform[5] < 0)
         {
             Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Raster is flipped vertically. Correcting...");
             flipVertically();
         }
-
-        // Additional logic for rotation or other orientation adjustments can be added here
-        // if the GeoTransform matrix indicates rotation (geoTransform[2] != 0 or geoTransform[4] != 0).
     }
     else
     {
@@ -61,13 +57,19 @@ void GeoTiffHandler::handleOrientation()
 
 void GeoTiffHandler::flipVertically()
 {
-    for (int y = 0; y < nYSize / 2; ++y)
+    if (pafRaster == nullptr) return;
+    int rowSize = nXSize; 
+    float *tempRow = (float *)CPLMalloc(rowSize * sizeof(float)); 
+
+    for (int row = 0; row < nYSize / 2; ++row)
     {
-        for (int x = 0; x < nXSize; ++x)
-        {
-            std::swap(pafRaster[y * nXSize + x], pafRaster[(nYSize - 1 - y) * nXSize + x]);
-        }
+        int oppositeRow = nYSize - row - 1;
+        std::memcpy(tempRow, pafRaster + row * rowSize, rowSize * sizeof(float));
+        std::memcpy(pafRaster + row * rowSize, pafRaster + oppositeRow * rowSize, rowSize * sizeof(float));
+        std::memcpy(pafRaster + oppositeRow * rowSize, tempRow, rowSize * sizeof(float));
     }
+    CPLFree(tempRow);
+    Logger::log(LogLevel::INFO, GeoTiffHandler::s_logPrefix + " Raster flip complete.");
 }
 
 GeoTiffHandler::~GeoTiffHandler()

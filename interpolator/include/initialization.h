@@ -13,7 +13,7 @@
 
 using json = nlohmann::json;
 void filterMaxElements(std::unordered_map<std::string, std::vector<Point>>& map) ;
-void generateTestData(std::vector<std::pair<std::string, LithologyData>>& lithologyVector);
+void generateTestData(std::vector<std::pair<std::string, LithologyData>>& lithologyVector, std::vector<Point>& testLayer);
 void readObservationDataFromJson(std::vector<std::pair<std::string, LithologyData>> &lithologyVector, const std::string &path);
 //std::string replaceAccents(const std::string& input);
 // void readTiff();

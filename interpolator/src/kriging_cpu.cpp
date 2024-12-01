@@ -54,7 +54,7 @@ void KrigingCalculator::createVariogram(LithologyData& lithoData){
 Eigen::FullPivLU<Eigen::MatrixXd> KrigingCalculator::createCovMatrix(LithologyData& lithoData, bool useRegularization){
     Eigen::MatrixXd covMatrix = calculateCovarianceMatrix(lithoData.points, lithoData.variogram.theoretical);
     double condR = computeConditionNumber(covMatrix);
-    double kmax = pow(condR, 2) * 1000;
+    double kmax = pow(condR, 2) * 100;
     Eigen::MatrixXd regularizedCovMatrix = covMatrix;
     if(useRegularization){
         regularizedCovMatrix=ridgeRegression(covMatrix, kmax);
@@ -98,12 +98,13 @@ void KrigingCalculator::crossValidateInterpolation(LithologyData& lithoData, Wor
 
 void KrigingCalculator::createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRegularization)
 {
+    auto start = std::chrono::high_resolution_clock::now();
     const BoundingRectangle bRect = area.boundingRect;
     EmpiricalVariogram empiricalData;
     createVariogram(lithoData);
-
+    auto variogramEnd = std::chrono::high_resolution_clock::now();
     Eigen::FullPivLU<Eigen::MatrixXd> luCovMatrix = createCovMatrix(lithoData, useRegularization);
-
+    auto covarianceMxEnd = std::chrono::high_resolution_clock::now();
     for (double i = 0; i < area.yAxisPoints; ++i) {
         for (double j = 0; j < area.xAxisPoints; ++j) {
             double realY = bRect.minY + i * area.yScale;
@@ -115,8 +116,12 @@ void KrigingCalculator::createInterpolation(LithologyData &lithoData, WorkingAre
             lithoData.certaintyMatrix.push_back(pointCertainty);
         }
     }
+    auto krigingEnd = std::chrono::high_resolution_clock::now();
+    lithoData.runTimes.variogram= std::chrono::duration_cast<std::chrono::milliseconds>(variogramEnd - start).count();
+    lithoData.runTimes.covMatrix= std::chrono::duration_cast<std::chrono::milliseconds>(covarianceMxEnd - start).count();
+    lithoData.runTimes.kriging= std::chrono::duration_cast<std::chrono::milliseconds>(krigingEnd - start).count();
     gnuPlotKriging(lithoData,area,useRegularization?"_regularized":"");
-    //crossValidateInterpolation(lithoData, area,useRegularization);
+    //crossValidateInterpolation(lithoData, area,useRegularization );
 }
 double KrigingCalculator::computeConditionNumber(const Eigen::MatrixXd& R) {
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> solver(R);
@@ -130,8 +135,8 @@ Eigen::MatrixXd KrigingCalculator::ridgeRegression(const Eigen::MatrixXd& R, dou
     Eigen::VectorXd eigenvalues = solver.eigenvalues();
     double lambda1 = eigenvalues(eigenvalues.size() - 1);
     double lambdad = eigenvalues(0);
-    double delta = (lambda1 - lambdad) / (kmax - 1);
-    // double delta = (lambda1 / kmax) - lambdad;
+    //double delta = (lambda1 - lambdad) / (kmax - 1);
+    double delta = (lambda1 / kmax) - lambdad;
     if (delta < 0) delta = 0;
 
     Eigen::MatrixXd R_RR = R + delta * Eigen::MatrixXd::Identity(R.rows(), R.cols());

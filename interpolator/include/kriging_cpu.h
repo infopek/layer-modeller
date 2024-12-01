@@ -13,7 +13,7 @@ class KrigingCalculator{
         KrigingCalculator();
         ~KrigingCalculator();
         void createInterpolation(LithologyData &lithoData, WorkingArea &area, bool useRegularization=true);
-        void crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area, bool useRegularization);
+        void crossValidateInterpolation(LithologyData& lithoData, WorkingArea& area,bool useRegularization);
     private:
         void createVariogram(LithologyData& lithoData);
         Eigen::MatrixXd calculateCovarianceMatrix(std::vector<Point>& observedData, TheoreticalParam param);

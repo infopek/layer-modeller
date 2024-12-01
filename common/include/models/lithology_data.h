@@ -18,7 +18,11 @@ struct Variogram
     EmpiricalVariogram empirical;
     TheoreticalParam theoretical;
 };
-
+struct CalculationRunTime{
+    long long variogram;
+    long long covMatrix;
+    long long kriging;
+};
 struct LithologyData {
     float averageDepth;
     std::string stratumName;
@@ -26,6 +30,7 @@ struct LithologyData {
     Variogram variogram;
     std::vector<Point> interpolatedData;
     std::vector<Point> certaintyMatrix;
+    CalculationRunTime runTimes;
 };
 struct BoundingRectangle {
     double maxX;
