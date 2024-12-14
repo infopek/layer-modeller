@@ -1,10 +1,5 @@
 # Layer Modeller
-Layer modeller description.
-
-## Features
-- Feature1
-- Feature2
-- Feature3
+University thesis project. This layer modeller is capable of processing a TIFF and a JSON of boreholes to produce a 3D rendered image of the lithostratigraphy. It's also able to generate export files of the layers for external programs to use.
 
 ## Prerequisites
 - CMake (Version >= 3.16)
